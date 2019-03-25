@@ -1,4 +1,5 @@
 function drawTreeMap() {
+  removeTreeMap();
   data_step_number = document.getElementById("range").value;
   vWidth = 400;
   vHeight = 300;
@@ -7,7 +8,7 @@ function drawTreeMap() {
   d3.select('svg').append('g').attr("id", "treemap");
   g = d3.select('g#treemap').attr('width', vWidth).attr('height', vHeight);
 
-  color = function(data) { 
+  color = function(data) {
     if (data.coverage_percent !== undefined) {
       return d3.interpolateRgb("#ffffff", "#008000")(Number(data.coverage_percent));
     } else {
@@ -42,8 +43,9 @@ function drawViz(vData) {
     .attr('height', function (d) { return d.y1 - d.y0; })
     .style("fill", function (d) { return color(d.data.data); })
     .style("stroke", "black")
+    .attr('class', 'box')
     .style("stroke-width", 1)
-    .on('mouseover', function (d) { 
+    .on('mouseover', function (d) {
           var xPos = parseFloat(d3.select(this).attr("x"));
           var yPos = parseFloat(d3.select(this).attr("y"));
           var height = parseFloat(d3.select(this).attr("height"))
@@ -58,14 +60,14 @@ function drawViz(vData) {
           .style('fill', 'black');
       	  d3.select(this).style("stroke", "red");
           d3.select(this).style("stroke-width", 3);
-          
+
        })
        .on("mouseout",function(){
-          d3.select(".tooltip").remove(); 
+          d3.select(".tooltip").remove();
       	  d3.select(this).style("stroke", "black");
           d3.select(this).style("stroke-width", 1);
         });
-      
+
 }
 
 function getDataStepsCount() {
@@ -86,7 +88,6 @@ function animating(current_step, all) {
   }
   else {
       document.getElementById("range").value=current_step;
-      removeTreeMap();
   		drawTreeMap();
 			setTimeout(animating, 500, current_step+1, all);
   }

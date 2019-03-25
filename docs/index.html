@@ -3,8 +3,20 @@
 <meta charset="utf-8">
 <head>
   <link href="./style.css" rel="stylesheet">
-
   <title>Visualizing Program Coverage</title>
+
+  <style>
+  /* We don't want text to be selectable */
+  .tooltip {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+  }
+  </style>
 </head>
 
 
@@ -12,6 +24,7 @@
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="./viz.js" type="application/javascript/"></script>
 <script src="https://unpkg.com/d3-graphviz@2.6.1/build/d3-graphviz.js"></script>
+<script src="https://code.easypz.io/easypz.latest.min.js"></script>
 
 <body>
   <h1>Visualization of Fuzzer Coverage on Memdjpg</h1>
@@ -30,6 +43,20 @@
 
 <div style="display: none">
 <!-- Placeholder data for now. TODO: convert our data into this format and load from a CSV file -->
+=======
+  <center><button type="button" id="button">Click Me!</button></center>
+  <center><input type="range" id="range"></center>
+
+<center>
+    <svg width=1600px height=900px easypz='{"applyTransformTo": ".box", "modes": ["HOLD_ZOOM_IN", "DBLCLICK_ZOOM_OUT", "FLICK_PAN"]}'>
+    </svg>
+</center>
+
+
+</body>
+
+<!-- JSFiddle does not allow us to upload .csv files, so using a simple hack to pass the data to the D3 library -->
+>>>>>>> a424cb2ecf2ef160aaff47b42912c11195d44a1a
 <pre id="step0">
 id,parentId,blocks,coverage_percent
 functions,
