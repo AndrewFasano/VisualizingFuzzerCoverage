@@ -2,16 +2,9 @@
 <html>
 <meta charset="utf-8">
 <head>
+  <link href="./style.css" rel="stylesheet">
 
-<style>
-/* We don't want to show raw data */
-pre {
-  display: none;
-}
-</style>
-
-    <title>Treemap for Visualizing Program Coverage</title>
-
+  <title>Visualizing Program Coverage</title>
 </head>
 
 
@@ -20,19 +13,24 @@ pre {
 <script src="./viz.js" type="application/javascript/"></script>
 <script src="https://unpkg.com/d3-graphviz@2.6.1/build/d3-graphviz.js"></script>
 
-
 <body>
-<center>
-    <svg width=1600px height=900px>
-    </svg>
-</center>
 
-<center><input type="range" id="range"></center>
-<center><button type="button" id="button">Click Me!</button></center>
+  <h1>Visualization of Fuzzer Coverage on Memdjpg</h1>
+  <div class="header">
+    <span class="left">Coverage Overview</span>
+    <span class="right">Detailed Function View</span>
+  </div>
+  <div class="vis" style="clear: both;">
+    <svg width=1600px height=900px></svg>
+  </div>
+  <div class="controls">
+    <center><b>Controls</b></center>
+    <center><input type="range" id="range"></center>
+    <center><button type="button" id="button">Start animation</button></center>
+  </div>
 
-</body>
-
-<!-- JSFiddle does not allow us to upload .csv files, so using a simple hack to pass the data to the D3 library -->
+<div style="display: none">
+<!-- Placeholder data for now. TODO: convert our data into this format and load from a CSV file -->
 <pre id="step0">
 id,parentId,blocks,coverage_percent
 functions,
@@ -98,6 +96,8 @@ server,functions,40,1
 factory,functions,30,1
 clear,functions,10,1
 </pre>
+</div>
+</body>
 
 
 <script src="./treemap.js"></script>
