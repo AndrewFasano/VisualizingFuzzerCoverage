@@ -22,7 +22,7 @@ function drawTreeMap() {
 }
 
 function removeTreeMap() {
-  d3.select("g").remove();
+  d3.select("g#treemap").remove();
 }
 
 function drawViz(vData) {
