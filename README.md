@@ -5,6 +5,7 @@ Visualization.  The team is composed by: Giorgio Severi, Andrew Fasano, Talha
 Paracha.
 
 The structure of the repo is as follows:
+
     .
     ├── binary          # Compiled files 
     ├── data            # Data files
