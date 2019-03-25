@@ -4,7 +4,8 @@ function drawTreeMap() {
   vHeight = 300;
 
   // Prepare our physical space
-  g = d3.select('svg').attr('width', vWidth).attr('height', vHeight).append('g');
+  d3.select('svg').append('g').attr("id", "treemap");
+  g = d3.select('g#treemap').attr('width', vWidth).attr('height', vHeight);
 
   color = function(data) { 
     if (data.coverage_percent !== undefined) {
@@ -48,7 +49,7 @@ function drawViz(vData) {
           var height = parseFloat(d3.select(this).attr("height"))
           var width = parseFloat(d3.select(this).attr("width"))
 
-          d3.select("g")
+          d3.select("g#treemap")
           .append("text")
           .attr("x",vWidth / 2 - 70)
           .attr("y",vHeight - 10)

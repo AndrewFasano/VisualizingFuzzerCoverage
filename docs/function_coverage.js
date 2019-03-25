@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-
-
-<style>
-  .graphDiv {
-      width: 900px;
-      height: 800px;
-  }
-</style>
-
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="./viz.js" type="application/javascript/"></script>
-<script src="https://unpkg.com/d3-graphviz@2.6.1/build/d3-graphviz.js"></script>
-
-<div id="graph" class="graphDiv" style="text-align: center;"></div>
-
-<script>
-
 // GLOBALS & SETUP
 
-var width = 900;
+var width = 800;
 var height = 800;
 
 var margin = {
@@ -31,9 +11,15 @@ var margin = {
 };
 
 
-d3.select("#graph")
+d3.select("svg")
+    .append("g")
+    .attr("id", "graph")
+    
+d3.select("g#graph")
     .attr('width', width)
-    .attr('height', height);
+    .attr('height', height)
+    .attr("transform", "translate(" + width + ", 0)");
+
 
 // LOADING DATA
 
@@ -61,5 +47,3 @@ function render(raw_data){
 
 }
 
-
-</script>
