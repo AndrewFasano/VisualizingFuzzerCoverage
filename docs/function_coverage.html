@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+
+<style>
+  .graphDiv {
+      width: 900px;
+      height: 800px;
+  }
+</style>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="./viz.js" type="application/javascript/"></script>
+<script src="https://unpkg.com/d3-graphviz@2.6.1/build/d3-graphviz.js"></script>
+
+<div id="graph" class="graphDiv" style="text-align: center;"></div>
+
+<script>
+
+// GLOBALS & SETUP
+
+var width = 900;
+var height = 800;
+
+var margin = {
+  top: 20,
+  left: 20,
+  right: 20,
+  bottom: 20
+};
+
+
+d3.select("#graph")
+    .attr('width', width)
+    .attr('height', height);
+
+// LOADING DATA
+
+req = new XMLHttpRequest();
+req.open(
+	"GET",
+    "https://raw.githubusercontent.com/ClonedOne/exp_nbs/master/res/main_compressed.dot",
+    true
+);
+
+// Given the size of the .dot file we load the data asynchronously
+req.onload = function (e){
+    var raw_data = req.responseText;
+    render(raw_data);
+};
+
+req.send();
+
+// GRAPH RENDER
+
+function render(raw_data){
+    d3.select("#graph")
+        .graphviz()
+        .renderDot(raw_data);
+
+}
+
+
+</script>
