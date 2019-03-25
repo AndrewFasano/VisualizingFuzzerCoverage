@@ -13,6 +13,7 @@ The structure of the repo is as follows:
     ├── notebooks       # Jupyter notebook files
     ├── report          # Final report tex files
     ├── res             # Preprocessed data files
+    ├── scripts         # Additional scripts
     └── README.md
 
 

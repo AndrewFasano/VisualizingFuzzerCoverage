@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+
+<style>
+/* We don't want to show raw data */
+pre {
+  display: none;
+}
+</style>
+
+    <title>Treemap for Visualizing Program Coverage</title>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+<center><svg>
+    </svg></center>
+<center><input type="range" id="range"></center>
+<center><button type="button" id="button">Click Me!</button></center>
+</body>
+
+<!-- JSFiddle does not allow us to upload .csv files, so using a simple hack to pass the data to the D3 library -->
+<pre id="step0">
+id,parentId,blocks,coverage_percent
+functions,
+main,functions,15,0
+hello,functions,5,0
+client,functions,10,0
+server,functions,40,0
+factory,functions,30,0
+clear,functions,10,0
+</pre>
+
+<pre id="step1">
+id,parentId,blocks,coverage_percent
+functions,
+main,functions,15,0.25
+hello,functions,5,0
+client,functions,10,0
+server,functions,40,0
+factory,functions,30,0.75
+clear,functions,10,0.5
+</pre>
+
+<pre id="step2">
+id,parentId,blocks,coverage_percent
+functions,
+main,functions,15,0.5
+hello,functions,5,0.33
+client,functions,10,0.5
+server,functions,40,0
+factory,functions,30,0.75
+clear,functions,10,1
+</pre>
+
+<pre id="step3">
+id,parentId,blocks,coverage_percent
+functions,
+main,functions,15,0.75
+hello,functions,5,0.5
+client,functions,10,0.75
+server,functions,40,0.5
+factory,functions,30,1
+clear,functions,10,1
+</pre>
+
+<pre id="step4">
+id,parentId,blocks,coverage_percent
+functions,
+main,functions,15,1
+hello,functions,5,0.75
+client,functions,10,1
+server,functions,40,1
+factory,functions,30,1
+clear,functions,10,1
+</pre>
+
+<pre id="step5">
+id,parentId,blocks,coverage_percent
+functions,
+main,functions,15,1
+hello,functions,5,1
+client,functions,10,1
+server,functions,40,1
+factory,functions,30,1
+clear,functions,10,1
+</pre>
+
+
+<script src="./treemap.js"></script>
+
+</html>
