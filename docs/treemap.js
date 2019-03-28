@@ -5,7 +5,7 @@ function drawTreeMap() {
   vHeight = 300;
 
   // Prepare our physical space
-  d3.select('svg').append('g').attr("id", "treemap");
+  d3.select('svg#treemap').append('g').attr("id", "treemap");
   g = d3.select('g#treemap').attr('width', vWidth).attr('height', vHeight);
 
   color = function(data) {
@@ -22,8 +22,19 @@ function drawTreeMap() {
   drawViz(vData);
 }
 
+function modifyTreeMap() {
+  data_step_number = document.getElementById("range").value;
+  vCsvData = d3.csvParse( d3.select("pre#step" + data_step_number).text() );
+  vData = d3.stratify()(vCsvData);
+  var vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.blocks; });
+  var vNodes = vRoot.descendants();
+
+  d3.selectAll('rect').data(vNodes).style("fill", function (d) { return color(d.data.data); });
+
+}
+
 function removeTreeMap() {
-  d3.select("g#treemap").remove();
+  d3.select("g#treemap").selectAll("*").remove();
 }
 
 function drawViz(vData) {
@@ -56,7 +67,7 @@ function drawViz(vData) {
           .attr("x",vWidth / 2 - 70)
           .attr("y",vHeight - 10)
           .attr("class","tooltip")
-          .text(d.data.data.id + "(): " + d.data.data.coverage_percent + "% covered")
+          .text(d.data.data.id + "(): " + d.data.data.coverage_percent*100 + "% covered")
           .style('fill', 'black');
       	  d3.select(this).style("stroke", "red");
           d3.select(this).style("stroke-width", 3);
@@ -79,7 +90,7 @@ document.getElementById("range").max=getDataStepsCount()-1;
 document.getElementById("range").min=0;
 document.getElementById("range").defaultValue=0;
 drawTreeMap(0);
-document.getElementById("range").oninput=drawTreeMap;
+document.getElementById("range").oninput=modifyTreeMap;
 
 // Animate the slider if button is pressed
 function animating(current_step, all) {
@@ -88,7 +99,7 @@ function animating(current_step, all) {
   }
   else {
       document.getElementById("range").value=current_step;
-  		drawTreeMap();
+      modifyTreeMap();
 			setTimeout(animating, 500, current_step+1, all);
   }
 }

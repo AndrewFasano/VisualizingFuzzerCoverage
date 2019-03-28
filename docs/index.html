@@ -35,13 +35,17 @@ pre {
 
 <body>
   <h1>Visualization of Fuzzer Coverage on Memdjpg</h1>
-  <center><button type="button" id="button">Start animation!</button></center>
-  <center><input type="range" id="range"></center>
+
 
 <center>
-    <svg width=1600px height=900px easypz='{"applyTransformTo": ".box", "modes": ["HOLD_ZOOM_IN", "DBLCLICK_ZOOM_OUT", "FLICK_PAN"]}'>
+    <svg width=1600px height=900px>
     </svg>
 </center>
+<button type="button" id="button">Start animation!</button><br/>
+<input type="range" id="range">
+<br/>
+  <svg style="border: 5px solid black" width=400px height=300px id="treemap" easypz='{"applyTransformTo": ".box", "modes": ["HOLD_ZOOM_IN", "DBLCLICK_ZOOM_OUT", "FLICK_PAN"]}'>
+  </svg>
 
 
 </body>

@@ -14,7 +14,7 @@ var margin = {
 d3.select("svg")
     .append("g")
     .attr("id", "graph")
-    
+
 d3.select("g#graph")
     .attr('width', width)
     .attr('height', height)
@@ -46,4 +46,3 @@ function render(raw_data){
         .renderDot(raw_data);
 
 }
-
