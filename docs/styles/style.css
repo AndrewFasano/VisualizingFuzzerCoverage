@@ -1,0 +1,67 @@
+.header {
+  margin-top: 1em;
+  font-size: 26px;
+}
+
+/* TODO: Position these in a better way */
+.left  {
+  width: 400px;
+  float: left;
+  padding-left: 10px;
+}
+
+.right  {
+  width: 1000px;
+  float: left;
+  padding-left: 100px;
+}
+
+.vis {
+  clear: both;
+  height: 500px;
+}
+
+.controls {
+  width: 100%;
+  background: #ccc;
+  padding-top: 2em;
+  position: absolute;
+  bottom: 0;
+
+}
+
+/* We don't want to show raw data */
+pre {
+  display: none;
+}
+
+/* We don't want text to be selectable */
+.tooltip {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+text {
+  font-weight: 300;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+  font-size: 12px;
+  color: #455a64;
+}
+
+.node rect {
+  stroke: #455a64;
+  fill: #fff;
+  stroke-width: 2px;
+}
+
+.edgePath path {
+  stroke: #455a64;
+  fill: #455a64;
+  stroke-width: 1px;
+}
+
