@@ -244,3 +244,4 @@ TSWLatexianTemp*
 tags
 .DS_Store
 data/coverage_14.yaml
+.ipynb_checkpoints
