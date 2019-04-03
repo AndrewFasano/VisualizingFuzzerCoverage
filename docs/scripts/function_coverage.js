@@ -60,7 +60,6 @@ function loadDatasets(){
 // Change the content of the node from label to full block
 function toggleBlock(d){
     var node = digraph.node(d);
-    console.log('separator');
     if (node.label == d){
         node.label = labelData[d.toString()];
     }
@@ -91,7 +90,6 @@ function graphRender(){
 
     graphData = datasets[0];
     labelData = datasets[1];
-    console.log(labelData);
 
     digraph = graphlibDot.read(graphData);
     render = new dagreD3.render();
@@ -116,8 +114,6 @@ function graphRender(){
     gGraph.selectAll("g.node")
         .on("click", function(d) {
             var node = digraph.node(d);
-            console.log(d);
-            console.log(node);
             toggleBlock(d);
         });
 
