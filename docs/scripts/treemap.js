@@ -44,11 +44,14 @@ function modifyTreeMap() {
 
   });
 
-  // Update values for global vars
+  // Update values for vars if needs be
   if (d3.select('.activeBox').data()[0]) {
     activeBlocksList = d3.select('.activeBox').data()[0].data.data.active_list
-    d3.select(".tooltip").text(d3.select('.activeBox').data()[0].data.data.id + "(): " + d3.select('.activeBox').data()[0].data.data.coverage_percent*100 + "% covered");
   }
+  if (d3.select('#hoverBox').data()[0]) {
+    d3.select(".tooltip").text(d3.select('#hoverBox').data()[0].data.data.id + "(): " + d3.select('#hoverBox').data()[0].data.data.coverage_percent*100 + "% covered");
+  }
+
 }
 
 // Remove the treemap
@@ -83,6 +86,8 @@ function drawViz(vData) {
       activeBlocksList = d.data.data.active_list
     })
     .on('mouseover', function (d) {
+          d3.select(this).attr("id", "hoverBox");
+
           var height = parseFloat(d3.select(this).attr("height"))
           var width = parseFloat(d3.select(this).attr("width"))
 
@@ -98,6 +103,8 @@ function drawViz(vData) {
 
        })
        .on("mouseout",function(){
+         d3.select(this).attr("id", null);
+
           d3.select(".tooltip").remove();
       	  d3.select(this).style("stroke", "black");
           d3.select(this).style("stroke-width", 1);
