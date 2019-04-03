@@ -1,3 +1,19 @@
+// Globals to access from function_coverage.js script
+var activeFunctionName;
+var activeBlocksList;
+
+// Define color palette for the tree map
+color = function(data) {
+  if (data.coverage_percent !== undefined) {
+    return d3.interpolateYlGn(Number(data.coverage_percent));
+    // return d3.interpolateRgb("#ffffff", "#008000")(Number(data.coverage_percent));
+  } else {
+    // return d3.interpolateRgb("#ffffff", "#008000")(0);
+    return d3.interpolateYlGn(0);
+  }
+}
+
+// Draw a new tree map from scratch
 function drawTreeMap() {
   removeTreeMap();
   data_step_number = document.getElementById("range").value;
@@ -8,22 +24,13 @@ function drawTreeMap() {
   d3.select('svg#treemap').append('g').attr("id", "treemap");
   g = d3.select('g#treemap').attr('width', vWidth).attr('height', vHeight);
 
-  color = function(data) {
-    if (data.coverage_percent !== undefined) {
-      return d3.interpolateYlGn(Number(data.coverage_percent));
-      // return d3.interpolateRgb("#ffffff", "#008000")(Number(data.coverage_percent));
-    } else {
-      // return d3.interpolateRgb("#ffffff", "#008000")(0);
-      return d3.interpolateYlGn(0);
-    }
-  }
-
   // Load parsed data and visualize a tree map
   vCsvData = d3.csvParse( d3.select("pre#step" + data_step_number).text() );
   vData = d3.stratify()(vCsvData);
   drawViz(vData);
 }
 
+// Modify tree map if the range slider value changed
 function modifyTreeMap() {
   data_step_number = document.getElementById("range").value;
   vCsvData = d3.csvParse( d3.select("pre#step" + data_step_number).text() );
@@ -31,10 +38,21 @@ function modifyTreeMap() {
   var vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.blocks; });
   var vNodes = vRoot.descendants();
 
-  d3.selectAll('.box').data(vNodes).style("fill", function (d) { return color(d.data.data); });
+  // Change color
+  d3.selectAll('.box').data(vNodes).style("fill", function (d) {
+    return color(d.data.data);
+
+  });
+
+  // Update values for global vars
+  if (d3.select('.activeBox').data()[0]) {
+    activeBlocksList = d3.select('.activeBox').data()[0].data.data.active_list
+    d3.select(".tooltip").text(d3.select('.activeBox').data()[0].data.data.id + "(): " + d3.select('.activeBox').data()[0].data.data.coverage_percent*100 + "% covered");
+  }
 
 }
 
+// Remove the treemap
 function removeTreeMap() {
   d3.select("g#treemap").selectAll("*").remove();
 }
@@ -59,8 +77,8 @@ function drawViz(vData) {
     .attr('class', 'box')
     .style("stroke-width", 1)
     .on('mouseover', function (d) {
-          var xPos = parseFloat(d3.select(this).attr("x"));
-          var yPos = parseFloat(d3.select(this).attr("y"));
+          d3.select(this).attr("class", "box activeBox");
+
           var height = parseFloat(d3.select(this).attr("height"))
           var width = parseFloat(d3.select(this).attr("width"))
 
@@ -72,10 +90,14 @@ function drawViz(vData) {
           .text(d.data.data.id + "(): " + d.data.data.coverage_percent*100 + "% covered")
           .style('fill', 'black');
       	  d3.select(this).style("stroke", "red");
-          d3.select(this).style("stroke-width", 2);
+          d3.select(this).style("stroke-width", 1);
 
+          activeFunctionName = d.data.data.id
+          activeBlocksList = d.data.data.active_list
        })
        .on("mouseout",function(){
+         d3.select(this).attr("class", "box");
+
           d3.select(".tooltip").remove();
       	  d3.select(this).style("stroke", "black");
           d3.select(this).style("stroke-width", 1);
@@ -83,6 +105,7 @@ function drawViz(vData) {
 
 }
 
+// How many steps do we have to put in the range slider
 function getDataStepsCount() {
     return document.getElementsByTagName('pre').length;
 }
@@ -94,7 +117,7 @@ document.getElementById("range").defaultValue=0;
 drawTreeMap(0);
 document.getElementById("range").oninput=modifyTreeMap;
 
-// Animate the slider if button is pressed
+// Code to handle animation by recursive calls
 function animating(current_step, all) {
   if (current_step == all) {
   	return;
@@ -105,8 +128,12 @@ function animating(current_step, all) {
 			setTimeout(animating, 500, current_step+1, all);
   }
 }
+
+// Animate the slider if button is pressed
 function animateSlider() {
 	steps = getDataStepsCount();
 	setTimeout(animating, 0, 0, steps);
  }
+
+// Attach animate event
 document.getElementById("button").onclick=animateSlider;
