@@ -49,7 +49,6 @@ function modifyTreeMap() {
     activeBlocksList = d3.select('.activeBox').data()[0].data.data.active_list
     d3.select(".tooltip").text(d3.select('.activeBox').data()[0].data.data.id + "(): " + d3.select('.activeBox').data()[0].data.data.coverage_percent*100 + "% covered");
   }
-
 }
 
 // Remove the treemap
@@ -76,9 +75,14 @@ function drawViz(vData) {
     .style("stroke", "black")
     .attr('class', 'box')
     .style("stroke-width", 1)
-    .on('mouseover', function (d) {
-          d3.select(this).attr("class", "box activeBox");
+    .on('click' , function(d) {
+      d3.select(".activeBox").attr("class", "box");
 
+      d3.select(this).attr("class", "box activeBox");
+      activeFunctionName = d.data.data.id
+      activeBlocksList = d.data.data.active_list
+    })
+    .on('mouseover', function (d) {
           var height = parseFloat(d3.select(this).attr("height"))
           var width = parseFloat(d3.select(this).attr("width"))
 
@@ -92,12 +96,8 @@ function drawViz(vData) {
       	  d3.select(this).style("stroke", "red");
           d3.select(this).style("stroke-width", 1);
 
-          activeFunctionName = d.data.data.id
-          activeBlocksList = d.data.data.active_list
        })
        .on("mouseout",function(){
-         d3.select(this).attr("class", "box");
-
           d3.select(".tooltip").remove();
       	  d3.select(this).style("stroke", "black");
           d3.select(this).style("stroke-width", 1);
