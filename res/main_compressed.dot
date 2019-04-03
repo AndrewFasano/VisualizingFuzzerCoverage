@@ -1,6 +1,6 @@
 digraph code {
 	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
-	node [fillcolor=gray style=filled shape=box];
+	node [fillcolor=gray style=filled];
 	edge [arrowhead="normal"];
 	"0x08049a6c" -> "0x08049b2a" [color="#007f00"];
 	"0x08049a6c" -> "0x08049afb" [color="#7f0000"];

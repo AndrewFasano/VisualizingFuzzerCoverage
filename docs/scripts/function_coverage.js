@@ -12,8 +12,14 @@ var margin = {
 
 var initialScale = 0.30;
 
+var sources = [];
+var datasets = [];
+
 var digraph;
 var render;
+
+var graphData;
+var labelData;
 
 // SVG SETUP
 
@@ -28,23 +34,46 @@ var gGraph = d3.select("svg")
 
 // HELPER FUNCTIONS
 
+// Load multiple files asynchronously
+function loadDatasets(){
 
-// LOADING DATA
+    var urlGraph = "https://raw.githubusercontent.com/ClonedOne/exp_nbs/master/res/main_compressed.dot";
+    var urlLabel = "https://raw.githubusercontent.com/ClonedOne/exp_nbs/master/res/address_label_map.json";
 
-req = new XMLHttpRequest();
-req.open(
-    "GET",
-    "https://raw.githubusercontent.com/ClonedOne/exp_nbs/master/res/main_compressed.dot",
-    true
-);
+    sources.push(d3.text(urlGraph));
+    sources.push(d3.json(urlLabel));
 
-// Given the size of the .dot file we load the data asynchronously
-req.onload = function (e){
-    var raw_data = req.responseText;
-    render(raw_data);
-};
+    // This will take some time
+    Promise.all(
+        sources
+    ).then(function(files) {
+        for (var i = 0; i < files.length; i++){
+            datasets[i] = files[i];
+        }
+        graphRender();
+    }).catch(function(err) {
+        console.log(err);
+    });
 
-req.send();
+}
+
+// Change the content of the node from label to full block
+function toggleBlock(d){
+    var node = digraph.node(d);
+    console.log('separator');
+    if (node.label == d){
+        node.label = labelData[d.toString()];
+    }
+    else{
+        node.label = d;
+    }
+
+    // Smooth transition to the new layout
+    digraph.graph().transition = function(selection) {
+        return selection.transition().duration(500);
+    };
+    d3.select("svg g#graph").call(render, digraph);
+}
 
 
 // ZOOM
@@ -58,9 +87,13 @@ svg.call(zoom);
 
 // GRAPH RENDER
 
-function render(raw_data){
+function graphRender(){
 
-    digraph = graphlibDot.read(raw_data);
+    graphData = datasets[0];
+    labelData = datasets[1];
+    console.log(labelData);
+
+    digraph = graphlibDot.read(graphData);
     render = new dagreD3.render();
 
     // Round the corners of the nodes
@@ -80,4 +113,15 @@ function render(raw_data){
     );
     gGraph.attr('height', digraph.graph().height * initialScale + 40);
 
+    gGraph.selectAll("g.node")
+        .on("click", function(d) {
+            var node = digraph.node(d);
+            console.log(d);
+            console.log(node);
+            toggleBlock(d);
+        });
+
 }
+
+// START
+loadDatasets();
