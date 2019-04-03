@@ -14,5 +14,5 @@ ORI_BIN=$1
 SEL_FUN=$2
 DES_DIR=$3
 
-echo radare2 -nq -c "aaa ; ag $2 > $3/$2.dot" $1
+radare2 -q -c "aaa ; ag $2 > $3/$2.dot" $1
 
