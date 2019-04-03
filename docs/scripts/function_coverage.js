@@ -27,6 +27,7 @@ var svg = d3.select("svg");
 var gGraph = d3.select("svg")
     .append("g")
     .attr("id", "graph")
+    .attr("class", "graph")
     .attr('width', width)
     .attr('height', height)
     .attr("transform", "translate(" + width + ", 0)");
@@ -81,7 +82,7 @@ var zoom = d3.zoom()
     .on("zoom", function() {
         gGraph.attr("transform", d3.event.transform);
     });
-svg.call(zoom);
+//svg.call(zoom);
 
 
 // GRAPH RENDER

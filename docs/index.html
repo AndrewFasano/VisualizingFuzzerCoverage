@@ -8,28 +8,33 @@
 
     </head>
 
-
+    <!--- Include external javascript libraries -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://dagrejs.github.io/project/dagre/latest/dagre.min.js"></script>
     <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.min.js"></script>
     <script src="https://dagrejs.github.io/project/graphlib-dot/latest/graphlib-dot.min.js"></script>
     <script src="https://code.easypz.io/easypz.latest.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
 
     <body>
         <h1>Visualization of Fuzzer Coverage on Memdjpg</h1>
 
-
-        <center>
-            <svg width=1600px height=900px>
-            </svg>
-        </center>
-        <button type="button" id="button">Start animation!</button><br/>
+        <p style="margin-left: 1020px; font-weight: bold">Function coverage</p>
+        <svg style="border: 1px dashed black; float:right" width=700px height=1000px easypz='{"applyTransformTo": ".graph", "modes": ["HOLD_ZOOM_IN", "DBLCLICK_ZOOM_OUT", "FLICK_PAN"]}'>
+        </svg>
+      <div style="margin-left: 80px; float:left">
+        <button style="margin-left: 20px" type="button" id="button">Start animation!</button><br/>
         <input type="range" id="range">
         <br/>
-        <svg style="border: 5px solid black" width=400px height=300px id="treemap" easypz='{"applyTransformTo": ".box", "modes": ["HOLD_ZOOM_IN", "DBLCLICK_ZOOM_OUT", "FLICK_PAN"]}'>
+      </div>
+      <div>
+        <svg style="border: 1px dashed black; margin-left: 300px; margin-top: -40px" width=400px height=300px id="treemap" easypz='{"applyTransformTo": ".box", "modes": ["HOLD_ZOOM_IN", "DBLCLICK_ZOOM_OUT", "FLICK_PAN"]}'>
         </svg>
+      </div>
 
 
     </body>

@@ -10,9 +10,11 @@ function drawTreeMap() {
 
   color = function(data) {
     if (data.coverage_percent !== undefined) {
-      return d3.interpolateRgb("#ffffff", "#008000")(Number(data.coverage_percent));
+      return d3.interpolateYlGn(Number(data.coverage_percent));
+      // return d3.interpolateRgb("#ffffff", "#008000")(Number(data.coverage_percent));
     } else {
-      return d3.interpolateRgb("#ffffff", "#008000")(0);
+      // return d3.interpolateRgb("#ffffff", "#008000")(0);
+      return d3.interpolateYlGn(0);
     }
   }
 
@@ -29,7 +31,7 @@ function modifyTreeMap() {
   var vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.blocks; });
   var vNodes = vRoot.descendants();
 
-  d3.selectAll('rect').data(vNodes).style("fill", function (d) { return color(d.data.data); });
+  d3.selectAll('.box').data(vNodes).style("fill", function (d) { return color(d.data.data); });
 
 }
 
@@ -70,7 +72,7 @@ function drawViz(vData) {
           .text(d.data.data.id + "(): " + d.data.data.coverage_percent*100 + "% covered")
           .style('fill', 'black');
       	  d3.select(this).style("stroke", "red");
-          d3.select(this).style("stroke-width", 3);
+          d3.select(this).style("stroke-width", 2);
 
        })
        .on("mouseout",function(){
