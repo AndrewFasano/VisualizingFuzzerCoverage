@@ -44,11 +44,11 @@ for function in functionDetails:
 # Transform into json as follows for d3
 """
 {0: {
-        fun1: {"blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]},
-        fun2: {"blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]}
+        fun1: {"name": fun1, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]},
+        fun2: {"name": fun2, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]}
     },
 1: {
-        fun2: {"blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]}
+        fun2: {"name": fun2, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]}
    }
 ...
 }
@@ -68,7 +68,7 @@ for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted
             continue
 
         if fn not in this_ts_fns:
-            this_ts_fns[fn] = {"active_blocks": []}
+            this_ts_fns[fn] = {"active_blocks": [], "name": fn}
 
         this_ts_fns[fn]["active_blocks"].append(block)
     # End each block loop
@@ -97,7 +97,7 @@ for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted
             if timestep > 0 and fn in output[timestep-1]:
                 old_blocks = set(output[timestep-1][fn]["active_blocks"])
 
-            this_ts_fns[fn] = {"active_blocks": old_blocks}
+            this_ts_fns[fn] = {"active_blocks": old_blocks, "name": fn}
 
         this_ts_fns[fn]["active_blocks"].add(block)
     # End each block loop
