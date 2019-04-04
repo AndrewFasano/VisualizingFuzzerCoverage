@@ -1,11 +1,28 @@
 // Globals to access from function_coverage.js script
 var activeFunctionName;
 var activeBlocksList;
+var mdata_url = "https://raw.githubusercontent.com/ClonedOne/cov_host/master/treemap_data.json";
+var mdata = {};
+var animateStop = false;
+var animationRunning = false;
+
+// First we load our map data asynch
+function loadDataset(){
+    // This will take some time
+    Promise.all(
+        [d3.json(mdata_url)]
+    ).then(function(results) {
+        mdata = results[0];
+        initializeTreemap();
+    }).catch(function(err) {
+        console.log(err);
+    });
+}
 
 // Define color palette for the tree map
-color = function(data) {
-  if (data.coverage_percent !== undefined) {
-    return d3.interpolateYlGn(Number(data.coverage_percent));
+function genColor(fn_coverage) {
+  if (fn_coverage.coverage_percent !== undefined) {
+    return d3.interpolateYlGn(Number(fn_coverage.coverage_percent)/100);
     // return d3.interpolateRgb("#ffffff", "#008000")(Number(data.coverage_percent));
   } else {
     // return d3.interpolateRgb("#ffffff", "#008000")(0);
@@ -25,31 +42,34 @@ function drawTreeMap() {
   g = d3.select('g#treemap').attr('width', vWidth).attr('height', vHeight);
 
   // Load parsed data and visualize a tree map
-  vCsvData = d3.csvParse( d3.select("pre#step" + data_step_number).text() );
-  vData = d3.stratify()(vCsvData);
+  vData = mdata[data_step_number];
+  vData = d3.hierarchy(vData);
+
   drawViz(vData);
 }
 
 // Modify tree map if the range slider value changed
 function modifyTreeMap() {
   data_step_number = document.getElementById("range").value;
-  vCsvData = d3.csvParse( d3.select("pre#step" + data_step_number).text() );
-  vData = d3.stratify()(vCsvData);
-  var vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.blocks; });
+  document.getElementById("animation_info").innerHTML=
+    "Showing input " + data_step_number + "/ " + document.getElementById("range").max;
+
+  vData = mdata[data_step_number];
+  vData = d3.hierarchy(vData);
+  var vRoot = d3.hierarchy(vData);
   var vNodes = vRoot.descendants();
 
   // Change color
   d3.selectAll('.box').data(vNodes).style("fill", function (d) {
-    return color(d.data.data);
-
+    return genColor(d.data.data);
   });
 
   // Update values for vars if needs be
   if (d3.select('.activeBox').data()[0]) {
-    activeBlocksList = d3.select('.activeBox').data()[0].data.data.active_list
+    activeBlocksList = d3.select('.activeBox').data()[0].data.active_list
   }
   if (d3.select('#hoverBox').data()[0]) {
-    d3.select(".tooltip").text(d3.select('#hoverBox').data()[0].data.data.id + "(): " + d3.select('#hoverBox').data()[0].data.data.coverage_percent*100 + "% covered");
+    d3.select(".tooltip").text(d3.select('#hoverBox').data()[0].data.data.name + "(): " + d3.select('#hoverBox').data()[0].data.data.coverage_percent + "% covered");
   }
 
 }
@@ -60,12 +80,13 @@ function removeTreeMap() {
 }
 
 function drawViz(vData) {
+  console.log("DRAW VIZ");
   // Declare d3 layout
   var vLayout = d3.treemap().size([vWidth, vHeight - 25]).paddingOuter(0);
 
-  // Layout + Data
-  var vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.blocks; });
-  var vNodes = vRoot.descendants();
+  // vRoot and vNodes are globals
+  vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.blocks; });
+  vNodes = vRoot.descendants();
   vLayout(vRoot);
   var vSlices = g.selectAll('rect').data(vNodes).enter().append('rect');
 
@@ -74,7 +95,7 @@ function drawViz(vData) {
     .attr('y', function (d) { return d.y0; })
     .attr('width', function (d) { return d.x1 - d.x0; })
     .attr('height', function (d) { return d.y1 - d.y0; })
-    .style("fill", function (d) { return color(d.data.data); })
+    .style("fill", function (d) { return genColor(d.data.data); })
     .style("stroke", "black")
     .attr('class', 'box')
     .style("stroke-width", 1)
@@ -82,8 +103,8 @@ function drawViz(vData) {
       d3.select(".activeBox").attr("class", "box");
 
       d3.select(this).attr("class", "box activeBox");
-      activeFunctionName = d.data.data.id
-      activeBlocksList = d.data.data.active_list
+      activeFunctionName = d.id
+      activeBlocksList = d.active_blocks
     })
     .on('mouseover', function (d) {
           d3.select(this).attr("id", "hoverBox");
@@ -96,7 +117,7 @@ function drawViz(vData) {
           .attr("x",vWidth / 2 - 70)
           .attr("y",vHeight - 10)
           .attr("class","tooltip")
-          .text(d.data.data.id + "(): " + d.data.data.coverage_percent*100 + "% covered")
+          .text(d.data.data.name + "(): " + d.data.data.coverage_percent + "% covered")
           .style('fill', 'black');
       	  d3.select(this).style("stroke", "red");
           d3.select(this).style("stroke-width", 1);
@@ -112,35 +133,47 @@ function drawViz(vData) {
 
 }
 
-// How many steps do we have to put in the range slider
-function getDataStepsCount() {
-    return document.getElementsByTagName('pre').length;
+function initializeTreemap() {
+  // Prepare the slider
+  document.getElementById("range").max=Object.keys(mdata).length-1;
+  document.getElementById("range").min=0;
+  document.getElementById("range").defaultValue=0;
+  document.getElementById("range").disabled=null;
+  document.getElementById("button").disabled=null;
+
+  drawTreeMap(0);
+  document.getElementById("range").oninput=modifyTreeMap;
+
 }
 
-// Prepare the slider
-document.getElementById("range").max=getDataStepsCount()-1;
-document.getElementById("range").min=0;
-document.getElementById("range").defaultValue=0;
-drawTreeMap(0);
-document.getElementById("range").oninput=modifyTreeMap;
-
 // Code to handle animation by recursive calls
-function animating(current_step, all) {
-  if (current_step == all) {
-  	return;
-  }
-  else {
-      document.getElementById("range").value=current_step;
-      modifyTreeMap();
-			setTimeout(animating, 500, current_step+1, all);
-  }
+function runAnimate() {
+    if (animateStop) {
+      animateStop = false;
+      return;
+    }
+    nextval = (+document.getElementById("range").value)+1;
+    document.getElementById("range").value = nextval;
+    modifyTreeMap();
+
+    if (nextval < (+document.getElementById("range").max))
+      setTimeout(runAnimate, 500);
 }
 
 // Animate the slider if button is pressed
-function animateSlider() {
-	steps = getDataStepsCount();
-	setTimeout(animating, 0, 0, steps);
+function toggleAnimate() {
+  if (animationRunning) { // clicked 'stop'
+    animateStop = true;
+    animationRunning = false;
+    document.getElementById("button").innerHTML = "Start animation";
+  }else{ // Clicked 'start'
+    animationRunning = true;
+    animateStop = false;
+    document.getElementById("button").innerHTML = "Stop animation";
+    setTimeout(runAnimate, 0);
+  }
  }
 
 // Attach animate event
-document.getElementById("button").onclick=animateSlider;
+document.getElementById("button").onclick=toggleAnimate;
+loadDataset();

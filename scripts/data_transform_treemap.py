@@ -20,21 +20,21 @@ coverage_data = json.load((open(coverage, 'r')))
 mappings_data = json.load(open(mappings, "r"))
 
 # Create dict mapping function names to metadata and block list
-functionDetails = {}
+function_details = {}
 for fn, blocks in mappings_data.items():
     if fn == "_unknown" or fn.startswith("__x86."): 
         # Skip functions missunderstood by ghidra analysis
         continue
 
-    functionDetails[fn] = {
+    function_details[fn] = {
             "length": len(blocks),
             "blocks": [int(x, 16) for x in mappings_data[fn]]
             }
 
 # Create mapping from blocks to function names
 block_fn_mapping = {}
-for function in functionDetails:
-    for block in functionDetails[function]["blocks"]:
+for function in function_details:
+    for block in function_details[function]["blocks"]:
         block_fn_mapping[block] = function
 
 
@@ -44,17 +44,21 @@ for function in functionDetails:
 # Transform into json as follows for d3
 """
 {0: {
-        fun1: {"name": fun1, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]},
-        fun2: {"name": fun2, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]}
+        "children" : [
+            {"name": fun1, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...], "children": [] 
+            {"name": fun2, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...], "children": []}
+        ]
     },
 1: {
-        fun2: {"name": fun2, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]}
+        "children" : [
+            {"name": fun2, "blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...], "children": []}
+        ]
    }
 ...
 }
 """
 
-# Non-cumulative
+# Non-cumulative (Note now needs updates)
 """
 output = {}
 for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted(coverage_data.keys())]):
@@ -73,9 +77,9 @@ for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted
         this_ts_fns[fn]["active_blocks"].append(block)
     # End each block loop
     for covered_fn in this_ts_fns.keys():
-        this_ts_fns[covered_fn]["blocks"] = functionDetails[covered_fn]["length"]
+        this_ts_fns[covered_fn]["blocks"] = function_details[covered_fn]["length"]
         this_ts_fns[covered_fn]["coverage_percent"] = \
-                int(len(this_ts_fns[covered_fn]["active_blocks"])/functionDetails[covered_fn]["length"] * 100)
+                int(len(this_ts_fns[covered_fn]["active_blocks"])/function_details[covered_fn]["length"] * 100)
         
     output[timestep] = this_ts_fns
 """
@@ -97,17 +101,32 @@ for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted
             if timestep > 0 and fn in output[timestep-1]:
                 old_blocks = set(output[timestep-1][fn]["active_blocks"])
 
-            this_ts_fns[fn] = {"active_blocks": old_blocks, "name": fn}
+            this_ts_fns[fn] = {"active_blocks": old_blocks, "name": fn, "children": []}
 
         this_ts_fns[fn]["active_blocks"].add(block)
     # End each block loop
+
+
     for covered_fn in this_ts_fns.keys():
-        this_ts_fns[covered_fn]["blocks"] = functionDetails[covered_fn]["length"]
+        this_ts_fns[covered_fn]["blocks"] = function_details[covered_fn]["length"]
         this_ts_fns[covered_fn]["active_blocks"] = list(this_ts_fns[covered_fn]["active_blocks"]) # Make it a list
         this_ts_fns[covered_fn]["coverage_percent"] = \
-                int(len(this_ts_fns[covered_fn]["active_blocks"])/functionDetails[covered_fn]["length"] * 100)
-        
+                int(len(this_ts_fns[covered_fn]["active_blocks"])/function_details[covered_fn]["length"] * 100)
+
+    # Now add all uncovered functions
+    covered_fn_names = this_ts_fns.keys()
+    for uncovered_fn in function_details.keys():
+        if uncovered_fn in covered_fn_names: continue
+        this_ts_fns[uncovered_fn] = {"active_blocks": [], "coverage_percent": 0, "children": [], "name": uncovered_fn,
+                                    "blocks": function_details[uncovered_fn]["length"] }
+
     output[timestep] = this_ts_fns
 
+formatted_output = {}
+for ts, ts_vals in output.items():
+    formatted_val = {"children": [v for k,v in ts_vals.items()]} # Strip key name
+    formatted_output[ts] = formatted_val
+
+
 # Actually output the file to disk
-json.dump(output, indent=2, fp=open(outfile, "w"))
+json.dump(formatted_output, indent=2, fp=open(outfile, "w"))
