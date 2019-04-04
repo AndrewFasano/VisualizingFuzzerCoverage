@@ -21,6 +21,8 @@ var render;
 var graphData;
 var labelData;
 
+var baseUrl = "https://raw.githubusercontent.com/ClonedOne/cov_host/master/dotfiles/";
+
 // SVG SETUP
 
 var svg = d3.select("svg");
@@ -38,8 +40,10 @@ var gGraph = d3.select("svg")
 // Load multiple files asynchronously
 function loadDatasets(){
 
-    var urlGraph = "https://raw.githubusercontent.com/ClonedOne/exp_nbs/master/res/main_compressed.dot";
-    var urlLabel = "https://raw.githubusercontent.com/ClonedOne/exp_nbs/master/res/address_label_map.json";
+    var cur_func = "main";
+
+    var urlGraph = baseUrl + cur_func + "_compressed.dot";
+    var urlLabel = baseUrl + cur_func + "_map.json";
 
     sources.push(d3.text(urlGraph));
     sources.push(d3.json(urlLabel));
