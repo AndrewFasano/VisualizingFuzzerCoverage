@@ -2,7 +2,6 @@
   margin-top: 1em;
   font-size: 26px;
 }
-
 /* TODO: Position these in a better way */
 .left  {
   width: 400px;
@@ -57,6 +56,11 @@ text {
   stroke: #455a64;
   fill: #fff;
   stroke-width: 2px;
+}
+
+.covered rect {
+  fill: green !important;
+  transition: fill .4s ease;
 }
 
 .edgePath path {

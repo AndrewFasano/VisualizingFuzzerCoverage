@@ -1,6 +1,6 @@
 // Globals to access from function_coverage.js script
 var activeFunctionName;
-var activeBlocksList;
+var activeBlocksList = [];
 var mdata_url = "https://raw.githubusercontent.com/ClonedOne/cov_host/master/treemap_data.json";
 var mdata = {};
 var animateStop = false;
@@ -60,6 +60,8 @@ function modifyTreeMap() {
   vData = d3.hierarchy(vData);
   var vRoot = d3.hierarchy(vData);
   var vNodes = vRoot.descendants();
+
+  updateCoverageMap(activeBlocksList)
 
   // Change color
   d3.selectAll('.box').data(vNodes).style("fill", function (d) {
@@ -143,6 +145,8 @@ function drawViz(vData) {
 }
 
 function initializeTreemap() {
+  activeFunctionName = "main"
+
   // Prepare the slider
   document.getElementById("range").max=Object.keys(mdata).length-1;
   document.getElementById("range").min=0;
@@ -151,6 +155,18 @@ function initializeTreemap() {
   document.getElementById("button").disabled=null;
 
   drawTreeMap(0);
+
+  // Lookup default (main) function to get activeBlocksList
+  var block_lists = vData.data["children"];
+  for (var i = 0; 1 < block_lists.length; i++) {
+    if (block_lists[i]["name"] == "main") {
+      activeBlocksList = block_lists[i]["active_blocks"]
+      break;
+    }
+  }
+
+  loadDatasets("main", activeBlocksList);
+
   document.getElementById("range").oninput=modifyTreeMap;
 
 }
@@ -165,8 +181,13 @@ function runAnimate() {
     document.getElementById("range").value = nextval;
     modifyTreeMap();
 
-    if (nextval < (+document.getElementById("range").max))
+    if (nextval < (+document.getElementById("range").max)) {
       setTimeout(runAnimate, 500);
+    }else{
+      animateStop = true;
+      animationRunning = false;
+      document.getElementById("button").innerHTML = "Restart animation";
+    }
 }
 
 // Animate the slider if button is pressed
@@ -176,6 +197,13 @@ function toggleAnimate() {
     animationRunning = false;
     document.getElementById("button").innerHTML = "Start animation";
   }else{ // Clicked 'start'
+    // If was at end, restart when you click start again
+    cur_val = (+document.getElementById("range").value);
+    max_val = (+document.getElementById("range").max);
+    if (cur_val == max_val) {
+      document.getElementById("range").value = 0;
+    }
+
     animationRunning = true;
     animateStop = false;
     document.getElementById("button").innerHTML = "Stop animation";
