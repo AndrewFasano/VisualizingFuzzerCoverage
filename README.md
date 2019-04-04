@@ -17,3 +17,4 @@ The structure of the repo is as follows:
     └── README.md
 
 
+[*Website*](https://pages.github.ccs.neu.edu/giorgioseveri/CS7250_visualizing_coverage/index.html)
