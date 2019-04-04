@@ -1,4 +1,4 @@
-# Print a mapping of function names to basic blocks in JSON
+# Ghidra plugin to generate a mapping of function names to basic blocks in JSON
 #@author Andrew Fasano & Brendan Dolan-Gavitt
 #@category CodeAnalysis
 #@keybinding 

@@ -1,61 +1,113 @@
 import json
-from ruamel import yaml
+
+import sys
+
+assert(len(sys.argv) == 4), "Usage: {} mappings.json coverage.json".format(sys.argv[0])
 
 # Data files
-yaml_file = "/Users/talhaparacha/Downloads/CS7250_visualizing_coverage/data/memdjpeg_coverage/data_89.yaml"
-json_file = "/Users/talhaparacha/Downloads/mapping.json"
+mappings = sys.argv[1] 
+coverage = sys.argv[2]
+outfile  = sys.argv[3] # something.html
+
+####################
+# Parse data files #
+####################
+
+# Load data on fuzzer coverage over time (created by measure_rode0day_coverage.py)
+coverage_data = json.load((open(coverage, 'r')))
+
+# Load data mapping functions to blocks (created by map_fns_to_blocks.py)
+mappings_data = json.load(open(mappings, "r"))
+
+# Create dict mapping function names to metadata and block list
+functionDetails = {}
+for fn, blocks in mappings_data.items():
+    if fn == "_unknown" or fn.startswith("__x86."): 
+        # Skip functions missunderstood by ghidra analysis
+        continue
+
+    functionDetails[fn] = {
+            "length": len(blocks),
+            "blocks": [int(x, 16) for x in mappings_data[fn]]
+            }
+
+# Create mapping from blocks to function names
+block_fn_mapping = {}
+for function in functionDetails:
+    for block in functionDetails[function]["blocks"]:
+        block_fn_mapping[block] = function
 
 
-def get_function_coverage(function, step, cumulative = True):
-    active_func_blocks = set()
-    start_step = step
-    if cumulative:
-        start_step = 0
-    for s in range(start_step, step):
-        active_blocks = timeBlocksMapping[s]
-        for block in list(dict.fromkeys(active_blocks)):
-            if block in blockFunctionMapping and function in blockFunctionMapping[block]:
-                active_func_blocks.add(block)
-    return len(active_func_blocks) / len(functionBlockMapping[function]), ' '.join(hex(v) for v in active_func_blocks)
+########################
+# Generate json output #
+#######################
+# Transform into json as follows for d3
+"""
+{0: {
+        fun1: {"blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]},
+        fun2: {"blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]}
+    },
+1: {
+        fun2: {"blocks": X, "coverage_percent": Y, active_blocks: [0x1,0x2...]}
+   }
+...
+}
+"""
 
+# Non-cumulative
+"""
+output = {}
+for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted(coverage_data.keys())]):
+    this_ts_fns = {}
 
-# Parse data files
-with open(yaml_file, 'r') as fp:
-    yaml_mapping_data = yaml.load(fp)
-timeBlocksMapping = dict()
-startStep = 0
-for key in sorted(yaml_mapping_data.keys()):
-    timeBlocksMapping[startStep] = yaml_mapping_data[key]
-    startStep += 1
+    for block in time_blocks_mapping:
+        # Find each function for this time
+        try:
+            fn = block_fn_mapping[block]
+        except KeyError: # Skip ignored functions
+            continue
 
-with open(json_file, "r") as read_file:
-    json_mapping_data = json.load(read_file)
+        if fn not in this_ts_fns:
+            this_ts_fns[fn] = {"active_blocks": []}
 
-# Generate dictionaries
-totalSteps = len(timeBlocksMapping)
-functionBlockMapping = dict()
-for item in json_mapping_data:
-    functionBlockMapping[item] = []
-    for hex_num in json_mapping_data[item]:
-        functionBlockMapping[item].append(int(hex_num, 16))
+        this_ts_fns[fn]["active_blocks"].append(block)
+    # End each block loop
+    for covered_fn in this_ts_fns.keys():
+        this_ts_fns[covered_fn]["blocks"] = functionDetails[covered_fn]["length"]
+        this_ts_fns[covered_fn]["coverage_percent"] = \
+                int(len(this_ts_fns[covered_fn]["active_blocks"])/functionDetails[covered_fn]["length"] * 100)
+        
+    output[timestep] = this_ts_fns
+"""
 
-blockFunctionMapping = dict()
-for function in functionBlockMapping:
-    for block in functionBlockMapping[function]:
-        if block not in blockFunctionMapping:
-            blockFunctionMapping[block] = []
-        blockFunctionMapping[block].append(function)
+# Cumulative
+output = {}
+for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted(coverage_data.keys())]):
+    this_ts_fns = {}
 
-# Transform into html required by treemap
-prologue = "id,parentId,blocks,coverage_percent,active_list\nf,\n"
-html = ""
-for i in range(0, totalSteps):
-    prologueHtml = "<pre id=\"step" + str(i) + "\">\n"
-    endHtml = "</pre>\n"
-    html += prologueHtml + prologue
-    for item in functionBlockMapping:
-        percent, active_list = get_function_coverage(item, i)
-        html += item + ",f," + str(len(functionBlockMapping[item])) + "," + str(percent) + "," + str(active_list) + "\n"
-    html += endHtml
-with open(yaml_file[yaml_file.rfind('/') + 1:yaml_file.rfind('.')] + ".html", "w") as f:
-    f.write(html)
+    for block in time_blocks_mapping:
+        # Find each function for this time
+        try:
+            fn = block_fn_mapping[block]
+        except KeyError: # Skip ignored functions
+            continue
+
+        if fn not in this_ts_fns:
+            old_blocks = set()
+            if timestep > 0 and fn in output[timestep-1]:
+                old_blocks = set(output[timestep-1][fn]["active_blocks"])
+
+            this_ts_fns[fn] = {"active_blocks": old_blocks}
+
+        this_ts_fns[fn]["active_blocks"].add(block)
+    # End each block loop
+    for covered_fn in this_ts_fns.keys():
+        this_ts_fns[covered_fn]["blocks"] = functionDetails[covered_fn]["length"]
+        this_ts_fns[covered_fn]["active_blocks"] = list(this_ts_fns[covered_fn]["active_blocks"]) # Make it a list
+        this_ts_fns[covered_fn]["coverage_percent"] = \
+                int(len(this_ts_fns[covered_fn]["active_blocks"])/functionDetails[covered_fn]["length"] * 100)
+        
+    output[timestep] = this_ts_fns
+
+# Actually output the file to disk
+json.dump(output, indent=2, fp=open(outfile, "w"))
