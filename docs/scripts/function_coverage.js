@@ -12,21 +12,13 @@ var margin = {
 
 var initialScale = 0.30;
 
-var sources = [];
-var datasets = [];
-
 var digraph;
 var render;
-
-var graphData;
-var labelData;
-
-var baseUrl = "https://raw.githubusercontent.com/ClonedOne/cov_host/master/dotfiles/";
+var baseUrl = "https://raw.githubusercontent.com/ClonedOne/cov_host/master/dotfiles/sym.";
 
 // SVG SETUP
-
-var svg = d3.select("svg");
-var gGraph = d3.select("svg")
+var svg = d3.select("svg#graph");
+var gGraph = d3.select("svg#graph")
     .append("g")
     .attr("id", "graph")
     .attr("class", "graph")
@@ -38,28 +30,25 @@ var gGraph = d3.select("svg")
 // HELPER FUNCTIONS
 
 // Load multiple files asynchronously
-function loadDatasets(){
-
-    var cur_func = "main";
+function loadDatasets(cur_func, block_list){
+  console.log("LOADING DATA FOR " + cur_func);
 
     var urlGraph = baseUrl + cur_func + "_compressed.dot";
     var urlLabel = baseUrl + cur_func + "_map.json";
 
-    sources.push(d3.text(urlGraph));
-    sources.push(d3.json(urlLabel));
+    console.log(urlGraph);
+    console.log(urlLabel);
 
-    // This will take some time
+
+    // This may take some time
     Promise.all(
-        sources
+     [d3.text(urlGraph), d3.json(urlLabel)]
     ).then(function(files) {
-        for (var i = 0; i < files.length; i++){
-            datasets[i] = files[i];
-        }
-        graphRender();
+        console.log(files);
+        graphRender(files[0], files[1]);
     }).catch(function(err) {
         console.log(err);
     });
-
 }
 
 // Change the content of the node from label to full block
@@ -88,13 +77,11 @@ var zoom = d3.zoom()
     });
 //svg.call(zoom);
 
-
 // GRAPH RENDER
 
-function graphRender(){
-
-    graphData = datasets[0];
-    labelData = datasets[1];
+function graphRender(graphData, labelData){
+  console.log(labelData);
+    d3.selectAll("#graph .output").remove(); // Clear any old graph
 
     digraph = graphlibDot.read(graphData);
     render = new dagreD3.render();
@@ -121,8 +108,7 @@ function graphRender(){
             var node = digraph.node(d);
             toggleBlock(d);
         });
-
 }
 
 // START
-loadDatasets();
+loadDatasets("main", []);

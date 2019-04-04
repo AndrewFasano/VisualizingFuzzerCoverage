@@ -34,8 +34,10 @@ function genColor(fn_coverage) {
 function drawTreeMap() {
   removeTreeMap();
   data_step_number = document.getElementById("range").value;
-  vWidth = 400;
-  vHeight = 300;
+
+  // Fill to height of container
+  vWidth = +d3.select("#treemap").style('width').slice(0, -2)
+  vHeight = +d3.select("#treemap").style('height').slice(0, -2)
 
   // Prepare our physical space
   d3.select('svg#treemap').append('g').attr("id", "treemap");
@@ -103,14 +105,21 @@ function drawViz(vData) {
       d3.select(".activeBox").attr("class", "box");
 
       d3.select(this).attr("class", "box activeBox");
-      activeFunctionName = d.id
-      activeBlocksList = d.active_blocks
+      activeFunctionName = d.data.data.name;
+      activeBlocksList = d.data.data.active_blocks
+
+      // Load graph visualization
+      loadDatasets(activeFunctionName, activeBlocksList);
+
     })
     .on('mouseover', function (d) {
           d3.select(this).attr("id", "hoverBox");
 
           var height = parseFloat(d3.select(this).attr("height"))
           var width = parseFloat(d3.select(this).attr("width"))
+
+          d3.select(".treemap_info")
+            .text(d.data.data.name + "(): " + d.data.data.coverage_percent + "% covered");
 
           d3.select("g#treemap")
           .append("text")
