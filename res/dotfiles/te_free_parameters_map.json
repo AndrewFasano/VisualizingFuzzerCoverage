@@ -1,3 +1,0 @@
-{
-  "0x08048b00": "  ;-- section..text:\n/ (fcn) entry0 33\n|   entry0 ();\n| 0x08048b00      xor ebp, ebp\n| 0x08048b02      pop esi\n| 0x08048b03      mov ecx, esp\n| 0x08048b05      and esp, 0xfffffff0\n| 0x08048b08      push eax\n| 0x08048b09      push esp\n| 0x08048b0a      push edx\n| 0x08048b0b      push sym.__libc_csu_fini\n| 0x08048b10      push sym.__libc_csu_init\n| 0x08048b15      push ecx\n| 0x08048b16      push esi\n| 0x08048b17      push main\n\\\\ 0x08048b1c      call sym.imp.__libc_start_main\n"
-}

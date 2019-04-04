@@ -15,7 +15,7 @@ import os
 # In[ ]:
 
 
-coverage_path = '../data/converage.json'
+coverage_path = '../data/coverage.json'
 func_graph_path = '../res/dotfiles'
 mapping_path = '../data/mapping.json'
 
@@ -81,26 +81,26 @@ print sum(overlaps.values())
 
 # Cycle through the dotfiles
 for graph_file in os.listdir(func_graph_path):
-    
+
     if '_compressed.dot' in graph_file or '_map.json' in graph_file:
         continue
-    
+
     # Dictionary mapping the block identifier with the block content for this function
     address_label = {}
-    
+
     func_graph = os.path.join(func_graph_path, graph_file)
     func_graph_compressed = os.path.join(
         func_graph_path,
-        graph_file.split('.')[0] + '_compressed.dot'
+        graph_file.split('.dot')[0] + '_compressed.dot'
     )
     func_map = os.path.join(
         func_graph_path,
-        graph_file.split('.')[0] + '_map.json'
+        graph_file.split('.dot')[0] + '_map.json'
     )
-    
+
     # Read the function graph file
     with open(func_graph, 'r') as in_file:
-        
+
         # Open compressed output file
         with open(func_graph_compressed, 'w') as out_file:
 
@@ -120,8 +120,8 @@ for graph_file in os.listdir(func_graph_path):
                     new_line = line
 
                 out_file.write(new_line)
-        
-        
+
+
     # Dump the json mapping for this function
     json.dump(address_label, open(func_map, 'w'), indent=2)
 

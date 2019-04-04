@@ -1,5 +1,4 @@
 import subprocess
-import yaml
 import json
 import sys
 import os
@@ -24,6 +23,7 @@ for func in mapping:
         continue
 
     print('Extracting graph for function: ' + func)
-    command = script + ' ' + binary + ' ' + func + ' ' + dest_dir
+    func_wrap = 'sym.' + func
+    command = script + ' ' + binary + ' ' + func_wrap + ' ' + dest_dir
     subprocess.call(command, shell=True)
 
