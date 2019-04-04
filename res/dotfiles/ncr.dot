@@ -1,0 +1,6 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08048b00" [URL="entry0/0x08048b00", fillcolor="palegreen",color="black", fontname="Courier",label="  ;-- section..text:\l/ (fcn) entry0 33\l|   entry0 ();\l| 0x08048b00      xor ebp, ebp\l| 0x08048b02      pop esi\l| 0x08048b03      mov ecx, esp\l| 0x08048b05      and esp, 0xfffffff0\l| 0x08048b08      push eax\l| 0x08048b09      push esp\l| 0x08048b0a      push edx\l| 0x08048b0b      push sym.__libc_csu_fini\l| 0x08048b10      push sym.__libc_csu_init\l| 0x08048b15      push ecx\l| 0x08048b16      push esi\l| 0x08048b17      push main\l\\ 0x08048b1c      call sym.imp.__libc_start_main\l"]
+}

@@ -1,62 +1,146 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[ ]:
+
+
 from collections import defaultdict, Counter
 
 import graphviz
 import string
-import yaml
 import json
 import os
 
-coverage_path = '../data/memdjpeg_coverage/data_14.yaml'
-func_graph_path = '../data/main.dot'
+
+# In[ ]:
+
+
+coverage_path = '../data/converage.json'
+func_graph_path = '../res/dotfiles'
 mapping_path = '../data/mapping.json'
 
+
+# In[ ]:
+
+
 mapping = json.load(open(mapping_path, 'r'))
-coverage = yaml.load(open(coverage_path, 'r'), Loader=yaml.SafeLoader)
+
+
+# In[ ]:
+
+
+coverage = json.load(open(coverage_path, 'r'))
+
+
+# In[ ]:
+
 
 covered_set = set()
+
+
+# In[ ]:
+
 
 for run, blocks in coverage.items():
     covered_set |= set(blocks)
 
-print len(covered_set)
+
+# In[ ]:
+
+
+print(len(covered_set))
+
+
+# In[ ]:
+
 
 overlaps = Counter()
+
+
+# In[ ]:
+
 
 for function, blocklist in mapping.items():
     overlaps[function] = len(covered_set & set([int(b, 16) for b in blocklist]))
 
-overlaps.most_common(10)
+
+# In[ ]:
+
+
+print(overlaps.most_common(10))
+
+
+# In[ ]:
+
 
 print sum(overlaps.values())
 
-address_label = {}
 
-with open(func_graph_path, 'r') as in_file:
-    with open('../res/main_compressed.dot', 'w') as out_file:
-
-        for line in in_file.readlines():
-
-            if 'node [fillcolor=gray style=filled shape=box];' in line:
-                new_line = '\tnode [fillcolor=gray style=filled];\n'
-
-            elif 'label=' in line:
-                address_g = line.split()[0]
-                address_m = line.split()[0].strip().translate(None, string.punctuation)
-                content = line.split('label=')[1][:-2].replace('\l', '\n').translate(None, '"')
-                address_label[address_m] = content
-                new_line = line.split('label=')[0] + 'label=' + address_g + ']' + os.linesep
-
-            else:
-                new_line = line
-
-            out_file.write(new_line)
+# In[ ]:
 
 
-functions = [key for key in mapping.keys() if key != '_unknown']
-print len(functions)
+# Cycle through the dotfiles
+for graph_file in os.listdir(func_graph_path):
+    
+    if '_compressed.dot' in graph_file or '_map.json' in graph_file:
+        continue
+    
+    # Dictionary mapping the block identifier with the block content for this function
+    address_label = {}
+    
+    func_graph = os.path.join(func_graph_path, graph_file)
+    func_graph_compressed = os.path.join(
+        func_graph_path,
+        graph_file.split('.')[0] + '_compressed.dot'
+    )
+    func_map = os.path.join(
+        func_graph_path,
+        graph_file.split('.')[0] + '_map.json'
+    )
+    
+    # Read the function graph file
+    with open(func_graph, 'r') as in_file:
+        
+        # Open compressed output file
+        with open(func_graph_compressed, 'w') as out_file:
 
-json.dump(address_label, open('../res/address_label_map.json', 'w'), indent=2)
+            for line in in_file.readlines():
+
+                if 'node [fillcolor=gray style=filled shape=box];' in line:
+                    new_line = '\tnode [fillcolor=gray style=filled];\n'
+
+                elif 'label=' in line:
+                    address_g = line.split()[0]
+                    address_m = line.split()[0].strip().translate(None, string.punctuation)
+                    content = line.split('label=')[1][:-2].replace('\l', '\n').translate(None, '"')
+                    address_label[address_m] = content
+                    new_line = line.split('label=')[0] + 'label=' + address_g + ']' + os.linesep
+
+                else:
+                    new_line = line
+
+                out_file.write(new_line)
+        
+        
+    # Dump the json mapping for this function
+    json.dump(address_label, open(func_map, 'w'), indent=2)
+
+
+# In[ ]:
+
+
+functions = [key for key in mapping.keys() if key != '_unknown' and '__x86.' not in key]
+print(len(functions))
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
