@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html  lang="en">
     <meta charset="utf-8">
-    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="styles/style.css">
+
         <title>Treemap for Visualizing Program Coverage</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     </head>
 
@@ -22,47 +24,46 @@
 
 
     <body>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col col-md-12">
-            <h1>Visualization of Fuzzer Coverage on TinyExpr</h1>
-            <hr/>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col col-md-4">
-            <h3>Program overview</h3>
-            <div style="border: 1px dashed black;" width=100% height=600px>
-              <svg id="treemap" width=100% height=590px> <!-- easypz='{"applyTransformTo": ".box", "modes": ["WHEEL_ZOOM", "FLICK_PAN"]}' -->
-              </svg>
-              <span class="treemap_info" style="clear: both;" height=10px width=100%></span>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col col-lg-10 col-md-10 col-sm-10">
+                    <h1 class="text-center">
+                        Visualization of Fuzzer Coverage on TinyExpr
+                    </h1>
+                    <hr/>
+                </div>
             </div>
-            <div class="treemap_info"></div>
-          </div> <!-- /col -->
 
-          <div class="col col-md-8"> <!-- Individual function graph -->
-            <h3>Function coverage</h3>
-            <svg id="graph" style="border: 1px dashed black" width=100% height=600px> <!-- easypz='{"applyTransformTo": "#graph", "modes": ["WHEEL_ZOOM", "FLICK_PAN"]}'>-->
-            </svg>
-          </div> <!-- /col -->
-      </div> <!-- /row -->
+            <div class="row justify-content-center">
+                <div class="col col-lg-5 col-md-5 col-sm-8">
+                    <h3 class="text-center">Program overview</h3>
 
+                    <div width=100% height=600px>
+                        <svg id="treemap" width=100% height=590px></svg>
+                        <span class="treemap_info" style="clear: both;" height=10px width=100%></span>
+                    </div>
 
-      <div class="row" style="padding-top: 1em">
-          <div class="col col-md-3"></div>
-          <div class = "col col-md-6">
-            <div class="animation_controlls">
-              <button type="button" id="button" disabled>Start animation!</button><br/>
-              <input type="range" id="range" min=0 max=0 disabled> <br/>
-              <span id="animation_info">
-            </div>
-          </div> <!-- /col -->
-      </div> <!-- /row -->
-    </div> <!-- /container -->
+                    <div class="animation_controlls" style="padding-top: 1em">
+                        <button type="button" id="button" disabled>Start animation!</button><br/>
+                        <input type="range" id="range" min=0 max=0 disabled> <br/>
+                        <span id="animation_info">
+                    </div>
 
-    <script src="scripts/treemap.js"></script>
-    <script src="scripts/function_coverage.js"></script>
+                </div> <!-- /col -->
 
+                <div class="col col-lg-5 col-md-5 col-sm-8"> <!-- Individual function graph -->
+                    <h3 class="text-center">Function coverage</h3>
+                    <svg id="graph" width=100% height=800px></svg>
+                </div> <!-- /col -->
+            </div> <!-- /row -->
+
+        </div> <!-- /container -->
+
+        <script src="scripts/treemap.js"></script>
+        <script src="scripts/function_coverage.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
 </html>
