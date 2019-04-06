@@ -1,34 +1,8 @@
 // Globals to access from function_coverage.js script
-var activeFunctionName;
 var activeBlocksList = [];
 var mdata_url = "https://raw.githubusercontent.com/ClonedOne/cov_host/master/treemap_data.json";
 var mdata = {};
-var animateStop = false;
-var animationRunning = false;
 
-// First we load our map data asynch
-function loadDataset(){
-    // This will take some time
-    Promise.all(
-        [d3.json(mdata_url)]
-    ).then(function(results) {
-        mdata = results[0];
-        initializeTreemap();
-    }).catch(function(err) {
-        console.log(err);
-    });
-}
-
-// Define color palette for the tree map
-function genColor(fn_coverage) {
-  if (fn_coverage.coverage_percent !== undefined) {
-    return d3.interpolateYlGn(Number(fn_coverage.coverage_percent)/100);
-    // return d3.interpolateRgb("#ffffff", "#008000")(Number(data.coverage_percent));
-  } else {
-    // return d3.interpolateRgb("#ffffff", "#008000")(0);
-    return d3.interpolateYlGn(0);
-  }
-}
 
 // Draw a new tree map from scratch
 function drawTreeMap() {
@@ -78,10 +52,6 @@ function modifyTreeMap() {
 
 }
 
-// Remove the treemap
-function removeTreeMap() {
-  d3.select("g#treemap").selectAll("*").remove();
-}
 
 function drawViz(vData) {
   console.log("DRAW VIZ");
