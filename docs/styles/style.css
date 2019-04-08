@@ -52,6 +52,12 @@ body {
   color: #455a64;
 }
 
+.fn_label {
+  font-weight: 300;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+  font-size: 15px;
+  color: #455a64;
+}
 .node rect {
   stroke: #455a64;
   fill: #fff;

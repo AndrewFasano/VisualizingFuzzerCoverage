@@ -41,7 +41,7 @@ function loadDatasets(cur_func, block_list){
     Promise.all(
      [d3.text(urlGraph), d3.json(urlLabel)]
     ).then(function(files) {
-        console.log(files);
+        // console.log(files);
         graphRender(files[0], files[1], block_list);
     }).catch(function(err) {
         console.log(err);
@@ -114,7 +114,7 @@ function updateCoverageMap(covered_blocks) {
     // Color 
     console.log("UpdateCoverage with length " + covered_blocks.length);
     var s = new Set(covered_blocks);
-    var filled_c = genColor(100);
+    var filled_c = getColor(100);
     digraph.nodes().forEach(function(v) {
       var v_str = parseInt(v) // Starts with 0x so it's parsed as hex
       if (s.has(v_str)) {
