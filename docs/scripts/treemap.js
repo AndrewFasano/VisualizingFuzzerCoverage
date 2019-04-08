@@ -11,6 +11,7 @@ function initializeTreemap() {
 
     // Initialize the time step slider
     initializeSlider(treemapData); 
+    changeSliderShownValue(curTimeStep);
 
     // Fill to height of container
     tWidth = +d3.select("#treemap").style('width').slice(0, -2)
@@ -33,37 +34,7 @@ function initializeTreemap() {
 
 }
 
-
-// Modify tree map if the range slider value changed
-function modifyTreeMap() {
-
-    // Update the current time step value
-    curTimeStep = document.getElementById("range").value;
-    document.getElementById("animation_info").innerHTML=
-        "Showing input " + curTimeStep + "/ " + document.getElementById("range").max;
-
-    vData = treemapData[curTimeStep];
-    vData = d3.hierarchy(vData);
-    var vRoot = d3.hierarchy(vData);
-    var vNodes = vRoot.descendants();
-
-    updateCoverageMap(activeBlocksList)
-
-    // Change color
-    d3.selectAll('.box').data(vNodes).style("fill", function (d) {
-        return getColor(d.data.data);
-    });
-
-    // Update values for vars if needs be
-    if (d3.select('.activeBox').data()[0]) {
-        activeBlocksList = d3.select('.activeBox').data()[0].data.active_list
-    }
-    if (d3.select('#hoverBox').data()[0]) {
-        d3.select(".tooltip").text(d3.select('#hoverBox').data()[0].data.data.name + "(): " + d3.select('#hoverBox').data()[0].data.data.coverage_percent + "% covered");
-    }
-
-}
-
+// Draw that nice treemap!
 function drawTreemap(curData) {
 
     // Compute the hierarchy and the layout positions
@@ -87,6 +58,9 @@ function drawTreemap(curData) {
         .style("fill", function (d) {
             return getColor(d.data["coverage_percent"])
         })
+        .on('mouseover', mouseover)
+        .on('mouseout', mouseout)
+        .on('click', mouseClick);
 
     // Add labels to bigger functions
     g.selectAll("text")
@@ -102,66 +76,80 @@ function drawTreemap(curData) {
         .classed('fn_label', true);
 }
 
-// function drawViz(vData) {
-//     console.log("DRAW VIZ");
-//     // Declare d3 layout
-//     var vLayout = d3.treemap().size([vWidth, vHeight - 25]).paddingOuter(0);
-//
-//     // vRoot and vNodes are globals
-//     vRoot = d3.hierarchy(vData).sum(function (d) { return d.data.blocks; });
-//     vNodes = vRoot.descendants();
-//     vLayout(vRoot);
-//     var vSlices = g.selectAll('rect').data(vNodes).enter().append('rect');
-//
-//     // Draw on screen
-//     vSlices.attr('x', function (d) { return d.x0; })
-//         .attr('y', function (d) { return d.y0; })
-//         .attr('width', function (d) { return d.x1 - d.x0; })
-//         .attr('height', function (d) { return d.y1 - d.y0; })
-//         .style("fill", function (d) { return genColor(d.data.data); })
-//         .style("stroke", "black")
-//         .attr('class', 'box')
-//         .style("stroke-width", 1)
-//         .on('click' , function(d) {
-//             d3.select(".activeBox").attr("class", "box");
-//
-//             d3.select(this).attr("class", "box activeBox");
-//             activeFunctionName = d.data.data.name;
-//             activeBlocksList = d.data.data.active_blocks
-//
-//             // Load graph visualization
-//             loadDatasets(activeFunctionName, activeBlocksList);
-//
-//         })
-//         .on('mouseover', function (d) {
-//             d3.select(this).attr("id", "hoverBox");
-//
-//             var height = parseFloat(d3.select(this).attr("height"))
-//             var width = parseFloat(d3.select(this).attr("width"))
-//
-//             d3.select(".treemap_info")
-//                 .text(d.data.data.name + "(): " + d.data.data.coverage_percent + "% covered");
-//
-//             d3.select("g#treemap")
-//                 .append("text")
-//                 .attr("x",vWidth / 2 - 70)
-//                 .attr("y",vHeight - 10)
-//                 .attr("class","tooltip")
-//                 .text(d.data.data.name + "(): " + d.data.data.coverage_percent + "% covered")
-//                 .style('fill', 'black');
-//             d3.select(this).style("stroke", "red");
-//             d3.select(this).style("stroke-width", 1);
-//
-//         })
-//         .on("mouseout",function(){
-//             d3.select(this).attr("id", null);
-//
-//             d3.select(".tooltip").remove();
-//             d3.select(this).style("stroke", "black");
-//             d3.select(this).style("stroke-width", 1);
-//         });
-//
-// }
+
+// Modify tree map if the range slider value changed
+function modifyTreeMap() {
+
+    // Update the current time step value
+    curTimeStep = document.getElementById("range").value;
+    changeSliderShownValue(curTimeStep);
+
+    // Update variables with current time step data
+    var curData = treemapData[curTimeStep];
+    activeBlocksList = getBlockList(curData, activeFunctionName);
+
+    // Generate a new hierachy 
+    var root = d3.hierarchy(curData).sum(function (d) { return Math.max(5, d.blocks); });
+    var vNodes = root.leaves();
+
+    updateCoverageMap(activeBlocksList)
+
+    // Change color
+    d3.selectAll('rect').data(vNodes).style("fill", function (d) {
+        return getColor(d.data["coverage_percent"]);
+    });
+
+}
+
+
+// Show function details under the treemap
+var mouseover = function (d) { 
+    if (clicked)
+        return;
+
+    d3.select(".treemap_info")
+        .text(d.data.name + "(): " + d.data.coverage_percent + "% covered");
+
+    d3.select(this).style("stroke", "red");
+}
+
+// Remove highlighting on mouseot
+var mouseout = function (d) {
+    if (clicked)
+        return;
+
+    d3.select(this).style("stroke", "black");
+}
+
+// Select a function and display the relevant graph
+var mouseClick = function (d) {
+
+    // If the user clicks a function, the selection should not fade on mouseout
+    if (clicked) {
+
+        clicked = false;
+        clickTarget
+            .style("stroke", "black")
+            .style("stroke-width", 1);
+        clickTarget = null;
+
+    } else {
+
+        clicked = true;
+        clickTarget = d3.select(this);
+
+        d3.select(this)
+            .style("stroke", "red")
+            .style("stroke-width", 3);
+
+        // Update the data variables
+        activeFunctionName = d.data.name;
+        activeBlocksList = getBlockList(treemapData[curTimeStep], activeFunctionName);
+
+        // Generate the new function graph
+        loadDatasets(activeFunctionName, activeBlocksList);
+    }
+}
 
 
 // Code to handle animation by recursive calls

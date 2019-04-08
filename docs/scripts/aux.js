@@ -5,6 +5,8 @@ var curTimeStep = 0;
 
 var animateStop = false;
 var animationRunning = false;
+var clicked = false;
+var clickTarget = null;
 
 
 // Get color from palette
@@ -43,4 +45,12 @@ function getBlockList(data, func_name) {
             return func["active_blocks"]
         }
     }
+}
+
+// Change the current time step value shown under the slider
+function changeSliderShownValue(curStep) {
+    document.getElementById("animation_info") .innerHTML=
+        "Showing input " + 
+        curStep + "/ " + 
+        document.getElementById("range").max;
 }
