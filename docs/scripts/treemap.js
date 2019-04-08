@@ -5,6 +5,8 @@ var treemapData = {};
 var tWidth;
 var tHeight;
 
+var root;
+
 
 // Initialize the treemap elements
 function initializeTreemap() {
@@ -38,7 +40,7 @@ function initializeTreemap() {
 function drawTreemap(curData) {
 
     // Compute the hierarchy and the layout positions
-    var root = d3.hierarchy(curData).sum(function (d) { return Math.max(5, d.blocks); });
+    root = d3.hierarchy(curData).sum(function (d) { return Math.max(5, d.blocks); });
 
     d3.treemap()
         .size([tWidth, tHeight])
@@ -88,15 +90,20 @@ function modifyTreeMap() {
     var curData = treemapData[curTimeStep];
     activeBlocksList = getBlockList(curData, activeFunctionName);
 
-    // Generate a new hierachy 
-    var root = d3.hierarchy(curData).sum(function (d) { return Math.max(5, d.blocks); });
-    var vNodes = root.leaves();
-
     updateCoverageMap(activeBlocksList)
 
+    console.log(curData);
+
     // Change color
-    d3.selectAll('rect').data(vNodes).style("fill", function (d) {
-        return getColor(d.data["coverage_percent"]);
+    d3.selectAll('rect').style("fill", function (d) {
+        if (typeof d == 'string' || d instanceof String)
+            return;
+
+        func = d.data.name;
+        for (let f of curData["children"]){
+            if (f.name == func)
+                return getColor(f["coverage_percent"]);
+        }
     });
 
 }
