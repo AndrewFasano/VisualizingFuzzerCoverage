@@ -249,19 +249,34 @@ def extract_info_vis_by_team(info, team):
            print("Missing ATP/DUA pickle")
            continue
 
-        team_input_bbs = pickle.load(open(p1, "rb"))
+        team_input_bbs_s = pickle.load(open(p1, "rb"))
+        team_input_bbs = {}
+        for k, v in team_input_bbs_s.items():
+            team_input_bbs[float(k)] = v
 
         t0 = min(team_input_bbs.keys())
 
         clean_bbs = {} # sets of unique BBs covered at each time
         last_ts = 0
         last_time = None # Key of last item parsed
-        for cur_ts,v in sorted(team_input_bbs.items(), reverse=False):
+        dbg = 134515104
+        seen = False
+
+        for cur_ts,v in sorted(team_input_bbs.items()):
             assert(last_ts <= cur_ts) # Ensure order is right
             last_ts = cur_ts
+
             clean_bbs[cur_ts-t0] = set(v) # Remove duplicates
             if last_time:
-                clean_bbs[cur_ts-t0].union(clean_bbs[last_time]) # Add prior coverage
+                clean_bbs[cur_ts-t0] |= (clean_bbs[last_time]) # Add prior coverage
+
+            if dbg in clean_bbs[cur_ts-t0]:
+                seen = True
+            elif seen:
+                import pdb
+                pdb.set_trace()
+                raise RuntimeError("Non-cumulative")
+
             last_time = (cur_ts-t0)
 
         # Convert dict of sets into a dict of lists

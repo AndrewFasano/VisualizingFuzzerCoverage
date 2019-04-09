@@ -14,7 +14,10 @@ outfile  = sys.argv[3] # something.html
 ####################
 
 # Load data on fuzzer coverage over time (created by measure_rode0day_coverage.py)
-coverage_data = json.load((open(coverage, 'r')))
+coverage_data_s = json.load((open(coverage, 'r')))
+coverage_data = {}
+for k,v in coverage_data_s.items():
+    coverage_data[float(k)] = v
 
 # Load data mapping functions to blocks (created by map_fns_to_blocks.py)
 mappings_data = json.load(open(mappings, "r"))
@@ -58,24 +61,24 @@ for function in function_details:
 }
 """
 
-# Non-cumulative (Note now needs updates)
+# non-cumulative (note now needs updates)
 """
 output = {}
 for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted(coverage_data.keys())]):
     this_ts_fns = {}
 
     for block in time_blocks_mapping:
-        # Find each function for this time
+        # find each function for this time
         try:
             fn = block_fn_mapping[block]
-        except KeyError: # Skip ignored functions
+        except keyerror: # skip ignored functions
             continue
 
         if fn not in this_ts_fns:
             this_ts_fns[fn] = {"active_blocks": [], "name": fn}
 
         this_ts_fns[fn]["active_blocks"].append(block)
-    # End each block loop
+    # end each block loop
     for covered_fn in this_ts_fns.keys():
         this_ts_fns[covered_fn]["blocks"] = function_details[covered_fn]["length"]
         this_ts_fns[covered_fn]["coverage_percent"] = \
@@ -84,9 +87,13 @@ for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted
     output[timestep] = this_ts_fns
 """
 
-# Cumulative
+# Assume input data is already cumulative
 output = {}
-for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted(coverage_data.keys())]):
+
+timestep = 0
+for ts in sorted(coverage_data.keys()):
+    timestep += 1
+    time_blocks_mapping = coverage_data[ts]
     this_ts_fns = {}
 
     for block in time_blocks_mapping:
@@ -96,12 +103,15 @@ for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted
         except KeyError: # Skip ignored functions
             continue
 
-        if fn not in this_ts_fns:
+        if fn not in this_ts_fns.keys():
+            this_ts_fns[fn] = {"active_blocks": set(), "name": fn, "children": []}
+        """
             old_blocks = set()
             if timestep > 0 and fn in output[timestep-1]:
                 old_blocks = set(output[timestep-1][fn]["active_blocks"])
 
             this_ts_fns[fn] = {"active_blocks": old_blocks, "name": fn, "children": []}
+        """
 
         this_ts_fns[fn]["active_blocks"].add(block)
     # End each block loop
@@ -121,6 +131,7 @@ for timestep, time_blocks_mapping in enumerate([coverage_data[k] for k in sorted
                                     "blocks": function_details[uncovered_fn]["length"] }
 
     output[timestep] = this_ts_fns
+    print(timestep, output[timestep]["clock"])
 
 formatted_output = {}
 for ts, ts_vals in output.items():
