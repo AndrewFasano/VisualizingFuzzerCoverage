@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
-
-# Analyze the rode0day uploads to measure coverage over time
-# TODO: currently has hardcoded path requirements on the location of the rode0day data and configuration file
-
 import os
 import glob
 import subprocess
+import pdb
 
 import json
 import yaml
@@ -93,6 +90,7 @@ def collect_timed_traces(info):
     chals = info['challenges']
     for chal_name, chal in chals.items():
         cid = chal['challenge_id']
+
         if cid != 19:
             print("SKIPPING blacklisted challenge {}".format(cid))
             continue
@@ -101,6 +99,7 @@ def collect_timed_traces(info):
             print("SKIPPING blacklisted challenge {}".format(cid))
             continue
 
+        # pickle for _all_ teams
         picklefile = "{}/{}/time_traces.pickle".format(OUTDIR, cid)
         os.makedirs("{}/{}".format(OUTDIR, cid), exist_ok=True)
 
@@ -117,6 +116,7 @@ def collect_timed_traces(info):
         # Get BBs for each upload
         for team_dir in glob.glob("../all_uploads/{}/*".format(cid)):
             team_id = int(team_dir.split("/")[-1])
+            team_pickle = "{}/{}/time_{}.pickle".format(OUTDIR, cid, team_id)
 
             rodeo_id = int(team_dir.split("/")[-2])
 
@@ -176,6 +176,9 @@ def collect_timed_traces(info):
 
                 input_bbs[team_id][time_obj.timestamp()] =  this_trace
                 # end for each BB
+
+            print("Dumping state for team {}".format(team_id))
+            pickle.dump(input_bbs[team_id], open(team_pickle, "wb"))
             # end for each input team submitted
 
         # Save results of challenge: all BB start/end from across each challenge, plus BB starts for each input
@@ -184,8 +187,7 @@ def collect_timed_traces(info):
     # end for each challenge
 
 # Dump tid: bbs to yaml
-
-# TODO: remove duplicate BBs after the first time they're in the file
+# Old: check out extract_info_vis_by team
 def extract_info_vis(info):
     chals = info['challenges']
     for chal_name, chal in chals.items():
@@ -211,6 +213,7 @@ def extract_info_vis(info):
            continue
 
         [challenge_bbs, input_bbs] = pickle.load(open(p1, "rb"))
+        # TODO: deduplicate blocks
 
         if not os.path.isfile(outfile_y):
             print("Saving file {}".format(outfile_y))
@@ -222,13 +225,68 @@ def extract_info_vis(info):
             with open(outfile_j, "w") as f:
                 json.dump(input_bbs, f)
 
+def extract_info_vis_by_team(info, team):
+    chals = info['challenges']
+    for chal_name, chal in chals.items():
+        cid = chal['challenge_id']
+
+        p1 = "{}/{}/time_{}.pickle".format(OUTDIR, cid, team)
+        #outfile_y = "{}/{}/result.yaml".format(OUTDIR, cid)
+        outfile_j = "{}/{}/result_{}.json".format(OUTDIR, cid, team)
+        os.makedirs("{}/{}".format(OUTDIR, cid), exist_ok=True)
+
+        if os.path.isfile(outfile_j): # and os.path.isfile(outfile_y):
+            print("Found existing yaml and json for {:02} - Skipping".format(cid))
+            continue
+
+        if cid in SKIP_CHALS:
+            print("SKIPPING blacklisted challenge {}".format(cid))
+            continue
+
+        print("Reformatting DUA/ATPs for {}".format(cid))
+
+        if not os.path.isfile(p1):
+           print("Missing ATP/DUA pickle")
+           continue
+
+        team_input_bbs = pickle.load(open(p1, "rb"))
+
+        t0 = min(team_input_bbs.keys())
+
+        clean_bbs = {} # sets of unique BBs covered at each time
+        last_ts = 0
+        last_time = None # Key of last item parsed
+        for cur_ts,v in sorted(team_input_bbs.items(), reverse=False):
+            assert(last_ts <= cur_ts) # Ensure order is right
+            last_ts = cur_ts
+            clean_bbs[cur_ts-t0] = set(v) # Remove duplicates
+            if last_time:
+                clean_bbs[cur_ts-t0].union(clean_bbs[last_time]) # Add prior coverage
+            last_time = (cur_ts-t0)
+
+        # Convert dict of sets into a dict of lists
+        clean_bbs_l = {}
+        for k,v in clean_bbs.items():
+            clean_bbs_l[k] = list(v)
+
+        #if not os.path.isfile(outfile_y):
+        #    print("Saving file {}".format(outfile_y))
+        #    with open(outfile_y, "w") as f:
+        #        yaml.dump(input_bbs, f)
+
+        if not os.path.isfile(outfile_j):
+            print("Saving file {}".format(outfile_j))
+            with open(outfile_j, "w") as f:
+                json.dump(clean_bbs_l, f)
+
+
 def parse_info_vis(info):
     chals = info['challenges']
     os.makedirs("processed", exist_ok=True)
 
     for chal_name, chal in chals.items():
         cid = chal['challenge_id']
-        outdir = "processed/{}".format(cid)
+        outdir = "{}/processed/{}".format(OUTDIR, cid)
         os.makedirs(outdir, exist_ok=True)
 
         with open("{}/{}/result.json".format(OUTDIR, cid), "r") as f:
@@ -287,9 +345,13 @@ if __name__ == '__main__':
     chals = info['challenges']
 
     print("Collecting traces for each input...")
-    collect_timed_traces(info)
+    #collect_timed_traces(info)
     # Saves output to [OUTDIR]/[cid]/time_traces.pickle
 
+    print("Extracting information from traces")
+    #extract_info_vis(info)
+    extract_info_vis_by_team(info, 14)
 
-    extract_info_vis(info)
-    parse_info_vis(info)
+
+    #print("Parsing trace information")
+    #parse_info_vis(info)
