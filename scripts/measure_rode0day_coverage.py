@@ -257,25 +257,12 @@ def extract_info_vis_by_team(info, team):
         t0 = min(team_input_bbs.keys())
 
         clean_bbs = {} # sets of unique BBs covered at each time
-        last_ts = 0
         last_time = None # Key of last item parsed
-        dbg = 134515104
-        seen = False
 
         for cur_ts,v in sorted(team_input_bbs.items()):
-            assert(last_ts <= cur_ts) # Ensure order is right
-            last_ts = cur_ts
-
             clean_bbs[cur_ts-t0] = set(v) # Remove duplicates
             if last_time:
                 clean_bbs[cur_ts-t0] |= (clean_bbs[last_time]) # Add prior coverage
-
-            if dbg in clean_bbs[cur_ts-t0]:
-                seen = True
-            elif seen:
-                import pdb
-                pdb.set_trace()
-                raise RuntimeError("Non-cumulative")
 
             last_time = (cur_ts-t0)
 

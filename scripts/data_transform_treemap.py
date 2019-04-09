@@ -116,7 +116,6 @@ for ts in sorted(coverage_data.keys()):
         this_ts_fns[fn]["active_blocks"].add(block)
     # End each block loop
 
-
     for covered_fn in this_ts_fns.keys():
         this_ts_fns[covered_fn]["blocks"] = function_details[covered_fn]["length"]
         this_ts_fns[covered_fn]["active_blocks"] = list(this_ts_fns[covered_fn]["active_blocks"]) # Make it a list
@@ -131,7 +130,12 @@ for ts in sorted(coverage_data.keys()):
                                     "blocks": function_details[uncovered_fn]["length"] }
 
     output[timestep] = this_ts_fns
-    print(timestep, output[timestep]["clock"])
+
+# Create coverage at time 0 to be 0
+output[0] = output[1]
+for k in output[0].keys():
+    output[0][k]["active_blocks"] =  []
+    output[0][k]["coverage_percent"] =  0
 
 formatted_output = {}
 for ts, ts_vals in output.items():
