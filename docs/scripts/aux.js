@@ -47,6 +47,22 @@ function getBlockList(data, func_name) {
     }
 }
 
+// Get total coverage at each time step. Cache the results, it's a bit slow
+function getTotalCoverage(all_generations) {
+  var result = [{"ts": 0, "total": 0}];
+  var funcs;
+  var idx=1;
+  for (gen in all_generations) {
+    let funcs = all_generations[gen]["children"];
+    this_gen_count = 0;
+    for (let func of funcs) { this_gen_count += +func["blocks"] } // TODO: reduce instead
+    var this_gen = {"ts": idx, "total": this_gen_count};
+    result.push(this_gen);
+    idx += 1;
+  }
+  return result;
+}
+
 // Change the current time step value shown under the slider
 function changeSliderShownValue(curStep) {
     document.getElementById("animation_info") .innerHTML=

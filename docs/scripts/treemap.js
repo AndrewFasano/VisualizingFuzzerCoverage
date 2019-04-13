@@ -5,7 +5,11 @@ var treemapData = {};
 var tWidth;
 var tHeight;
 
+var totalCoverage;
+
 var root;
+var g;
+var cg;
 
 
 // Initialize the treemap elements
@@ -20,8 +24,16 @@ function initializeTreemap() {
     tHeight = +d3.select("#treemap").style('height').slice(0, -2)
 
     // Prepare our physical space
-    d3.select('svg#treemap').append('g').attr("id", "treemap");
-    g = d3.select('g#treemap').attr('width', tWidth).attr('height', tHeight);
+    d3.select('svg#treemap').append('g').attr("id", "treemap_body");
+    g = d3.select('g#treemap_body').attr('width', tWidth).attr('height', tHeight);
+
+    // Prepare space for line graph
+    d3.select('svg#treemap').append('g').attr("id", "treemap_body");
+    g = d3.select('g#treemap_body').attr('width', tWidth).attr('height', tHeight);
+
+    // Set up slider line graph
+    d3.select('svg#covgraph_container').append("g").attr("id", "covgraph");
+    cg = d3.select("covgraph").attr('width', tWidth).attr('height', 200);
 
     // Get the list of currently covered blocks
     activeBlocksList = getBlockList(treemapData[curTimeStep], activeFunctionName);
@@ -29,11 +41,49 @@ function initializeTreemap() {
     // draw the treemap!
     drawTreemap(treemapData[curTimeStep]);
 
+    // Get the coverage over time
+    totalCoverage = getTotalCoverage(treemapData);
+
+    // Get coverage max and set up cov axes
+    ymax = totalCoverage[totalCoverage.length-1]["total"]; // Final will have highest cov
+
+    var yscale_ls = d3.scaleLinear()
+      .range([200, 0])
+      .domain([0, ymax]);
+
+    var xscale_ls = d3.scaleLinear()
+      .range([0, tWidth])
+      .domain([0, totalCoverage.length-1]);
+
+    cg.call(d3.axisLeft(yscale_ls));
+    cg.call(d3.axisBottom(xscale_ls));
+
+    // Draw line slider
+    initializeLineSlider(totalCoverage);
+      
+
     // load data for the function coverage graph
     loadDatasets(activeFunctionName, activeBlocksList);
 
     document.getElementById("range").oninput=modifyTreeMap;
 
+
+
+}
+
+// Draw the slider showing total coverage over time;
+function initializeLineSlider(coverages) {
+  var slider_line = d3.line()
+    .x(function(cov) { return xscale_ls(cov.ts); })
+    .y(function(cov) { return yscale_ls(cov.total); }) // set the y values for the line generator 
+
+    // TODO, it's not drawing the lines
+  cg.append("path")
+  .datum(coverages)
+  .attr("class", "line")
+  .attr("d", slider_line)
+  .attr("width", "2")
+  .attr("stroke", "black");
 }
 
 // Draw that nice treemap!
