@@ -14,11 +14,10 @@ var cg;
 var xscale_ls;
 var yscale_ls;
 
-
 // Initialize the treemap elements
 function initializeTreemap() {
     // Initialize the time step slider
-    initializeSlider(treemapData); 
+    initializeSlider(treemapData);
 
     // Fill to height of container
     tWidth = +d3.select("#treemap").style('width').slice(0, -2)
@@ -81,34 +80,56 @@ function initializeLineGraph(treemapData) {
       .attr("class", "y axis")
       .call(d3.axisRight(yscale_ls));
 
-  // Now draw the line
-  var slider_line = d3.line()
-    .x(function(cov) { return xscale_ls(cov.ts); })
-    .y(function(cov) { return yscale_ls(cov.total); }) // set the y values for the line generator 
+    // Now draw the line
+    var slider_line = d3.line()
+      .x(function(cov) { return xscale_ls(cov.ts); })
+      .y(function(cov) { return yscale_ls(cov.total); }) // set the y values for the line generator
 
-  cg.append("path")
-  .datum(totalCoverage)
-  .attr("class", "line")
-  .style("fill", "none")
-  .style("stroke", "black")
-  .attr("d", slider_line);
+    cg.append("path")
+    .datum(totalCoverage)
+    .attr("class", "line")
+    .style("fill", "none")
+    .style("stroke", "black")
+    .attr("d", slider_line);
 
-  // Set up mouse actions - TODO: change curStep with mouseclick
-  cg
-  .on("mouseover", function(d) { // Hover 
-    console.log("MOUSE");
-    })
-    .on("mouseout", function(d) { // Hover 
-      console.log("OUT");
-    })
+    // Set up brushing
+    var brush = d3.brushX()
+      .extent([[0, 0], [tWidth, ymax]])
+      .on("end", coverageChartBrushEnd)
+      .on("start", coverageChartBrushStart);
 
+    cg.append("g")
+      .attr("class", "coverage-chart-brush")
+      .call(brush)
+      .call(brush.move, [xscale_ls.range()[0],xscale_ls.range()[1]/3]);
+}
+
+// Event when brushing over the coverage chart starts
+function coverageChartBrushStart() {
+  // Remove the old line
+  cg.selectAll(".cur_timestep").remove();
+}
+
+// Event when brushing is done over the coverage chart
+function coverageChartBrushEnd() {
+  inputRangeBrushed = d3.event.selection.map(xscale_ls.invert, xscale_ls);
+  document.getElementById("range").min = Math.ceil(inputRangeBrushed[0]);
+  document.getElementById("range").value = Math.ceil(inputRangeBrushed[0]);
+  document.getElementById("range").max = Math.ceil(inputRangeBrushed[1]);
+
+  // Do not update on the default move of the brush
+  if (d3.event.selection !== null && coverageChartBrushEnd.didrun) {
+    modifyTreeMap();
+  } else {
+    coverageChartBrushEnd.didrun = true;
+  }
 }
 
 // Change the current time step value shown under the slider
 function changeSliderShownValue(curStep) {
     document.getElementById("animation_info") .innerHTML=
-        "Showing input " + 
-        curStep + "/ " + 
+        "Showing input " +
+        curStep + "/ " +
         document.getElementById("range").max;
 
     // First delete old TS line
@@ -162,9 +183,9 @@ function drawTreemap(curData) {
         .append("text")
         .attr("x", function(d){ return d.x0+5})    // +10 to adjust position (more right)
         .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
-        .text(function(d){ 
+        .text(function(d){
             if (d.data.blocks > 15)
-                return d.data.name 
+                return d.data.name
         })
         .classed('fn_label', true);
 }
@@ -186,7 +207,7 @@ function modifyTreeMap() {
     console.log(curData);
 
     // Change color
-    d3.selectAll('rect').style("fill", function (d) {
+    g.selectAll('rect').style("fill", function (d) {
         if (typeof d == 'string' || d instanceof String)
             return;
 
@@ -201,7 +222,7 @@ function modifyTreeMap() {
 
 
 // Show function details under the treemap
-var mouseover = function (d) { 
+var mouseover = function (d) {
     if (clicked)
         return;
 
