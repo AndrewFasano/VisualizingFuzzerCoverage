@@ -63,10 +63,3 @@ function getTotalCoverage(all_generations) {
   return result;
 }
 
-// Change the current time step value shown under the slider
-function changeSliderShownValue(curStep) {
-    document.getElementById("animation_info") .innerHTML=
-        "Showing input " + 
-        curStep + "/ " + 
-        document.getElementById("range").max;
-}

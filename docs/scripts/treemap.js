@@ -17,10 +17,8 @@ var yscale_ls;
 
 // Initialize the treemap elements
 function initializeTreemap() {
-
     // Initialize the time step slider
     initializeSlider(treemapData); 
-    changeSliderShownValue(curTimeStep);
 
     // Fill to height of container
     tWidth = +d3.select("#treemap").style('width').slice(0, -2)
@@ -44,6 +42,19 @@ function initializeTreemap() {
     // draw the treemap!
     drawTreemap(treemapData[curTimeStep]);
 
+    // Setup data and draw line slider
+    initializeLineGraph(treemapData);
+    changeSliderShownValue(curTimeStep);
+
+    // load data for the function coverage graph
+    loadDatasets(activeFunctionName, activeBlocksList);
+
+    document.getElementById("range").oninput=modifyTreeMap;
+}
+
+// Set up data and draw the slider showing total
+// coverage over time;
+function initializeLineGraph(treemapData) {
     // Get the coverage over time
     totalCoverage = getTotalCoverage(treemapData);
 
@@ -70,39 +81,50 @@ function initializeTreemap() {
       .attr("class", "y axis")
       .call(d3.axisRight(yscale_ls));
 
-    // Draw line slider
-    initializeLineSlider(totalCoverage);
-      
-
-    // load data for the function coverage graph
-    loadDatasets(activeFunctionName, activeBlocksList);
-
-    document.getElementById("range").oninput=modifyTreeMap;
-}
-
-// Draw the slider showing total coverage over time;
-function initializeLineSlider(coverages) {
+  // Now draw the line
   var slider_line = d3.line()
     .x(function(cov) { return xscale_ls(cov.ts); })
     .y(function(cov) { return yscale_ls(cov.total); }) // set the y values for the line generator 
 
   cg.append("path")
-  .datum(coverages)
+  .datum(totalCoverage)
   .attr("class", "line")
   .style("fill", "none")
   .style("stroke", "black")
   .attr("d", slider_line);
 
-  // If we want to add dots to the line as well
-  /*
-  cg.selectAll(".dot")
-    .data(coverages)
-    .enter().append("circle")
-      .attr("class", "dot")
-      .attr("cx", function(d) {  return xscale_ls(d.ts); })
-      .attr("cy", function(d) { return yscale_ls(d.total); })
-      .attr("r", 1)
-      */
+  // Set up mouse actions - TODO: change curStep with mouseclick
+  cg
+  .on("mouseover", function(d) { // Hover 
+    console.log("MOUSE");
+    })
+    .on("mouseout", function(d) { // Hover 
+      console.log("OUT");
+    })
+
+}
+
+// Change the current time step value shown under the slider
+function changeSliderShownValue(curStep) {
+    document.getElementById("animation_info") .innerHTML=
+        "Showing input " + 
+        curStep + "/ " + 
+        document.getElementById("range").max;
+
+    // First delete old TS line
+    cg.select(".cur_timestep").remove();
+
+    // Now draw the new line
+    cg.append("line")
+      .attr("class", "cur_timestep")
+      .attr("x1", xscale_ls(curStep))
+      .attr("y1", 0)
+      .attr("x2", xscale_ls(curStep))
+      .attr("y2", 200)
+      .style("stroke", "red")
+      .style("stroke-width", "2px")
+      .style("stroke-dasharray", "2")
+      .style("fill", "none");
 }
 
 // Draw that nice treemap!
