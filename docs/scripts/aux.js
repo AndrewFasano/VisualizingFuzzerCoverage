@@ -55,7 +55,7 @@ function getTotalCoverage(all_generations) {
   for (gen in all_generations) {
     let funcs = all_generations[gen]["children"];
     this_gen_count = 0;
-    for (let func of funcs) { this_gen_count += +func["blocks"] } // TODO: reduce instead
+    for (let func of funcs) { this_gen_count += func["active_blocks"].length } // TODO: reduce instead
     var this_gen = {"ts": idx, "total": this_gen_count};
     result.push(this_gen);
     idx += 1;

@@ -9,7 +9,10 @@ var totalCoverage;
 
 var root;
 var g;
+// Coverage line slider
 var cg;
+var xscale_ls;
+var yscale_ls;
 
 
 // Initialize the treemap elements
@@ -33,7 +36,7 @@ function initializeTreemap() {
 
     // Set up slider line graph
     d3.select('svg#covgraph_container').append("g").attr("id", "covgraph");
-    cg = d3.select("covgraph").attr('width', tWidth).attr('height', 200);
+    cg = d3.select("#covgraph").attr('width', tWidth).attr('height', 200);
 
     // Get the list of currently covered blocks
     activeBlocksList = getBlockList(treemapData[curTimeStep], activeFunctionName);
@@ -44,19 +47,28 @@ function initializeTreemap() {
     // Get the coverage over time
     totalCoverage = getTotalCoverage(treemapData);
 
-    // Get coverage max and set up cov axes
-    ymax = totalCoverage[totalCoverage.length-1]["total"]; // Final will have highest cov
+    // Find maximum possible coverage for y-axis height
+    ymax = 0;
+    for (let func of treemapData[0]["children"]) {ymax += +func["blocks"] }
 
-    var yscale_ls = d3.scaleLinear()
+    // Set up scales
+    yscale_ls = d3.scaleLinear()
       .range([200, 0])
       .domain([0, ymax]);
 
-    var xscale_ls = d3.scaleLinear()
+    xscale_ls = d3.scaleLinear()
       .range([0, tWidth])
       .domain([0, totalCoverage.length-1]);
 
-    cg.call(d3.axisLeft(yscale_ls));
-    cg.call(d3.axisBottom(xscale_ls));
+    // Axes just for debugging? They're ugly
+    cg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0, 200)")
+      .call(d3.axisTop(xscale_ls));
+
+    cg.append("g")
+      .attr("class", "y axis")
+      .call(d3.axisRight(yscale_ls));
 
     // Draw line slider
     initializeLineSlider(totalCoverage);
@@ -66,9 +78,6 @@ function initializeTreemap() {
     loadDatasets(activeFunctionName, activeBlocksList);
 
     document.getElementById("range").oninput=modifyTreeMap;
-
-
-
 }
 
 // Draw the slider showing total coverage over time;
@@ -77,13 +86,23 @@ function initializeLineSlider(coverages) {
     .x(function(cov) { return xscale_ls(cov.ts); })
     .y(function(cov) { return yscale_ls(cov.total); }) // set the y values for the line generator 
 
-    // TODO, it's not drawing the lines
   cg.append("path")
   .datum(coverages)
   .attr("class", "line")
-  .attr("d", slider_line)
-  .attr("width", "2")
-  .attr("stroke", "black");
+  .style("fill", "none")
+  .style("stroke", "black")
+  .attr("d", slider_line);
+
+  // If we want to add dots to the line as well
+  /*
+  cg.selectAll(".dot")
+    .data(coverages)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("cx", function(d) {  return xscale_ls(d.ts); })
+      .attr("cy", function(d) { return yscale_ls(d.total); })
+      .attr("r", 1)
+      */
 }
 
 // Draw that nice treemap!
