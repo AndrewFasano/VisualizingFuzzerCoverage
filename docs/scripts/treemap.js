@@ -225,9 +225,15 @@ function modifyTreeMap() {
 var mouseover = function (d) {
     if (clicked)
         return;
-
+        
+    // Update with the latest coverage percent
+    curTimeStep = document.getElementById("range").value;
+    for (let f of treemapData[curTimeStep]["children"]){
+        if (f.name == d.data.name)
+            current_percent = f["coverage_percent"];
+    }
     d3.select(".treemap_info")
-        .text(d.data.name + "(): " + d.data.coverage_percent + "% covered");
+        .text(d.data.name + "(): " + current_percent + "% covered");
 
     d3.select(this).style("stroke", "red");
 }
