@@ -8,7 +8,8 @@ var margin = {
     bottom: 20
 };
 
-var currScale = 0.25;
+// var currScale = 0.25;
+var currScale = 1;
 var labelData;
 var digraph;
 var render = new dagreD3.render();
@@ -76,14 +77,14 @@ var zoom = d3.zoom()
         //console.log(d3.event.transform.k);
         currScale = d3.event.transform.k;
         gGraph.attr("transform", d3.event.transform);
-        gGraph.attr("scale", currScale);
+        // gGraph.attr("scale", currScale);
     });
 svg.call(zoom);
 
 // GRAPH RENDER
 function graphRender(graphData, _labelData, initial_blocks){
     labelData = _labelData // Copy local to global
-    // removeElement("#graph .output");// Clear any old graph
+    removeElement("#graph .output");// Clear any old graph
 
     digraph = graphlibDot.read(graphData);
 
@@ -96,15 +97,32 @@ function graphRender(graphData, _labelData, initial_blocks){
     render(gGraph, digraph);
 
     // Initial zoom setting
+    // gGraph.attr('height', digraph.graph().height * currScale  + 40);
+
+    // Center the dag
+    // Get Dagre Graph dimensions
+    var graphWidth = digraph.graph().width + 80;
+    var graphHeight = digraph.graph().height + 0;
+    // Get SVG dimensions
+    var width = parseInt(svg.style("width").replace(/px/, ""));
+    var height = parseInt(svg.style("height").replace(/px/, ""));
+
+    // Calculate applicable scale for zoom
+    currScale = Math.max( Math.min(width / graphWidth, height / graphHeight), 0.5);
+
+    var translate = [(width/2) - ((graphWidth*currScale)/2), 0];
+    // zoom.translate(translate);
+    // zoom.scale(zoomScale);
+    // zoom.event( inner );
+
     gGraph.call(
         zoom.transform,
         d3.zoomIdentity.translate(
-            (gGraph.attr("width") * currScale) / 2,
-            0
+            // (gGraph.attr("width") * currScale) / 2,
+            (width/2) - ((graphWidth*currScale)/2), 0
         )
-       .scale(currScale)
+        .scale(currScale)
     );
-    gGraph.attr('height', digraph.graph().height * currScale  + 40);
 
     // On click, add details
     gGraph.selectAll("g.node")
