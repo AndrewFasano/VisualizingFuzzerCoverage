@@ -143,8 +143,8 @@ function coverageChartBrushEnd() {
 
 // Change the current time step value shown under the slider
 function changeSliderShownValue(curStep) {
-    //document.getElementById("animation_info").innerHTML=
-    //    "Showing input " + curStep + "/ " + document.getElementById("range").max;
+    document.getElementById("animation_info").innerHTML=
+        "Showing input " + curStep + "/ " + document.getElementById("range").max;
 
     // First delete old TS line
     cg.select(".cur_timestep").remove();
