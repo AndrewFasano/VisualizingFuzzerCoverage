@@ -85,15 +85,15 @@ function initializeLineGraph(treemapData) {
 			.attr("transform", "rotate(-90)")
       .attr("y", 0)
       .attr("x", -55)
-      .attr("dy", "1em")
+      .attr("dy", "14px")
       .style("text-anchor", "middle")
-      .text("Blocks Covered")
+      .text("Total Coverage")
 
     cg.append('text')
       .attr("y", 115)
       .attr("x", "52%")
       .style("text-anchor", "middle")
-      .text("Input");
+      .text("Input Index");
 
 
     // Now draw the line
