@@ -10,10 +10,10 @@ var margin = {
     bottom: 20
 };
 
-var initialScale = 0.30;
+var currScale = 0.30;
 var labelData;
 var digraph;
-var render;
+var render = new dagreD3.render();
 var baseUrl = "https://raw.githubusercontent.com/ClonedOne/cov_host/master/dotfiles/sym.";
 
 // SVG SETUP
@@ -31,7 +31,7 @@ var gGraph = d3.select("svg#graph")
 
 // Load multiple files asynchronously
 function loadDatasets(cur_func, block_list){
-  console.log("LOADING DATA FOR " + cur_func);
+    console.log("LOADING DATA FOR " + cur_func);
 
     var urlGraph = baseUrl + cur_func + "_compressed.dot";
     var urlLabel = baseUrl + cur_func + "_map.json";
@@ -39,7 +39,7 @@ function loadDatasets(cur_func, block_list){
 
     // This may take some time
     Promise.all(
-     [d3.text(urlGraph), d3.json(urlLabel)]
+        [d3.text(urlGraph), d3.json(urlLabel)]
     ).then(function(files) {
         // console.log(files);
         graphRender(files[0], files[1], block_list);
@@ -62,7 +62,8 @@ function toggleBlock(d){
     digraph.graph().transition = function(selection) {
         return selection.transition().duration(500);
     };
-    d3.select("svg g#ggraph").call(render, digraph);
+    // d3.select("svg g#ggraph").call(render, digraph);
+    gGraph.call(render, digraph);
 }
 
 
@@ -70,17 +71,19 @@ function toggleBlock(d){
 
 var zoom = d3.zoom()
     .on("zoom", function() {
+        console.log(d3.event.transform.k);
+        currScale = d3.event.transform.k;
         gGraph.attr("transform", d3.event.transform);
+        gGraph.attr("scale", currScale);
     });
 svg.call(zoom);
 
 // GRAPH RENDER
 function graphRender(graphData, _labelData, initial_blocks){
-  labelData = _labelData // Copy local to global
-    d3.selectAll("#graph .output").remove(); // Clear any old graph
+    labelData = _labelData // Copy local to global
+    // removeElement("#graph .output");// Clear any old graph
 
     digraph = graphlibDot.read(graphData);
-    render = new dagreD3.render();
 
     // Round the corners of the nodes
     digraph.nodes().forEach(function(v) {
@@ -94,15 +97,17 @@ function graphRender(graphData, _labelData, initial_blocks){
     gGraph.call(
         zoom.transform,
         d3.zoomIdentity.translate(
-            (gGraph.attr("width") - digraph.graph().width * initialScale) / 2, 20
-        ).scale(initialScale)
+            (gGraph.attr("width") - digraph.graph().width * currScale) / 2,
+            (gGraph.attr("height") - digraph.graph().height * currScale) / 2
+            // gGraph.width*initialScale/2, gGraph.height*initialScale/2
+        )
+       .scale(currScale)
     );
-    gGraph.attr('height', digraph.graph().height * initialScale + 40);
+    gGraph.attr('height', digraph.graph().height * currScale  + 40);
 
     // On click, add details
     gGraph.selectAll("g.node")
         .on("click", function(d) {
-            var node = digraph.node(d);
             toggleBlock(d);
         });
 
@@ -111,21 +116,27 @@ function graphRender(graphData, _labelData, initial_blocks){
 
 
 function updateCoverageMap(covered_blocks) {
-    // Color 
+
+    // Color covered nodes
     console.log("UpdateCoverage with length " + covered_blocks.length);
+
     var s = new Set(covered_blocks);
     var filled_c = getColor(100);
+
+
     digraph.nodes().forEach(function(v) {
-      var v_str = parseInt(v) // Starts with 0x so it's parsed as hex
-      if (s.has(v_str)) {
+        var v_str = parseInt(v) // Starts with 0x so it's parsed as hex
         var node = digraph.node(v);
-        node.class = "node covered";
-      }else if (node != undefined) {
-        node.class = "node";
-      }
+
+        if (s.has(v_str)) {
+            node.class = "node covered";
+
+        }else if (node != undefined) {
+            node.class = "node";
+        }
 
     });
 
     // After loop, re-render
-    d3.select("svg g#ggraph").call(render, digraph);
+    gGraph.call(render, digraph);
 }

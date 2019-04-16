@@ -66,7 +66,12 @@ body {
 
 .covered rect {
   fill: green !important;
-  transition: fill .4s ease;
+  transition: fill .7s ease;
+}
+
+.uncovered rect {
+  fill: white
+  transition: fill .7s ease;
 }
 
 .edgePath path {
