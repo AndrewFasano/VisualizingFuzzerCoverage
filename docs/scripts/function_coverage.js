@@ -111,7 +111,7 @@ function graphRender(graphData, _labelData, initial_blocks){
 
     zoom.transform(svg, d3.zoomIdentity.translate(
             (width/2) - ((graphWidth*initScale)/2), 0
-        ) .scale(0.25)
+        ) .scale(initScale)
         );
 
     // On click, add details
