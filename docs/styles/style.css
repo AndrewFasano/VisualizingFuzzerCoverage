@@ -16,15 +16,10 @@
   bottom: 0;
 
 }
-/* We don't want text to be selectable */
-.no-select {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
+
+/* don't select graph nodes */
+g.node {
+  user-select: none;
 }
 
 body {
@@ -99,4 +94,9 @@ body {
 
 #button:disabled .btn_image {
   opacity: 0.3;
+}
+
+/* Place a border on the function overview */
+#graph {
+  border: 1px solid black;
 }
