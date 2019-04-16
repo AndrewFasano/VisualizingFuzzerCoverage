@@ -2,18 +2,6 @@
   margin-top: 1em;
   font-size: 26px;
 }
-/* TODO: Position these in a better way */
-.left  {
-  width: 400px;
-  float: left;
-  padding-left: 10px;
-}
-
-.right  {
-  width: 1000px;
-  float: left;
-  padding-left: 100px;
-}
 
 .vis {
   clear: both;
@@ -28,14 +16,8 @@
   bottom: 0;
 
 }
-
-/* We don't want to show raw data */
-pre {
-  display: none;
-}
-
 /* We don't want text to be selectable */
-.tooltip {
+.no-select {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -80,3 +62,27 @@ body {
   stroke-width: 1px;
 }
 
+
+#cov-title {
+  text-transform: capitalize;
+}
+
+/* Currently selected- yellow border */
+.selected-treemap {
+  stroke: yellow !important;
+  stroke-width: 4px !important;
+  opacity: 1 !important; /*hover should not change this */
+}
+
+.treemap-node {
+  stroke: black;
+  stroke-width: 2px;
+  opacity: 1;
+}
+
+/* Hovered border - red border, decreased opacity */
+.treemap-node-hover {
+  stroke: red;
+  stroke-width: 4px;
+  opacity: 0.7;
+}

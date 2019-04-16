@@ -37,7 +37,7 @@
 
             <div class="row justify-content-center">
                 <div class="col col-lg-5 col-md-5 col-sm-8">
-                    <h3 class="text-center">Program overview</h3>
+                    <h3 class="text-center">Program Overview</h3>
 
                     <div width=100% height=600px>
                         <svg id="treemap" width=100% height=590px></svg>
@@ -45,8 +45,17 @@
                     </div>
 
                     <div class="animation_controls" style="padding-top: 1em">
-                        <button type="button" id="button" disabled>Start animation!</button><br/>
-                        <input type="range" id="range" min=0 max=0 disabled> <br/>
+                      <!-- TODO: make the buttom more pretty- needs play/pause buttons -->
+                        <button type="button" id="button" class="btn" disabled>
+                          <span class="btn-label">
+                            <i class="glyphicon glyphicon-play"></i>
+                          </span>
+                          Start animation
+                        </button>
+
+                        <br/>
+
+                        <input type="range" class="custom-range" id="range" min=0 max=0 disabled> <br/>
                         <span id="animation_info">
                     </div>
                     <svg id="covgraph_container" width=100% height=200px style="margin-bottom: 3em"></svg>
@@ -54,7 +63,7 @@
                 </div> <!-- /treemap col -->
 
                 <div class="col col-lg-5 col-md-5 col-sm-8"> <!-- Individual function graph -->
-                    <h3 class="text-center">Function coverage</h3>
+                    <h3 class="text-center" id="cov-title"></h3>
                     <!-- <svg id="graph" width=100% height=800px easypz='{"applyTransformTo": "svg > *", "options": { "minScale": 0.8, "maxScale": 10, "bounds": { "top": -50, "right": 50, "bottom": 50, "left": -50 }} }'></svg> -->
                     <!-- <svg id="graph" width=100% height=800px easypz></svg> -->
                     <svg id="graph" width=100% height=800px></svg>

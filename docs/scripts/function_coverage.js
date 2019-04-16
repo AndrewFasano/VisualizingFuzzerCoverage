@@ -29,23 +29,30 @@ var gGraph = d3.select("svg#graph")
 
 // HELPER FUNCTIONS
 
-// Load multiple files asynchronously
-function loadDatasets(cur_func, block_list){
-    console.log("LOADING DATA FOR " + cur_func);
+// Update our "Selected Function" pane to a new function
+// Load graph data asynchronously
+function selectFunction(cur_func, block_list){
+  // Update selected function title
+  d3.select("#cov-title").text("Selected Function: " + cur_func);
 
-    var urlGraph = baseUrl + cur_func + "_compressed.dot";
-    var urlLabel = baseUrl + cur_func + "_map.json";
+  // Update selected function's class in program overview
+  d3.selectAll(".selected-treemap").classed("selected-treemap", false);
+  d3.select("#function_"+cur_func).classed("selected-treemap", true);
 
 
-    // This may take some time
-    Promise.all(
-        [d3.text(urlGraph), d3.json(urlLabel)]
-    ).then(function(files) {
-        // console.log(files);
-        graphRender(files[0], files[1], block_list);
-    }).catch(function(err) {
-        console.log(err);
-    });
+  var urlGraph = baseUrl + cur_func + "_compressed.dot";
+  var urlLabel = baseUrl + cur_func + "_map.json";
+
+
+  // This may take some time
+  Promise.all(
+      [d3.text(urlGraph), d3.json(urlLabel)]
+  ).then(function(files) {
+      // console.log(files);
+      graphRender(files[0], files[1], block_list);
+  }).catch(function(err) {
+      console.log(err);
+  });
 }
 
 // Change the content of the node from label to full block
@@ -53,8 +60,7 @@ function toggleBlock(d){
     var node = digraph.node(d);
     if (node.label == d){
         node.label = labelData[d.toString()];
-    }
-    else{
+    }else{
         node.label = d;
     }
 
@@ -68,10 +74,9 @@ function toggleBlock(d){
 
 
 // ZOOM
-
 var zoom = d3.zoom()
     .on("zoom", function() {
-        console.log(d3.event.transform.k);
+        //console.log(d3.event.transform.k);
         currScale = d3.event.transform.k;
         gGraph.attr("transform", d3.event.transform);
         gGraph.attr("scale", currScale);

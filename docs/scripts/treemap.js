@@ -46,7 +46,7 @@ function initializeTreemap() {
     changeSliderShownValue(curTimeStep);
 
     // load data for the function coverage graph
-    loadDatasets(activeFunctionName, activeBlocksList);
+    selectFunction(activeFunctionName, activeBlocksList);
 
     document.getElementById("range").oninput=modifyTreeMap;
 }
@@ -168,7 +168,8 @@ function drawTreemap(curData) {
         .attr('y', function (d) { return d.y0; })
         .attr('width', function (d) { return d.x1 - d.x0; })
         .attr('height', function (d) { return d.y1 - d.y0; })
-        .style("stroke", "black")
+        .attr("class", "treemap-node")
+        .attr("id", function(d) { return "function_" +d["data"].name })
         .style("fill", function (d) {
             return getColor(d.data["coverage_percent"])
         })
@@ -221,59 +222,36 @@ function modifyTreeMap() {
 }
 
 
-// Show function details under the treemap
+// Show tooltip and update hovered node's css class
 var mouseover = function (d) {
-    if (clicked)
-        return;
-        
-    // Update with the latest coverage percent
+    // Calculate this function's current coverage as a percent
     curTimeStep = document.getElementById("range").value;
     for (let f of treemapData[curTimeStep]["children"]){
-        if (f.name == d.data.name)
+        if (f.name == d.data.name) {
             current_percent = f["coverage_percent"];
+            break;
+        }
     }
+    // Update tooltip (TODO, make it a tooltip instead)
     d3.select(".treemap_info")
-        .text(d.data.name + "(): " + current_percent + "% covered");
+        .text(d.data.name+ ": " + current_percent + "% covered");
 
-    d3.select(this).style("stroke", "red");
+    // Add hover class to add highlight
+    d3.select(this).classed("treemap-node-hover", true);
 }
 
-// Remove highlighting on mouseot
+// Remove highlighting on mouseout
 var mouseout = function (d) {
-    if (clicked)
-        return;
-
-    d3.select(this).style("stroke", "black");
+    d3.select(this).classed("treemap-node-hover", false);
 }
 
 // Select a function and display the relevant graph
-var mouseClick = function (d) {
-
-    // If the user clicks a function, the selection should not fade on mouseout
-    if (clicked) {
-
-        clicked = false;
-        clickTarget
-            .style("stroke", "black")
-            .style("stroke-width", 1);
-        clickTarget = null;
-
-    } else {
-
-        clicked = true;
-        clickTarget = d3.select(this);
-
-        d3.select(this)
-            .style("stroke", "red")
-            .style("stroke-width", 3);
-
-        // Update the data variables
-        activeFunctionName = d.data.name;
-        activeBlocksList = getBlockList(treemapData[curTimeStep], activeFunctionName);
-
-        // Generate the new function graph
-        loadDatasets(activeFunctionName, activeBlocksList);
-    }
+function mouseClick(d) {
+    // Update the data variables
+    activeFunctionName = d.data.name;
+    activeBlocksList = getBlockList(treemapData[curTimeStep], activeFunctionName);
+    // Generate the new function graph
+    selectFunction(activeFunctionName, activeBlocksList);
 }
 
 
