@@ -33,7 +33,7 @@ function initializeTreemap() {
 
     // Set up slider line graph
     d3.select('svg#covgraph_container').append("g").attr("id", "covgraph");
-    cg = d3.select("#covgraph").attr('width', tWidth).attr('height', 200);
+    cg = d3.select("#covgraph").attr('width', tWidth).attr('height', 100);
 
     // Get the list of currently covered blocks
     activeBlocksList = getBlockList(treemapData[curTimeStep], activeFunctionName);
@@ -63,22 +63,38 @@ function initializeLineGraph(treemapData) {
 
     // Set up scales
     yscale_ls = d3.scaleLinear()
-      .range([200, 0])
-      .domain([0, ymax]);
+      .range([100, 0])
+      .domain([0, ymax]); // Slightly larger than 0 to hide 0 on axis
 
     xscale_ls = d3.scaleLinear()
-      .range([0, tWidth])
-      .domain([0, totalCoverage.length-1]);
+      .range([50, tWidth])
+      .domain([0.01, totalCoverage.length-1]);
 
-    // Axes just for debugging? They're ugly
     cg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0, 200)")
+      .attr("transform", "translate(0, 100)")
       .call(d3.axisTop(xscale_ls));
 
     cg.append("g")
       .attr("class", "y axis")
-      .call(d3.axisRight(yscale_ls));
+      .attr("transform", "translate(50, 0)")
+      .call(d3.axisLeft(yscale_ls)
+          .ticks(5));
+
+    cg.append('text')
+			.attr("transform", "rotate(-90)")
+      .attr("y", 0)
+      .attr("x", -55)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Blocks Covered")
+
+    cg.append('text')
+      .attr("y", 115)
+      .attr("x", "52%")
+      .style("text-anchor", "middle")
+      .text("Input");
+
 
     // Now draw the line
     var slider_line = d3.line()
@@ -94,14 +110,14 @@ function initializeLineGraph(treemapData) {
 
     // Set up brushing
     var brush = d3.brushX()
-      .extent([[0, 0], [tWidth, ymax]])
+      .extent([[50, 0], [tWidth, 100]])
       .on("end", coverageChartBrushEnd)
       .on("start", coverageChartBrushStart);
 
     cg.append("g")
       .attr("class", "coverage-chart-brush")
       .call(brush)
-      .call(brush.move, [xscale_ls.range()[0],xscale_ls.range()[1]/3]);
+      .call(brush.move, [xscale_ls.range()[0],xscale_ls.range()[1]]);
 }
 
 // Event when brushing over the coverage chart starts
@@ -127,10 +143,8 @@ function coverageChartBrushEnd() {
 
 // Change the current time step value shown under the slider
 function changeSliderShownValue(curStep) {
-    document.getElementById("animation_info") .innerHTML=
-        "Showing input " +
-        curStep + "/ " +
-        document.getElementById("range").max;
+    //document.getElementById("animation_info").innerHTML=
+    //    "Showing input " + curStep + "/ " + document.getElementById("range").max;
 
     // First delete old TS line
     cg.select(".cur_timestep").remove();
@@ -141,11 +155,7 @@ function changeSliderShownValue(curStep) {
       .attr("x1", xscale_ls(curStep))
       .attr("y1", 0)
       .attr("x2", xscale_ls(curStep))
-      .attr("y2", 200)
-      .style("stroke", "red")
-      .style("stroke-width", "2px")
-      .style("stroke-dasharray", "2")
-      .style("fill", "none");
+      .attr("y2", 100)
 }
 
 // Draw that nice treemap!
@@ -266,7 +276,7 @@ function runAnimate() {
     modifyTreeMap();
 
     if (nextval < (+document.getElementById("range").max)) {
-        setTimeout(runAnimate, 500);
+        setTimeout(runAnimate, 50);
     }else{
         animateStop = true;
         animationRunning = false;

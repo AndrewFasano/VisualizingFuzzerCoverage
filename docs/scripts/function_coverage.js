@@ -74,10 +74,10 @@ function toggleBlock(d){
 // ZOOM
 var zoom = d3.zoom()
     .on("zoom", function() {
-        //console.log(d3.event.transform.k);
-        currScale = d3.event.transform.k;
+        console.log("ZOOM FUNC. Event=" + d3.event.transform);
+        //currScale = d3.event.transform.k;
         gGraph.attr("transform", d3.event.transform);
-        // gGraph.attr("scale", currScale);
+        //gGraph.attr("scale", currScale);
     });
 svg.call(zoom);
 
@@ -115,14 +115,16 @@ function graphRender(graphData, _labelData, initial_blocks){
     // zoom.scale(zoomScale);
     // zoom.event( inner );
 
+    console.log("Setup initial zoom");
+    gGraph.call(zoom);
     gGraph.call(
         zoom.transform,
         d3.zoomIdentity.translate(
-            // (gGraph.attr("width") * currScale) / 2,
             (width/2) - ((graphWidth*currScale)/2), 0
         )
-        .scale(currScale)
+        .scale(0.25)
     );
+
 
     // On click, add details
     gGraph.selectAll("g.node")
