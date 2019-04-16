@@ -8,8 +8,7 @@ var margin = {
     bottom: 20
 };
 
-// var currScale = 0.25;
-var currScale = 1;
+var initScale = 1;
 var labelData;
 var digraph;
 var render = new dagreD3.render();
@@ -74,16 +73,15 @@ function toggleBlock(d){
 // ZOOM
 var zoom = d3.zoom()
     .on("zoom", function() {
-        console.log("ZOOM FUNC. Event=" + d3.event.transform);
-        //currScale = d3.event.transform.k;
+        //console.log("ZOOM FUNC. Event=" + d3.event.transform);
         gGraph.attr("transform", d3.event.transform);
-        //gGraph.attr("scale", currScale);
     });
 svg.call(zoom);
 
 // GRAPH RENDER
 function graphRender(graphData, _labelData, initial_blocks){
     labelData = _labelData // Copy local to global
+
     removeElement("#graph .output");// Clear any old graph
 
     digraph = graphlibDot.read(graphData);
@@ -96,9 +94,6 @@ function graphRender(graphData, _labelData, initial_blocks){
 
     render(gGraph, digraph);
 
-    // Initial zoom setting
-    // gGraph.attr('height', digraph.graph().height * currScale  + 40);
-
     // Center the dag
     // Get Dagre Graph dimensions
     var graphWidth = digraph.graph().width + 80;
@@ -108,23 +103,16 @@ function graphRender(graphData, _labelData, initial_blocks){
     var height = parseInt(svg.style("height").replace(/px/, ""));
 
     // Calculate applicable scale for zoom
-    currScale = Math.max( Math.min(width / graphWidth, height / graphHeight), 0.5);
+    initScale = Math.max( Math.min(width / graphWidth, height / graphHeight), 0.5);
 
-    var translate = [(width/2) - ((graphWidth*currScale)/2), 0];
-    // zoom.translate(translate);
-    // zoom.scale(zoomScale);
-    // zoom.event( inner );
+    var translate = [(width/2) - ((graphWidth*initScale)/2), 0];
 
-    console.log("Setup initial zoom");
     gGraph.call(zoom);
-    gGraph.call(
-        zoom.transform,
-        d3.zoomIdentity.translate(
-            (width/2) - ((graphWidth*currScale)/2), 0
-        )
-        .scale(0.25)
-    );
 
+    zoom.transform(svg, d3.zoomIdentity.translate(
+            (width/2) - ((graphWidth*initScale)/2), 0
+        ) .scale(0.25)
+        );
 
     // On click, add details
     gGraph.selectAll("g.node")
