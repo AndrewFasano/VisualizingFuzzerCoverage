@@ -1,0 +1,30 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08049dff" -> "0x08049e29" [color="green"];
+	"0x08049dff" -> "0x08049e1e" [color="red"];
+	"0x08049dff" [URL="sym.fac/0x08049dff", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.fac 190\l  sym.fac (int32_t arg_ch, int32_t arg_10h);\l; var int32_t var_38h @ ebp-0x38\l; var int32_t var_34h @ ebp-0x34\l; var int32_t var_30h @ ebp-0x30\l; var int32_t var_2ch @ ebp-0x2c\l; var int32_t var_24h @ ebp-0x24\l; var int32_t var_22h @ ebp-0x22\l; var int32_t var_18h @ ebp-0x18\l; var int32_t var_14h @ ebp-0x14\l; var int32_t var_ch @ ebp-0xc\l; var signed int var_8h @ ebp-0x8\l; var uint32_t var_4h @ ebp-0x4\l; arg int32_t arg_ch @ ebp+0xc\l; arg int32_t arg_10h @ ebp+0x10\l; CALL XREF from sym.npr (0x804a04c)\l0x08049dff      push ebp\l0x08049e00      mov ebp, esp\l0x08049e02      sub esp, 0x38                                          ; '8'\l0x08049e05      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049e08      mov dword [var_18h], eax\l0x08049e0b      mov eax, dword [arg_10h]                               ; [0x10:4]=-1 ; 16\l0x08049e0e      mov dword [var_14h], eax\l0x08049e11      fldz\l0x08049e13      fld qword [var_18h]\l0x08049e16      fxch st(1)\l0x08049e18      fucomip st(1)\l0x08049e1a      fstp st(0)\l0x08049e1c      jbe 0x8049e29\l"]
+	"0x08049e1e" -> "0x08049ebb" [color="blue"];
+	"0x08049e1e" [URL="sym.fac/0x08049e1e", fillcolor="white",color="yellow", fontname="Courier",label="0x08049e1e      fld qword [0x804d530]\l0x08049e24      jmp 0x8049ebb\l"]
+	"0x08049e29" -> "0x08049e42" [color="green"];
+	"0x08049e29" -> "0x08049e3a" [color="red"];
+	"0x08049e29" [URL="sym.fac/0x08049e29", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.fac (0x8049e1c)\l0x08049e29      fld qword [var_18h]\l0x08049e2c      fld qword [0x804d538]\l0x08049e32      fxch st(1)\l0x08049e34      fucomip st(1)\l0x08049e36      fstp st(0)\l0x08049e38      jbe 0x8049e42\l"]
+	"0x08049e3a" -> "0x08049ebb" [color="blue"];
+	"0x08049e3a" [URL="sym.fac/0x08049e3a", fillcolor="white",color="yellow", fontname="Courier",label="0x08049e3a      fld qword [0x804d540]\l0x08049e40      jmp 0x8049ebb\l"]
+	"0x08049e42" -> "0x08049e9c" [color="blue"];
+	"0x08049e42" [URL="sym.fac/0x08049e42", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.fac (0x8049e38)\l0x08049e42      fld qword [var_18h]\l0x08049e45      fnstcw word [var_22h]\l0x08049e48      movzx eax, word [var_22h]\l0x08049e4c      mov ah, 0xc                                            ; 12\l0x08049e4e      mov word [var_24h], ax\l0x08049e52      fldcw word [var_24h]\l0x08049e55      fistp qword [var_30h]\l0x08049e58      fldcw word [var_22h]\l0x08049e5b      mov eax, dword [var_30h]\l0x08049e5e      mov edx, dword [var_2ch]\l0x08049e61      mov dword [var_4h], eax\l0x08049e64      mov dword [var_ch], 1\l0x08049e6b      mov dword [var_8h], 1\l0x08049e72      jmp 0x8049e9c\l"]
+	"0x08049e74" -> "0x08049e8e" [color="green"];
+	"0x08049e74" -> "0x08049e86" [color="red"];
+	"0x08049e74" [URL="sym.fac/0x08049e74", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.fac (0x8049ea2)\l0x08049e74      mov eax, 0xffffffff                                    ; -1\l0x08049e79      mov edx, 0\l0x08049e7e      div dword [var_ch]\l0x08049e81      cmp eax, dword [var_8h]\l0x08049e84      jae 0x8049e8e\l"]
+	"0x08049e86" -> "0x08049ebb" [color="blue"];
+	"0x08049e86" [URL="sym.fac/0x08049e86", fillcolor="white",color="yellow", fontname="Courier",label="0x08049e86      fld qword [0x804d540]\l0x08049e8c      jmp 0x8049ebb\l"]
+	"0x08049e8e" -> "0x08049e9c" [color="blue"];
+	"0x08049e8e" [URL="sym.fac/0x08049e8e", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.fac (0x8049e84)\l0x08049e8e      mov eax, dword [var_ch]\l0x08049e91      imul eax, dword [var_8h]\l0x08049e95      mov dword [var_ch], eax\l0x08049e98      add dword [var_8h], 1\l"]
+	"0x08049e9c" -> "0x08049e74" [color="green"];
+	"0x08049e9c" -> "0x08049ea4" [color="red"];
+	"0x08049e9c" [URL="sym.fac/0x08049e9c", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.fac (0x8049e72)\l0x08049e9c      mov eax, dword [var_8h]\l0x08049e9f      cmp eax, dword [var_4h]\l0x08049ea2      jbe 0x8049e74\l"]
+	"0x08049ea4" -> "0x08049ebb" [color="blue"];
+	"0x08049ea4" [URL="sym.fac/0x08049ea4", fillcolor="white",color="yellow", fontname="Courier",label="0x08049ea4      mov eax, dword [var_ch]\l0x08049ea7      mov edx, 0\l0x08049eac      mov dword [var_38h], eax\l0x08049eaf      mov dword [var_34h], edx\l0x08049eb2      fild qword [var_38h]\l0x08049eb5      fstp qword [ebp - 0x20]\l0x08049eb8      fld qword [ebp - 0x20]\l"]
+	"0x08049ebb" [URL="sym.fac/0x08049ebb", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREFS from sym.fac (0x8049e24, 0x8049e40, 0x8049e8c)\l0x08049ebb      leave\l0x08049ebc      ret\l"]
+}

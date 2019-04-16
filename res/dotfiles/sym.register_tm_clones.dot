@@ -1,0 +1,14 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08048b70" -> "0x08048ba3" [color="green"];
+	"0x08048b70" -> "0x08048b88" [color="red"];
+	"0x08048b70" [URL="sym.register_tm_clones/0x08048b70", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.register_tm_clones 53\l  sym.register_tm_clones ();\l; CODE XREFS from entry.init0 (0x8048bdb, 0x8048bf6)\l0x08048b70      mov eax, loc._edata                                    ; obj.__TMC_END ; 0x804f0a4\l0x08048b75      sub eax, loc._edata                                    ; 0x804f0a4 ; obj.__TMC_END\l0x08048b7a      sar eax, 2\l0x08048b7d      mov edx, eax\l0x08048b7f      shr edx, 0x1f\l0x08048b82      add eax, edx\l0x08048b84      sar eax, 1\l0x08048b86      je 0x8048ba3\l"]
+	"0x08048b88" -> "0x08048ba3" [color="green"];
+	"0x08048b88" -> "0x08048b91" [color="red"];
+	"0x08048b88" [URL="sym.register_tm_clones/0x08048b88", fillcolor="white",color="yellow", fontname="Courier",label="0x08048b88      mov edx, 0\l0x08048b8d      test edx, edx\l0x08048b8f      je 0x8048ba3\l"]
+	"0x08048b91" -> "0x08048ba3" [color="blue"];
+	"0x08048b91" [URL="sym.register_tm_clones/0x08048b91", fillcolor="white",color="yellow", fontname="Courier",label="0x08048b91      push ebp\l0x08048b92      mov ebp, esp\l0x08048b94      sub esp, 0x10\l0x08048b97      push eax\l0x08048b98      push loc._edata                                        ; obj.__TMC_END ; 0x804f0a4\l0x08048b9d      call edx\l0x08048b9f      add esp, 0x10\l0x08048ba2      leave\l"]
+	"0x08048ba3" [URL="sym.register_tm_clones/0x08048ba3", fillcolor="white",color="#7f7f7f", fontname="Courier",label="; CODE XREFS from sym.register_tm_clones (0x8048b86, 0x8048b8f)\l0x08048ba3      ret\l"]
+}

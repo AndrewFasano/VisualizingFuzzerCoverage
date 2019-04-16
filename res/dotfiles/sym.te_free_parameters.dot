@@ -1,0 +1,45 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08049c98" -> "0x08049d5a" [color="green"];
+	"0x08049c98" -> "0x08049ca8" [color="red"];
+	"0x08049c98" [URL="sym.te_free_parameters/0x08049c98", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.te_free_parameters 197\l  sym.te_free_parameters (int32_t arg_8h, uint32_t arg_ch);\l; arg int32_t arg_8h @ ebp+0x8\l; arg uint32_t arg_ch @ ebp+0xc\l; CALL XREF from sym.te_free (0x8049dce)\l; CALL XREF from sym.optimize (0x804c734)\l0x08049c98      push ebp\l0x08049c99      mov ebp, esp\l0x08049c9b      sub esp, 8\l0x08049c9e      cmp dword [arg_ch], 0                                  ; [0xc:4]=-1 ; 0\l0x08049ca2      je 0x8049d5a\l"]
+	"0x08049ca8" -> "0x08049d5b" [color="green"];
+	"0x08049ca8" -> "0x08049cbc" [color="red"];
+	"0x08049ca8" [URL="sym.te_free_parameters/0x08049ca8", fillcolor="white",color="yellow", fontname="Courier",label="0x08049ca8      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049cab      mov eax, dword [eax]\l0x08049cad      and eax, 0x1f\l0x08049cb0      sub eax, 9\l0x08049cb3      cmp eax, 0xe                                           ; 14\l0x08049cb6      ja case.0x8049cc3.7\l"]
+	"0x08049cbc" -> "0xffffffffffffffff" [color="red"];
+	"0x08049d43" -> "0x08049d43" [color2="red"];
+	"0x08049d2e" -> "0x08049d2e" [color2="red"];
+	"0x08049d19" -> "0x08049d19" [color2="red"];
+	"0x08049d04" -> "0x08049d04" [color2="red"];
+	"0x08049cef" -> "0x08049cef" [color2="red"];
+	"0x08049cda" -> "0x08049cda" [color2="red"];
+	"0x08049cc5" -> "0x08049cc5" [color2="red"];
+	"0x08049d5b" -> "0x08049d5b" [color2="red"];
+	"0x08049d43" -> "0x08049d43" [color2="red"];
+	"0x08049d2e" -> "0x08049d2e" [color2="red"];
+	"0x08049d19" -> "0x08049d19" [color2="red"];
+	"0x08049d04" -> "0x08049d04" [color2="red"];
+	"0x08049cef" -> "0x08049cef" [color2="red"];
+	"0x08049cda" -> "0x08049cda" [color2="red"];
+	"0x08049cc5" -> "0x08049cc5" [color2="red"];
+	"0x08049cbc" [URL="sym.te_free_parameters/0x08049cbc", fillcolor="white",color="yellow", fontname="Courier",label="0x08049cbc      mov eax, dword case.0x8049cc3.0                        ; [0x804cfe4:4]=0x8049d43 case.0x8049cc3.8 ; \"C\\x9d\\x04\\b.\\x9d\\x04\\b\\x19\\x9d\\x04\\b\\x04\\x9d\\x04\\b\\xef\\x9c\\x04\\b\\u069c\\x04\\b\\u015c\\x04\\b[\\x9d\\x04\\bC\\x9d\\x04\\b.\\x9d\\x04\\b\\x19\\x9d\\x04\\b\\x04\\x9d\\x04\\b\\xef\\x9c\\x04\\b\\u069c\\x04\\b\\u015c\\x04\\babs\"\l;-- switch.0x08049cc3:\l0x08049cc3      jmp eax                                                ; switch table (15 cases) at 0x804cfe4\l"]
+	"0x08049cc5" -> "0x08049cda" [color="blue"];
+	"0x08049cc5" [URL="sym.te_free_parameters/0x08049cc5", fillcolor="white",color="yellow", fontname="Courier",label=";-- case 6 (0x8049cc3):\l; CODE XREF from sym.te_free_parameters (0x8049cc3)\l0x08049cc5      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049cc8      mov eax, dword [eax + 0x24]                            ; [0x24:4]=-1 ; '$' ; 36\l0x08049ccb      sub esp, 8\l0x08049cce      push eax\l0x08049ccf      push dword [arg_8h]\l0x08049cd2      call sym.te_free\l0x08049cd7      add esp, 0x10\l"]
+	"0x08049cda" -> "0x08049cef" [color="blue"];
+	"0x08049cda" [URL="sym.te_free_parameters/0x08049cda", fillcolor="white",color="yellow", fontname="Courier",label=";-- case 5 (0x8049cc3):\l; CODE XREF from sym.te_free_parameters (0x8049cc3)\l0x08049cda      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049cdd      mov eax, dword [eax + 0x20]                            ; [0x20:4]=-1 ; 32\l0x08049ce0      sub esp, 8\l0x08049ce3      push eax\l0x08049ce4      push dword [arg_8h]\l0x08049ce7      call sym.te_free\l0x08049cec      add esp, 0x10\l"]
+	"0x08049cef" -> "0x08049d04" [color="blue"];
+	"0x08049cef" [URL="sym.te_free_parameters/0x08049cef", fillcolor="white",color="yellow", fontname="Courier",label=";-- case 4 (0x8049cc3):\l; CODE XREF from sym.te_free_parameters (0x8049cc3)\l0x08049cef      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049cf2      mov eax, dword [eax + 0x1c]                            ; [0x1c:4]=-1 ; 28\l0x08049cf5      sub esp, 8\l0x08049cf8      push eax\l0x08049cf9      push dword [arg_8h]\l0x08049cfc      call sym.te_free\l0x08049d01      add esp, 0x10\l"]
+	"0x08049d04" -> "0x08049d19" [color="blue"];
+	"0x08049d04" [URL="sym.te_free_parameters/0x08049d04", fillcolor="white",color="yellow", fontname="Courier",label=";-- case 3 (0x8049cc3):\l; CODE XREF from sym.te_free_parameters (0x8049cc3)\l0x08049d04      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049d07      mov eax, dword [eax + 0x18]                            ; [0x18:4]=-1 ; 24\l0x08049d0a      sub esp, 8\l0x08049d0d      push eax\l0x08049d0e      push dword [arg_8h]\l0x08049d11      call sym.te_free\l0x08049d16      add esp, 0x10\l"]
+	"0x08049d19" -> "0x08049d2e" [color="blue"];
+	"0x08049d19" [URL="sym.te_free_parameters/0x08049d19", fillcolor="white",color="yellow", fontname="Courier",label=";-- case 2 (0x8049cc3):\l; CODE XREFS from sym.te_free_parameters (0x8049cc3, 0x8049d0f)\l0x08049d19      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049d1c      mov eax, dword [eax + 0x14]                            ; [0x14:4]=-1 ; 20\l0x08049d1f      sub esp, 8\l0x08049d22      push eax\l0x08049d23      push dword [arg_8h]\l0x08049d26      call sym.te_free\l0x08049d2b      add esp, 0x10\l"]
+	"0x08049d2e" -> "0x08049d43" [color="blue"];
+	"0x08049d2e" [URL="sym.te_free_parameters/0x08049d2e", fillcolor="white",color="yellow", fontname="Courier",label=";-- case 1 (0x8049cc3):\l; CODE XREF from sym.te_free_parameters (0x8049cc3)\l0x08049d2e      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049d31      mov eax, dword [eax + 0x10]                            ; [0x10:4]=-1 ; 16\l0x08049d34      sub esp, 8\l0x08049d37      push eax\l0x08049d38      push dword [arg_8h]\l0x08049d3b      call sym.te_free\l0x08049d40      add esp, 0x10\l"]
+	"0x08049d43" -> "0x08049d5b" [color="blue"];
+	"0x08049d43" [URL="sym.te_free_parameters/0x08049d43", fillcolor="white",color="yellow", fontname="Courier",label=";-- case 0 (0x8049cc3):\l; CODE XREF from sym.te_free_parameters (0x8049cc3)\l0x08049d43      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049d46      mov eax, dword [eax + 0xc]                             ; [0xc:4]=-1 ; 12\l0x08049d49      sub esp, 8\l0x08049d4c      push eax\l0x08049d4d      push dword [arg_8h]\l0x08049d50      call sym.te_free\l0x08049d55      add esp, 0x10\l0x08049d58      jmp case.0x8049cc3.7\l"]
+	"0x08049d5a" -> "0x08049d5b" [color="blue"];
+	"0x08049d5a" [URL="sym.te_free_parameters/0x08049d5a", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.te_free_parameters (0x8049ca2)\l0x08049d5a      nop\l"]
+	"0x08049d5b" [URL="sym.te_free_parameters/0x08049d5b", fillcolor="white",color="yellow", fontname="Courier",label=";-- case.default.0x8049d5b:\l; CODE XREFS from sym.te_free_parameters (0x8049cb6, 0x8049cc3, 0x8049d58)\l0x08049d5b      leave\l0x08049d5c      ret\l"]
+}

@@ -1,0 +1,6 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x0804ce2d" [URL="sym.te_print/0x0804ce2d", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.te_print 28\l  sym.te_print (int32_t arg_8h, int32_t arg_ch);\l; arg int32_t arg_8h @ ebp+0x8\l; arg int32_t arg_ch @ ebp+0xc\l0x0804ce2d      push ebp\l0x0804ce2e      mov ebp, esp\l0x0804ce30      sub esp, 8\l0x0804ce33      sub esp, 4\l0x0804ce36      push 0\l0x0804ce38      push dword [arg_ch]\l0x0804ce3b      push dword [arg_8h]\l0x0804ce3e      call sym.pn\l0x0804ce43      add esp, 0x10\l0x0804ce46      nop\l0x0804ce47      leave\l0x0804ce48      ret\l"]
+}

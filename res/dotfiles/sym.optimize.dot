@@ -1,0 +1,43 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x0804c675" -> "0x0804c750" [color="green"];
+	"0x0804c675" -> "0x0804c689" [color="red"];
+	"0x0804c675" [URL="sym.optimize/0x0804c675", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.optimize 225\l  sym.optimize (int32_t arg_8h, int32_t arg_ch);\l; var uint32_t var_1ch @ ebp-0x1c\l; var int32_t var_18h @ ebp-0x18\l; var signed int var_14h @ ebp-0x14\l; arg int32_t arg_8h @ ebp+0x8\l; arg int32_t arg_ch @ ebp+0xc\l; CALL XREF from sym.optimize (0x804c6e5)\l; CALL XREF from sym.te_compile (0x804cbe9)\l0x0804c675      push ebp\l0x0804c676      mov ebp, esp\l0x0804c678      sub esp, 0x28                                          ; '('\l0x0804c67b      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c67e      mov eax, dword [eax]\l0x0804c680      cmp eax, 1                                             ; 1\l0x0804c683      je 0x804c750\l"]
+	"0x0804c689" -> "0x0804c753" [color="green"];
+	"0x0804c689" -> "0x0804c696" [color="red"];
+	"0x0804c689" [URL="sym.optimize/0x0804c689", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c689      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c68c      mov eax, dword [eax]\l0x0804c68e      test eax, eax\l0x0804c690      je 0x804c753\l"]
+	"0x0804c696" -> "0x0804c754" [color="green"];
+	"0x0804c696" -> "0x0804c6a6" [color="red"];
+	"0x0804c696" [URL="sym.optimize/0x0804c696", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c696      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c699      mov eax, dword [eax]\l0x0804c69b      and eax, 0x20\l0x0804c69e      test eax, eax\l0x0804c6a0      je 0x804c754\l"]
+	"0x0804c6a6" -> "0x0804c6bc" [color="green"];
+	"0x0804c6a6" -> "0x0804c6b2" [color="red"];
+	"0x0804c6a6" [URL="sym.optimize/0x0804c6a6", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6a6      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c6a9      mov eax, dword [eax]\l0x0804c6ab      and eax, 0x18\l0x0804c6ae      test eax, eax\l0x0804c6b0      je 0x804c6bc\l"]
+	"0x0804c6b2" -> "0x0804c6c1" [color="blue"];
+	"0x0804c6b2" [URL="sym.optimize/0x0804c6b2", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6b2      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c6b5      mov eax, dword [eax]\l0x0804c6b7      and eax, 7\l0x0804c6ba      jmp 0x804c6c1\l"]
+	"0x0804c6bc" -> "0x0804c6c1" [color="blue"];
+	"0x0804c6bc" [URL="sym.optimize/0x0804c6bc", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.optimize (0x804c6b0)\l0x0804c6bc      mov eax, 0\l"]
+	"0x0804c6c1" -> "0x0804c709" [color="blue"];
+	"0x0804c6c1" [URL="sym.optimize/0x0804c6c1", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.optimize (0x804c6ba)\l0x0804c6c1      mov dword [var_14h], eax\l0x0804c6c4      mov dword [var_1ch], 1\l0x0804c6cb      mov dword [var_18h], 0\l0x0804c6d2      jmp 0x804c709\l"]
+	"0x0804c6d4" -> "0x0804c705" [color="green"];
+	"0x0804c6d4" -> "0x0804c6fe" [color="red"];
+	"0x0804c6d4" [URL="sym.optimize/0x0804c6d4", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6d4      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c6d7      mov edx, dword [var_18h]\l0x0804c6da      mov eax, dword [eax + edx*4 + 0xc]                     ; [0xc:4]=-1 ; 12\l0x0804c6de      sub esp, 8\l0x0804c6e1      push eax\l0x0804c6e2      push dword [arg_8h]\l0x0804c6e5      call sym.optimize\l0x0804c6ea      add esp, 0x10\l0x0804c6ed      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c6f0      mov edx, dword [var_18h]\l0x0804c6f3      mov eax, dword [eax + edx*4 + 0xc]                     ; [0xc:4]=-1 ; 12\l0x0804c6f7      mov eax, dword [eax]\l0x0804c6f9      cmp eax, 1                                             ; 1\l0x0804c6fc      je 0x804c705\l"]
+	"0x0804c6fe" -> "0x0804c705" [color="blue"];
+	"0x0804c6fe" [URL="sym.optimize/0x0804c6fe", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6fe      mov dword [var_1ch], 0\l"]
+	"0x0804c705" -> "0x0804c709" [color="blue"];
+	"0x0804c705" [URL="sym.optimize/0x0804c705", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.optimize (0x804c6fc)\l0x0804c705      add dword [var_18h], 1\l"]
+	"0x0804c709" -> "0x0804c6d4" [color="green"];
+	"0x0804c709" -> "0x0804c711" [color="red"];
+	"0x0804c709" [URL="sym.optimize/0x0804c709", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.optimize (0x804c6d2)\l0x0804c709      mov eax, dword [var_18h]\l0x0804c70c      cmp eax, dword [var_14h]\l0x0804c70f      jl 0x804c6d4\l"]
+	"0x0804c711" -> "0x0804c754" [color="green"];
+	"0x0804c711" -> "0x0804c717" [color="red"];
+	"0x0804c711" [URL="sym.optimize/0x0804c711", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c711      cmp dword [var_1ch], 0\l0x0804c715      je 0x804c754\l"]
+	"0x0804c717" -> "0x0804c754" [color="blue"];
+	"0x0804c717" [URL="sym.optimize/0x0804c717", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c717      sub esp, 8\l0x0804c71a      push dword [arg_ch]\l0x0804c71d      push dword [arg_8h]\l0x0804c720      call sym.te_eval\l0x0804c725      add esp, 0x10\l0x0804c728      fstp qword [ebp - 0x10]\l0x0804c72b      sub esp, 8\l0x0804c72e      push dword [arg_ch]\l0x0804c731      push dword [arg_8h]\l0x0804c734      call sym.te_free_parameters\l0x0804c739      add esp, 0x10\l0x0804c73c      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c73f      mov dword [eax], 1\l0x0804c745      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804c748      fld qword [ebp - 0x10]\l0x0804c74b      fstp qword [eax + 4]\l0x0804c74e      jmp 0x804c754\l"]
+	"0x0804c750" -> "0x0804c754" [color="blue"];
+	"0x0804c750" [URL="sym.optimize/0x0804c750", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.optimize (0x804c683)\l0x0804c750      nop\l0x0804c751      jmp 0x804c754\l"]
+	"0x0804c753" -> "0x0804c754" [color="blue"];
+	"0x0804c753" [URL="sym.optimize/0x0804c753", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.optimize (0x804c690)\l0x0804c753      nop\l"]
+	"0x0804c754" [URL="sym.optimize/0x0804c754", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREFS from sym.optimize (0x804c6a0, 0x804c715, 0x804c74e, 0x804c751)\l0x0804c754      leave\l0x0804c755      ret\l"]
+}

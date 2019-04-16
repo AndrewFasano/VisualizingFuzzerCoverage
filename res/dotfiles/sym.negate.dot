@@ -1,0 +1,6 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x0804a381" [URL="sym.negate/0x0804a381", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.negate 25\l  sym.negate (int32_t arg_8h, int32_t arg_ch);\l; var int32_t var_8h @ ebp-0x8\l; var int32_t var_4h @ ebp-0x4\l; arg int32_t arg_8h @ ebp+0x8\l; arg int32_t arg_ch @ ebp+0xc\l; DATA XREF from sym.power (0x804b4c7)\l0x0804a381      push ebp\l0x0804a382      mov ebp, esp\l0x0804a384      sub esp, 8\l0x0804a387      mov eax, dword [arg_8h]                                ; [0x8:4]=-1 ; 8\l0x0804a38a      mov dword [var_8h], eax\l0x0804a38d      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804a390      mov dword [var_4h], eax\l0x0804a393      fld qword [var_8h]\l0x0804a396      fchs\l0x0804a398      leave\l0x0804a399      ret\l"]
+}

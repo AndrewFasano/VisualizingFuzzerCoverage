@@ -1,0 +1,14 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x0804ce50" -> "0x0804cea5" [color="green"];
+	"0x0804ce50" -> "0x0804ce80" [color="red"];
+	"0x0804ce50" [URL="sym.__libc_csu_init/0x0804ce50", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.__libc_csu_init 93\l  sym.__libc_csu_init (int32_t arg_20h, int32_t arg_2ch);\l; arg int32_t arg_20h @ esp+0x20\l; arg int32_t arg_2ch @ esp+0x2c\l; DATA XREF from entry0 (0x8048b10)\l0x0804ce50      push ebp\l0x0804ce51      push edi\l0x0804ce52      push esi\l0x0804ce53      push ebx\l0x0804ce54      call sym.__x86.get_pc_thunk.bx\l0x0804ce59      add ebx, 0x21a7\l0x0804ce5f      sub esp, 0xc\l0x0804ce62      mov ebp, dword [arg_20h]                               ; [0x20:4]=-1 ; 32\l0x0804ce66      lea esi, [ebx - 0xfc]\l0x0804ce6c      call sym._init\l0x0804ce71      lea eax, [ebx - 0x100]\l0x0804ce77      sub esi, eax\l0x0804ce79      sar esi, 2\l0x0804ce7c      test esi, esi\l0x0804ce7e      je 0x804cea5\l"]
+	"0x0804ce80" -> "0x0804ce88" [color="blue"];
+	"0x0804ce80" [URL="sym.__libc_csu_init/0x0804ce80", fillcolor="white",color="yellow", fontname="Courier",label="0x0804ce80      xor edi, edi\l0x0804ce82      lea esi, [esi]\l"]
+	"0x0804ce88" -> "0x0804ce88" [color="green"];
+	"0x0804ce88" -> "0x0804cea5" [color="red"];
+	"0x0804ce88" [URL="sym.__libc_csu_init/0x0804ce88", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.__libc_csu_init (0x804cea3)\l0x0804ce88      sub esp, 4\l0x0804ce8b      push dword [arg_2ch]\l0x0804ce8f      push dword [arg_2ch]\l0x0804ce93      push ebp\l0x0804ce94      call dword [ebx + edi*4 - 0x100]\l0x0804ce9b      add edi, 1\l0x0804ce9e      add esp, 0x10\l0x0804cea1      cmp edi, esi\l0x0804cea3      jne 0x804ce88\l"]
+	"0x0804cea5" [URL="sym.__libc_csu_init/0x0804cea5", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.__libc_csu_init (0x804ce7e)\l0x0804cea5      add esp, 0xc\l0x0804cea8      pop ebx\l0x0804cea9      pop esi\l0x0804ceaa      pop edi\l0x0804ceab      pop ebp\l0x0804ceac      ret\l"]
+}

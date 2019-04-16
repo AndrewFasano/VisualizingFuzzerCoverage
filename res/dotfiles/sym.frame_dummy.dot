@@ -1,0 +1,15 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08048bd0" -> "0x08048be0" [color="green"];
+	"0x08048bd0" -> "0x08048bdb" [color="red"];
+	"0x08048bd0" [URL="entry.init0/0x08048bd0", fillcolor="white",color="yellow", fontname="Courier",label=";-- frame_dummy:\l(fcn) entry.init0 40\l  entry.init0 ();\l0x08048bd0      mov eax, obj.__JCR_LIST                                ; obj.__JCR_END ; 0x804ef08\l0x08048bd5      mov edx, dword [eax]\l0x08048bd7      test edx, edx\l0x08048bd9      jne 0x8048be0\l"]
+	"0x08048bdb" -> "0x08048b70" [color="blue"];
+	"0x08048bdb" [URL="entry.init0/0x08048bdb", fillcolor="white",color="#7f7f7f", fontname="Courier",label="; CODE XREF from entry.init0 (0x8048be7)\l0x08048bdb      jmp sym.register_tm_clones\l"]
+	"0x08048be0" -> "0x08048bdb" [color="green"];
+	"0x08048be0" -> "0x08048be9" [color="red"];
+	"0x08048be0" [URL="entry.init0/0x08048be0", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from entry.init0 (0x8048bd9)\l0x08048be0      mov edx, 0\l0x08048be5      test edx, edx\l0x08048be7      je 0x8048bdb\l"]
+	"0x08048be9" -> "0x08048b70" [color="blue"];
+	"0x08048be9" [URL="entry.init0/0x08048be9", fillcolor="white",color="yellow", fontname="Courier",label="0x08048be9      push ebp\l0x08048bea      mov ebp, esp\l0x08048bec      sub esp, 0x14\l0x08048bef      push eax\l0x08048bf0      call edx\l0x08048bf2      add esp, 0x10\l0x08048bf5      leave\l0x08048bf6      jmp sym.register_tm_clones\l"]
+}

@@ -1,0 +1,6 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x0804ceb0" [URL="sym.__libc_csu_fini/0x0804ceb0", fillcolor="white",color="#7f7f7f", fontname="Courier",label="(fcn) sym.__libc_csu_fini 2\l  sym.__libc_csu_fini ();\l; DATA XREF from entry0 (0x8048b0b)\l0x0804ceb0      ret\l"]
+}

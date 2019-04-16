@@ -1,0 +1,6 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x0804a39a" [URL="sym.comma/0x0804a39a", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.comma 35\l  sym.comma (int32_t arg_8h, int32_t arg_ch, int32_t arg_10h, int32_t arg_14h);\l; var int32_t var_10h @ ebp-0x10\l; var int32_t var_ch @ ebp-0xc\l; var int32_t var_8h @ ebp-0x8\l; var int32_t var_4h @ ebp-0x4\l; arg int32_t arg_8h @ ebp+0x8\l; arg int32_t arg_ch @ ebp+0xc\l; arg int32_t arg_10h @ ebp+0x10\l; arg int32_t arg_14h @ ebp+0x14\l; DATA XREF from sym.list (0x804bd9f)\l0x0804a39a      push ebp\l0x0804a39b      mov ebp, esp\l0x0804a39d      sub esp, 0x10\l0x0804a3a0      mov eax, dword [arg_8h]                                ; [0x8:4]=-1 ; 8\l0x0804a3a3      mov dword [var_8h], eax\l0x0804a3a6      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x0804a3a9      mov dword [var_4h], eax\l0x0804a3ac      mov eax, dword [arg_10h]                               ; [0x10:4]=-1 ; 16\l0x0804a3af      mov dword [var_10h], eax\l0x0804a3b2      mov eax, dword [arg_14h]                               ; [0x14:4]=-1 ; 20\l0x0804a3b5      mov dword [var_ch], eax\l0x0804a3b8      fld qword [var_10h]\l0x0804a3bb      leave\l0x0804a3bc      ret\l"]
+}

@@ -1,0 +1,11 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08048bb0" -> "0x08048bcc" [color="green"];
+	"0x08048bb0" -> "0x08048bb9" [color="red"];
+	"0x08048bb0" [URL="entry.fini0/0x08048bb0", fillcolor="white",color="yellow", fontname="Courier",label=";-- __do_global_dtors_aux:\l(fcn) entry.fini0 30\l  entry.fini0 ();\l0x08048bb0      cmp byte [obj.completed.7209], 0                       ; [0x804f0ac:1]=0\l0x08048bb7      jne 0x8048bcc\l"]
+	"0x08048bb9" -> "0x08048bcc" [color="blue"];
+	"0x08048bb9" [URL="entry.fini0/0x08048bb9", fillcolor="white",color="yellow", fontname="Courier",label="0x08048bb9      push ebp\l0x08048bba      mov ebp, esp\l0x08048bbc      sub esp, 8\l0x08048bbf      call sym.deregister_tm_clones\l0x08048bc4      mov byte [obj.completed.7209], 1                       ; [0x804f0ac:1]=0\l0x08048bcb      leave\l"]
+	"0x08048bcc" [URL="entry.fini0/0x08048bcc", fillcolor="white",color="#7f7f7f", fontname="Courier",label="; CODE XREF from entry.fini0 (0x8048bb7)\l0x08048bcc      ret\l"]
+}

@@ -1,0 +1,6 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x0804ceb4" [URL="sym._fini/0x0804ceb4", fillcolor="white",color="yellow", fontname="Courier",label=";-- section..fini:\l;-- .fini:\l(fcn) sym._fini 20\l  sym._fini ();\l0x0804ceb4      push ebx                                               ; [15] -r-x section size 20 named .fini\l0x0804ceb5      sub esp, 8\l0x0804ceb8      call sym.__x86.get_pc_thunk.bx\l0x0804cebd      add ebx, 0x2143                                        ; 'C!'\l0x0804cec3      add esp, 8\l0x0804cec6      pop ebx\l0x0804cec7      ret\l"]
+}

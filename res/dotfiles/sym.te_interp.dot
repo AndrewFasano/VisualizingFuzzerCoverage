@@ -1,0 +1,13 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x0804cca5" -> "0x0804ccf3" [color="green"];
+	"0x0804cca5" -> "0x0804cccc" [color="red"];
+	"0x0804cca5" [URL="sym.te_interp/0x0804cca5", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.te_interp 92\l  sym.te_interp (int32_t arg_8h, int32_t arg_ch, int32_t arg_10h);\l; var uint32_t var_14h @ ebp-0x14\l; arg int32_t arg_8h @ ebp+0x8\l; arg int32_t arg_ch @ ebp+0xc\l; arg int32_t arg_10h @ ebp+0x10\l0x0804cca5      push ebp\l0x0804cca6      mov ebp, esp\l0x0804cca8      sub esp, 0x18\l0x0804ccab      sub esp, 0xc\l0x0804ccae      push dword [arg_10h]\l0x0804ccb1      push 0\l0x0804ccb3      push 0\l0x0804ccb5      push dword [arg_ch]\l0x0804ccb8      push dword [arg_8h]\l0x0804ccbb      call sym.te_compile\l0x0804ccc0      add esp, 0x20\l0x0804ccc3      mov dword [var_14h], eax\l0x0804ccc6      cmp dword [var_14h], 0\l0x0804ccca      je 0x804ccf3\l"]
+	"0x0804cccc" -> "0x0804ccfc" [color="blue"];
+	"0x0804cccc" [URL="sym.te_interp/0x0804cccc", fillcolor="white",color="yellow", fontname="Courier",label="0x0804cccc      sub esp, 8\l0x0804cccf      push dword [var_14h]\l0x0804ccd2      push dword [arg_8h]\l0x0804ccd5      call sym.te_eval\l0x0804ccda      add esp, 0x10\l0x0804ccdd      fstp qword [ebp - 0x10]\l0x0804cce0      sub esp, 8\l0x0804cce3      push dword [var_14h]\l0x0804cce6      push dword [arg_8h]\l0x0804cce9      call sym.te_free\l0x0804ccee      add esp, 0x10\l0x0804ccf1      jmp 0x804ccfc\l"]
+	"0x0804ccf3" -> "0x0804ccfc" [color="blue"];
+	"0x0804ccf3" [URL="sym.te_interp/0x0804ccf3", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.te_interp (0x804ccca)\l0x0804ccf3      fld qword [0x804d530]\l0x0804ccf9      fstp qword [ebp - 0x10]\l"]
+	"0x0804ccfc" [URL="sym.te_interp/0x0804ccfc", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.te_interp (0x804ccf1)\l0x0804ccfc      fld qword [ebp - 0x10]\l0x0804ccff      leave\l0x0804cd00      ret\l"]
+}

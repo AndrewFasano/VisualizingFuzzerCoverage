@@ -1,0 +1,44 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08049ebd" -> "0x08049f03" [color="green"];
+	"0x08049ebd" -> "0x08049ee8" [color="red"];
+	"0x08049ebd" [URL="sym.ncr/0x08049ebd", fillcolor="white",color="yellow", fontname="Courier",label="(fcn) sym.ncr 328\l  sym.ncr (int32_t arg_ch, int32_t arg_10h, int32_t arg_14h, int32_t arg_18h);\l; var int32_t var_40h @ ebp-0x40\l; var int32_t var_3ch @ ebp-0x3c\l; var int32_t var_38h @ ebp-0x38\l; var int32_t var_34h @ ebp-0x34\l; var int32_t var_2ch @ ebp-0x2c\l; var int32_t var_2ah @ ebp-0x2a\l; var int32_t var_20h @ ebp-0x20\l; var int32_t var_1ch @ ebp-0x1c\l; var int32_t var_18h @ ebp-0x18\l; var int32_t var_14h @ ebp-0x14\l; var uint32_t var_10h @ ebp-0x10\l; var int32_t var_ch @ ebp-0xc\l; var uint32_t var_8h @ ebp-0x8\l; var int32_t var_4h @ ebp-0x4\l; arg int32_t arg_ch @ ebp+0xc\l; arg int32_t arg_10h @ ebp+0x10\l; arg int32_t arg_14h @ ebp+0x14\l; arg int32_t arg_18h @ ebp+0x18\l; CALL XREF from sym.npr (0x804a035)\l0x08049ebd      push ebp\l0x08049ebe      mov ebp, esp\l0x08049ec0      sub esp, 0x40                                          ; '@'\l0x08049ec3      mov eax, dword [arg_ch]                                ; [0xc:4]=-1 ; 12\l0x08049ec6      mov dword [var_18h], eax\l0x08049ec9      mov eax, dword [arg_10h]                               ; [0x10:4]=-1 ; 16\l0x08049ecc      mov dword [var_14h], eax\l0x08049ecf      mov eax, dword [arg_14h]                               ; [0x14:4]=-1 ; 20\l0x08049ed2      mov dword [var_20h], eax\l0x08049ed5      mov eax, dword [arg_18h]                               ; [0x18:4]=-1 ; 24\l0x08049ed8      mov dword [var_1ch], eax\l0x08049edb      fldz\l0x08049edd      fld qword [var_18h]\l0x08049ee0      fxch st(1)\l0x08049ee2      fucomip st(1)\l0x08049ee4      fstp st(0)\l0x08049ee6      ja 0x8049f03\l"]
+	"0x08049ee8" -> "0x08049f03" [color="green"];
+	"0x08049ee8" -> "0x08049ef5" [color="red"];
+	"0x08049ee8" [URL="sym.ncr/0x08049ee8", fillcolor="white",color="yellow", fontname="Courier",label="0x08049ee8      fldz\l0x08049eea      fld qword [var_20h]\l0x08049eed      fxch st(1)\l0x08049eef      fucomip st(1)\l0x08049ef1      fstp st(0)\l0x08049ef3      ja 0x8049f03\l"]
+	"0x08049ef5" -> "0x08049f0e" [color="green"];
+	"0x08049ef5" -> "0x08049f03" [color="red"];
+	"0x08049ef5" [URL="sym.ncr/0x08049ef5", fillcolor="white",color="yellow", fontname="Courier",label="0x08049ef5      fld qword [var_20h]\l0x08049ef8      fld qword [var_18h]\l0x08049efb      fxch st(1)\l0x08049efd      fucomip st(1)\l0x08049eff      fstp st(0)\l0x08049f01      jbe 0x8049f0e\l"]
+	"0x08049f03" -> "0x0804a003" [color="blue"];
+	"0x08049f03" [URL="sym.ncr/0x08049f03", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREFS from sym.ncr (0x8049ee6, 0x8049ef3)\l0x08049f03      fld qword [0x804d530]\l0x08049f09      jmp 0x804a003\l"]
+	"0x08049f0e" -> "0x08049f30" [color="green"];
+	"0x08049f0e" -> "0x08049f1f" [color="red"];
+	"0x08049f0e" [URL="sym.ncr/0x08049f0e", fillcolor="white",color="yellow", fontname="Courier",label="0x08049f0e      fld qword [var_18h]\l0x08049f11      fld qword [0x804d538]\l0x08049f17      fxch st(1)\l0x08049f19      fucomip st(1)\l0x08049f1b      fstp st(0)\l0x08049f1d      ja 0x8049f30\l"]
+	"0x08049f1f" -> "0x08049f3b" [color="green"];
+	"0x08049f1f" -> "0x08049f30" [color="red"];
+	"0x08049f1f" [URL="sym.ncr/0x08049f1f", fillcolor="white",color="yellow", fontname="Courier",label="0x08049f1f      fld qword [var_20h]\l0x08049f22      fld qword [0x804d538]\l0x08049f28      fxch st(1)\l0x08049f2a      fucomip st(1)\l0x08049f2c      fstp st(0)\l0x08049f2e      jbe 0x8049f3b\l"]
+	"0x08049f30" -> "0x0804a003" [color="blue"];
+	"0x08049f30" [URL="sym.ncr/0x08049f30", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.ncr (0x8049f1d)\l0x08049f30      fld qword [0x804d540]\l0x08049f36      jmp 0x804a003\l"]
+	"0x08049f3b" -> "0x08049f8c" [color="green"];
+	"0x08049f3b" -> "0x08049f83" [color="red"];
+	"0x08049f3b" [URL="sym.ncr/0x08049f3b", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.ncr (0x8049f2e)\l0x08049f3b      fld qword [var_18h]\l0x08049f3e      fnstcw word [var_2ah]\l0x08049f41      movzx eax, word [var_2ah]\l0x08049f45      mov ah, 0xc                                            ; 12\l0x08049f47      mov word [var_2ch], ax\l0x08049f4b      fldcw word [var_2ch]\l0x08049f4e      fistp qword [var_38h]\l0x08049f51      fldcw word [var_2ah]\l0x08049f54      mov eax, dword [var_38h]\l0x08049f57      mov edx, dword [var_34h]\l0x08049f5a      mov dword [var_4h], eax\l0x08049f5d      fld qword [var_20h]\l0x08049f60      fldcw word [var_2ch]\l0x08049f63      fistp qword [var_38h]\l0x08049f66      fldcw word [var_2ah]\l0x08049f69      mov eax, dword [var_38h]\l0x08049f6c      mov edx, dword [var_34h]\l0x08049f6f      mov dword [var_10h], eax\l0x08049f72      mov dword [var_8h], 1\l0x08049f79      mov eax, dword [var_4h]\l0x08049f7c      shr eax, 1\l0x08049f7e      cmp eax, dword [var_10h]\l0x08049f81      jae 0x8049f8c\l"]
+	"0x08049f83" -> "0x08049f8c" [color="blue"];
+	"0x08049f83" [URL="sym.ncr/0x08049f83", fillcolor="white",color="yellow", fontname="Courier",label="0x08049f83      mov eax, dword [var_4h]\l0x08049f86      sub eax, dword [var_10h]\l0x08049f89      mov dword [var_10h], eax\l"]
+	"0x08049f8c" -> "0x08049fe4" [color="blue"];
+	"0x08049f8c" [URL="sym.ncr/0x08049f8c", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.ncr (0x8049f81)\l0x08049f8c      mov dword [var_ch], 1\l0x08049f93      jmp 0x8049fe4\l"]
+	"0x08049f95" -> "0x08049fbc" [color="green"];
+	"0x08049f95" -> "0x08049fb4" [color="red"];
+	"0x08049f95" [URL="sym.ncr/0x08049f95", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.ncr (0x8049fea)\l0x08049f95      mov eax, dword [var_4h]\l0x08049f98      sub eax, dword [var_10h]\l0x08049f9b      mov edx, eax\l0x08049f9d      mov eax, dword [var_ch]\l0x08049fa0      lea ecx, [edx + eax]\l0x08049fa3      mov eax, 0xffffffff                                    ; -1\l0x08049fa8      mov edx, 0\l0x08049fad      div ecx\l0x08049faf      cmp eax, dword [var_8h]\l0x08049fb2      jae 0x8049fbc\l"]
+	"0x08049fb4" -> "0x0804a003" [color="blue"];
+	"0x08049fb4" [URL="sym.ncr/0x08049fb4", fillcolor="white",color="yellow", fontname="Courier",label="0x08049fb4      fld qword [0x804d540]\l0x08049fba      jmp 0x804a003\l"]
+	"0x08049fbc" -> "0x08049fe4" [color="blue"];
+	"0x08049fbc" [URL="sym.ncr/0x08049fbc", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.ncr (0x8049fb2)\l0x08049fbc      mov eax, dword [var_4h]\l0x08049fbf      sub eax, dword [var_10h]\l0x08049fc2      mov edx, eax\l0x08049fc4      mov eax, dword [var_ch]\l0x08049fc7      add edx, eax\l0x08049fc9      mov eax, dword [var_8h]\l0x08049fcc      imul eax, edx\l0x08049fcf      mov dword [var_8h], eax\l0x08049fd2      mov eax, dword [var_8h]\l0x08049fd5      mov edx, 0\l0x08049fda      div dword [var_ch]\l0x08049fdd      mov dword [var_8h], eax\l0x08049fe0      add dword [var_ch], 1\l"]
+	"0x08049fe4" -> "0x08049f95" [color="green"];
+	"0x08049fe4" -> "0x08049fec" [color="red"];
+	"0x08049fe4" [URL="sym.ncr/0x08049fe4", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym.ncr (0x8049f93)\l0x08049fe4      mov eax, dword [var_ch]\l0x08049fe7      cmp eax, dword [var_10h]\l0x08049fea      jbe 0x8049f95\l"]
+	"0x08049fec" -> "0x0804a003" [color="blue"];
+	"0x08049fec" [URL="sym.ncr/0x08049fec", fillcolor="white",color="yellow", fontname="Courier",label="0x08049fec      mov eax, dword [var_8h]\l0x08049fef      mov edx, 0\l0x08049ff4      mov dword [var_40h], eax\l0x08049ff7      mov dword [var_3ch], edx\l0x08049ffa      fild qword [var_40h]\l0x08049ffd      fstp qword [ebp - 0x28]\l0x0804a000      fld qword [ebp - 0x28]\l"]
+	"0x0804a003" [URL="sym.ncr/0x0804a003", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREFS from sym.ncr (0x8049f09, 0x8049f36, 0x8049fba)\l0x0804a003      leave\l0x0804a004      ret\l"]
+}

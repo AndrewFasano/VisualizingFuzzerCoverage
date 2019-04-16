@@ -1,0 +1,11 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled shape=box];
+	edge [arrowhead="normal"];
+	"0x08048870" -> "0x0804888e" [color="green"];
+	"0x08048870" -> "0x08048889" [color="red"];
+	"0x08048870" [URL="sym._init/0x08048870", fillcolor="white",color="yellow", fontname="Courier",label=";-- section..init:\l;-- .init:\l(fcn) sym._init 35\l  sym._init ();\l; CALL XREF from sym.__libc_csu_init (0x804ce6c)\l0x08048870      push ebx                                               ; [11] -r-x section size 35 named .init\l0x08048871      sub esp, 8\l0x08048874      call sym.__x86.get_pc_thunk.bx\l0x08048879      add ebx, 0x6787\l0x0804887f      mov eax, dword [ebx - 4]\l0x08048885      test eax, eax\l0x08048887      je 0x804888e\l"]
+	"0x08048889" -> "0x0804888e" [color="blue"];
+	"0x08048889" [URL="sym._init/0x08048889", fillcolor="white",color="#7f7f7f", fontname="Courier",label="0x08048889      call sym..plt.got\l"]
+	"0x0804888e" [URL="sym._init/0x0804888e", fillcolor="white",color="yellow", fontname="Courier",label="; CODE XREF from sym._init (0x8048887)\l0x0804888e      add esp, 8\l0x08048891      pop ebx\l0x08048892      ret\l"]
+}
