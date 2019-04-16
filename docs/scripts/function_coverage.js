@@ -1,7 +1,5 @@
 // GLOBALS & SETUP
 
-var width = 800;
-var height = 800;
 
 var margin = {
     top: 20,
@@ -10,7 +8,7 @@ var margin = {
     bottom: 20
 };
 
-var currScale = 0.30;
+var currScale = 0.25;
 var labelData;
 var digraph;
 var render = new dagreD3.render();
@@ -22,9 +20,8 @@ var gGraph = d3.select("svg#graph")
     .append("g")
     .attr("id", "ggraph")
     .attr("class", "ggraph")
-    .attr('width', width)
-    .attr('height', height)
-    .attr("transform", "translate(" + width + ", 0)");
+    .attr('width', "100%")
+    .attr('height', "100%");
 
 
 // HELPER FUNCTIONS
@@ -102,9 +99,8 @@ function graphRender(graphData, _labelData, initial_blocks){
     gGraph.call(
         zoom.transform,
         d3.zoomIdentity.translate(
-            (gGraph.attr("width") - digraph.graph().width * currScale) / 2,
-            (gGraph.attr("height") - digraph.graph().height * currScale) / 2
-            // gGraph.width*initialScale/2, gGraph.height*initialScale/2
+            (gGraph.attr("width") * currScale) / 2,
+            0
         )
        .scale(currScale)
     );

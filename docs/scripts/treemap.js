@@ -205,7 +205,7 @@ function modifyTreeMap() {
 
     updateCoverageMap(activeBlocksList)
 
-    console.log(curData);
+    // console.log(curData);
 
     // Change color
     g.selectAll('rect').style("fill", function (d) {
