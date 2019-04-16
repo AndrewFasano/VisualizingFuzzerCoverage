@@ -270,7 +270,7 @@ function runAnimate() {
     }else{
         animateStop = true;
         animationRunning = false;
-        document.getElementById("button").innerHTML = "Restart animation";
+        document.getElementById("button_image").className = "button_image fas fa-play";
     }
 }
 
@@ -279,7 +279,7 @@ function toggleAnimate() {
     if (animationRunning) { // clicked 'stop'
         animateStop = true;
         animationRunning = false;
-        document.getElementById("button").innerHTML = "Start animation";
+        document.getElementById("button_image").className = "fas fa-play";
     }else{ // Clicked 'start'
         // If was at end, restart when you click start again
         cur_val = (+document.getElementById("range").value);
@@ -290,7 +290,7 @@ function toggleAnimate() {
 
         animationRunning = true;
         animateStop = false;
-        document.getElementById("button").innerHTML = "Stop animation";
+        document.getElementById("button_image").className = "fas fa-pause";
         setTimeout(runAnimate, 0);
     }
 }

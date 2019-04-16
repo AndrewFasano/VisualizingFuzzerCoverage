@@ -5,9 +5,6 @@ var curTimeStep = 0;
 
 var animateStop = false;
 var animationRunning = false;
-var clicked = false;
-var clickTarget = null;
-
 
 // Get color from palette
 function getColor(fnCov) {
