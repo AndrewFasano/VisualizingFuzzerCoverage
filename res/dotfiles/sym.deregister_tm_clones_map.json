@@ -1,0 +1,6 @@
+{
+  "0x08048b40": "(fcn) sym.deregister_tm_clones 43\n  sym.deregister_tm_clones ();\n; CALL XREF from entry.fini0 (0x8048bbf)\n0x08048b40      mov eax, 0x804f0a7\n0x08048b45      sub eax, loc._edata                                    ; 0x804f0a4 ; obj.__TMC_END\n0x08048b4a      cmp eax, 6                                             ; 6\n0x08048b4d      jbe 0x8048b69\n", 
+  "0x08048b69": "; CODE XREFS from sym.deregister_tm_clones (0x8048b4d, 0x8048b56)\n0x08048b69      ret\n", 
+  "0x08048b4f": "0x08048b4f      mov eax, 0\n0x08048b54      test eax, eax\n0x08048b56      je 0x8048b69\n", 
+  "0x08048b58": "0x08048b58      push ebp\n0x08048b59      mov ebp, esp\n0x08048b5b      sub esp, 0x14\n0x08048b5e      push loc._edata                                        ; obj.__TMC_END ; 0x804f0a4\n0x08048b63      call eax\n0x08048b65      add esp, 0x10\n0x08048b68      leave\n"
+}

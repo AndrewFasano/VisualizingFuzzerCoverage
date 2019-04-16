@@ -1,0 +1,5 @@
+{
+  "0x08048bb0": ";-- __do_global_dtors_aux:\n(fcn) entry.fini0 30\n  entry.fini0 ();\n0x08048bb0      cmp byte [obj.completed.7209], 0                       ; [0x804f0ac:1]=0\n0x08048bb7      jne 0x8048bcc\n", 
+  "0x08048bb9": "0x08048bb9      push ebp\n0x08048bba      mov ebp, esp\n0x08048bbc      sub esp, 8\n0x08048bbf      call sym.deregister_tm_clones\n0x08048bc4      mov byte [obj.completed.7209], 1                       ; [0x804f0ac:1]=0\n0x08048bcb      leave\n", 
+  "0x08048bcc": "; CODE XREF from entry.fini0 (0x8048bb7)\n0x08048bcc      ret\n"
+}

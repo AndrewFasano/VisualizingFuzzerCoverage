@@ -1,0 +1,11 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled];
+	edge [arrowhead="normal"];
+	"0x08048870" -> "0x0804888e" [color="green"];
+	"0x08048870" -> "0x08048889" [color="red"];
+	"0x08048870" [URL="sym._init/0x08048870", fillcolor="white",color="yellow", fontname="Courier",label="0x08048870"]
+	"0x08048889" -> "0x0804888e" [color="blue"];
+	"0x08048889" [URL="sym._init/0x08048889", fillcolor="white",color="#7f7f7f", fontname="Courier",label="0x08048889"]
+	"0x0804888e" [URL="sym._init/0x0804888e", fillcolor="white",color="yellow", fontname="Courier",label="0x0804888e"]
+}

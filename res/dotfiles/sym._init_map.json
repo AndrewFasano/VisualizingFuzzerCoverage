@@ -1,0 +1,5 @@
+{
+  "0x08048870": ";-- section..init:\n;-- .init:\n(fcn) sym._init 35\n  sym._init ();\n; CALL XREF from sym.__libc_csu_init (0x804ce6c)\n0x08048870      push ebx                                               ; [11] -r-x section size 35 named .init\n0x08048871      sub esp, 8\n0x08048874      call sym.__x86.get_pc_thunk.bx\n0x08048879      add ebx, 0x6787\n0x0804887f      mov eax, dword [ebx - 4]\n0x08048885      test eax, eax\n0x08048887      je 0x804888e\n", 
+  "0x0804888e": "; CODE XREF from sym._init (0x8048887)\n0x0804888e      add esp, 8\n0x08048891      pop ebx\n0x08048892      ret\n", 
+  "0x08048889": "0x08048889      call sym..plt.got\n"
+}

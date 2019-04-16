@@ -1,0 +1,14 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled];
+	edge [arrowhead="normal"];
+	"0x08048b40" -> "0x08048b69" [color="green"];
+	"0x08048b40" -> "0x08048b4f" [color="red"];
+	"0x08048b40" [URL="sym.deregister_tm_clones/0x08048b40", fillcolor="white",color="yellow", fontname="Courier",label="0x08048b40"]
+	"0x08048b4f" -> "0x08048b69" [color="green"];
+	"0x08048b4f" -> "0x08048b58" [color="red"];
+	"0x08048b4f" [URL="sym.deregister_tm_clones/0x08048b4f", fillcolor="white",color="yellow", fontname="Courier",label="0x08048b4f"]
+	"0x08048b58" -> "0x08048b69" [color="blue"];
+	"0x08048b58" [URL="sym.deregister_tm_clones/0x08048b58", fillcolor="white",color="yellow", fontname="Courier",label="0x08048b58"]
+	"0x08048b69" [URL="sym.deregister_tm_clones/0x08048b69", fillcolor="white",color="#7f7f7f", fontname="Courier",label="0x08048b69"]
+}

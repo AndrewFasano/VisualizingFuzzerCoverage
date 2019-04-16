@@ -1,0 +1,6 @@
+{
+  "0x08048bd0": ";-- frame_dummy:\n(fcn) entry.init0 40\n  entry.init0 ();\n0x08048bd0      mov eax, obj.__JCR_LIST                                ; obj.__JCR_END ; 0x804ef08\n0x08048bd5      mov edx, dword [eax]\n0x08048bd7      test edx, edx\n0x08048bd9      jne 0x8048be0\n", 
+  "0x08048bdb": "; CODE XREF from entry.init0 (0x8048be7)\n0x08048bdb      jmp sym.register_tm_clones\n", 
+  "0x08048be9": "0x08048be9      push ebp\n0x08048bea      mov ebp, esp\n0x08048bec      sub esp, 0x14\n0x08048bef      push eax\n0x08048bf0      call edx\n0x08048bf2      add esp, 0x10\n0x08048bf5      leave\n0x08048bf6      jmp sym.register_tm_clones\n", 
+  "0x08048be0": "; CODE XREF from entry.init0 (0x8048bd9)\n0x08048be0      mov edx, 0\n0x08048be5      test edx, edx\n0x08048be7      je 0x8048bdb\n"
+}

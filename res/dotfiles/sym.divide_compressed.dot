@@ -1,0 +1,6 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled];
+	edge [arrowhead="normal"];
+	"0x0804a35b" [URL="sym.divide/0x0804a35b", fillcolor="white",color="yellow", fontname="Courier",label="0x0804a35b"]
+}

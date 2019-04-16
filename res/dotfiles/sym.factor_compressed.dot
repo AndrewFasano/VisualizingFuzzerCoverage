@@ -1,0 +1,30 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled];
+	edge [arrowhead="normal"];
+	"0x0804b53f" -> "0x0804b68d" [color="blue"];
+	"0x0804b53f" [URL="sym.factor/0x0804b53f", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b53f"]
+	"0x0804b575" -> "0x0804b5b6" [color="green"];
+	"0x0804b575" -> "0x0804b58f" [color="red"];
+	"0x0804b575" [URL="sym.factor/0x0804b575", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b575"]
+	"0x0804b58f" -> "0x0804b5b6" [color="blue"];
+	"0x0804b58f" [URL="sym.factor/0x0804b58f", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b58f"]
+	"0x0804b5b6" -> "0x0804b62f" [color="green"];
+	"0x0804b5b6" -> "0x0804b608" [color="red"];
+	"0x0804b5b6" [URL="sym.factor/0x0804b5b6", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b5b6"]
+	"0x0804b608" -> "0x0804b62f" [color="blue"];
+	"0x0804b608" [URL="sym.factor/0x0804b608", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b608"]
+	"0x0804b62f" -> "0x0804b68d" [color="blue"];
+	"0x0804b62f" [URL="sym.factor/0x0804b62f", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b62f"]
+	"0x0804b68d" -> "0x0804b6a9" [color="green"];
+	"0x0804b68d" -> "0x0804b698" [color="red"];
+	"0x0804b68d" [URL="sym.factor/0x0804b68d", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b68d"]
+	"0x0804b698" -> "0x0804b575" [color="green"];
+	"0x0804b698" -> "0x0804b6a9" [color="red"];
+	"0x0804b698" [URL="sym.factor/0x0804b698", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b698"]
+	"0x0804b6a9" -> "0x0804b6bd" [color="green"];
+	"0x0804b6a9" -> "0x0804b6b8" [color="red"];
+	"0x0804b6a9" [URL="sym.factor/0x0804b6a9", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b6a9"]
+	"0x0804b6b8" [URL="sym.factor/0x0804b6b8", fillcolor="white",color="#7f7f7f", fontname="Courier",label="0x0804b6b8"]
+	"0x0804b6bd" [URL="sym.factor/0x0804b6bd", fillcolor="white",color="yellow", fontname="Courier",label="0x0804b6bd"]
+}

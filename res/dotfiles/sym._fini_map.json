@@ -1,0 +1,3 @@
+{
+  "0x0804ceb4": ";-- section..fini:\n;-- .fini:\n(fcn) sym._fini 20\n  sym._fini ();\n0x0804ceb4      push ebx                                               ; [15] -r-x section size 20 named .fini\n0x0804ceb5      sub esp, 8\n0x0804ceb8      call sym.__x86.get_pc_thunk.bx\n0x0804cebd      add ebx, 0x2143                                        ; 'C!'\n0x0804cec3      add esp, 8\n0x0804cec6      pop ebx\n0x0804cec7      ret\n"
+}

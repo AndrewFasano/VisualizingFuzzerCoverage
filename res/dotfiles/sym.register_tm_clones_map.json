@@ -1,0 +1,6 @@
+{
+  "0x08048ba3": "; CODE XREFS from sym.register_tm_clones (0x8048b86, 0x8048b8f)\n0x08048ba3      ret\n", 
+  "0x08048b91": "0x08048b91      push ebp\n0x08048b92      mov ebp, esp\n0x08048b94      sub esp, 0x10\n0x08048b97      push eax\n0x08048b98      push loc._edata                                        ; obj.__TMC_END ; 0x804f0a4\n0x08048b9d      call edx\n0x08048b9f      add esp, 0x10\n0x08048ba2      leave\n", 
+  "0x08048b88": "0x08048b88      mov edx, 0\n0x08048b8d      test edx, edx\n0x08048b8f      je 0x8048ba3\n", 
+  "0x08048b70": "(fcn) sym.register_tm_clones 53\n  sym.register_tm_clones ();\n; CODE XREFS from entry.init0 (0x8048bdb, 0x8048bf6)\n0x08048b70      mov eax, loc._edata                                    ; obj.__TMC_END ; 0x804f0a4\n0x08048b75      sub eax, loc._edata                                    ; 0x804f0a4 ; obj.__TMC_END\n0x08048b7a      sar eax, 2\n0x08048b7d      mov edx, eax\n0x08048b7f      shr edx, 0x1f\n0x08048b82      add eax, edx\n0x08048b84      sar eax, 1\n0x08048b86      je 0x8048ba3\n"
+}

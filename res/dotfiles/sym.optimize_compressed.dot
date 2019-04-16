@@ -1,0 +1,43 @@
+digraph code {
+	graph [bgcolor=azure fontsize=8 fontname="Courier" splines="ortho"];
+	node [fillcolor=gray style=filled];
+	edge [arrowhead="normal"];
+	"0x0804c675" -> "0x0804c750" [color="green"];
+	"0x0804c675" -> "0x0804c689" [color="red"];
+	"0x0804c675" [URL="sym.optimize/0x0804c675", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c675"]
+	"0x0804c689" -> "0x0804c753" [color="green"];
+	"0x0804c689" -> "0x0804c696" [color="red"];
+	"0x0804c689" [URL="sym.optimize/0x0804c689", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c689"]
+	"0x0804c696" -> "0x0804c754" [color="green"];
+	"0x0804c696" -> "0x0804c6a6" [color="red"];
+	"0x0804c696" [URL="sym.optimize/0x0804c696", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c696"]
+	"0x0804c6a6" -> "0x0804c6bc" [color="green"];
+	"0x0804c6a6" -> "0x0804c6b2" [color="red"];
+	"0x0804c6a6" [URL="sym.optimize/0x0804c6a6", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6a6"]
+	"0x0804c6b2" -> "0x0804c6c1" [color="blue"];
+	"0x0804c6b2" [URL="sym.optimize/0x0804c6b2", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6b2"]
+	"0x0804c6bc" -> "0x0804c6c1" [color="blue"];
+	"0x0804c6bc" [URL="sym.optimize/0x0804c6bc", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6bc"]
+	"0x0804c6c1" -> "0x0804c709" [color="blue"];
+	"0x0804c6c1" [URL="sym.optimize/0x0804c6c1", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6c1"]
+	"0x0804c6d4" -> "0x0804c705" [color="green"];
+	"0x0804c6d4" -> "0x0804c6fe" [color="red"];
+	"0x0804c6d4" [URL="sym.optimize/0x0804c6d4", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6d4"]
+	"0x0804c6fe" -> "0x0804c705" [color="blue"];
+	"0x0804c6fe" [URL="sym.optimize/0x0804c6fe", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c6fe"]
+	"0x0804c705" -> "0x0804c709" [color="blue"];
+	"0x0804c705" [URL="sym.optimize/0x0804c705", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c705"]
+	"0x0804c709" -> "0x0804c6d4" [color="green"];
+	"0x0804c709" -> "0x0804c711" [color="red"];
+	"0x0804c709" [URL="sym.optimize/0x0804c709", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c709"]
+	"0x0804c711" -> "0x0804c754" [color="green"];
+	"0x0804c711" -> "0x0804c717" [color="red"];
+	"0x0804c711" [URL="sym.optimize/0x0804c711", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c711"]
+	"0x0804c717" -> "0x0804c754" [color="blue"];
+	"0x0804c717" [URL="sym.optimize/0x0804c717", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c717"]
+	"0x0804c750" -> "0x0804c754" [color="blue"];
+	"0x0804c750" [URL="sym.optimize/0x0804c750", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c750"]
+	"0x0804c753" -> "0x0804c754" [color="blue"];
+	"0x0804c753" [URL="sym.optimize/0x0804c753", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c753"]
+	"0x0804c754" [URL="sym.optimize/0x0804c754", fillcolor="white",color="yellow", fontname="Courier",label="0x0804c754"]
+}

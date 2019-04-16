@@ -1,0 +1,3 @@
+{
+  "0x0804ceb0": "(fcn) sym.__libc_csu_fini 2\n  sym.__libc_csu_fini ();\n; DATA XREF from entry0 (0x8048b0b)\n0x0804ceb0      ret\n"
+}
