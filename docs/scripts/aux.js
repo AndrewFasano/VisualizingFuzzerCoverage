@@ -60,3 +60,20 @@ function getTotalCoverage(all_generations) {
   return result;
 }
 
+// Get coverage at each time step for a given function
+function getLocalCoverage(name, all_generations) {
+  var result = [{"ts": 0, "total": 0}];
+  var funcs;
+  var idx=0;
+  for (gen in all_generations) {
+    idx += 1;
+    let funcs = all_generations[gen]["children"];
+    for (let func of funcs) {
+      if (func["name"] == name) { // found what we want
+        result.push({"ts": idx, "total": +func["active_blocks"].length})
+        break
+      }
+    }
+  }
+  return result;
+}

@@ -9,10 +9,16 @@ var totalCoverage;
 
 var root;
 var g;
+
 // Coverage line slider
 var cg;
 var xscale_ls;
 var yscale_ls;
+
+// Function coverage line slider
+var fcg;
+var xscale_fn;
+var yscale_fn;
 
 // Initialize the treemap elements
 function initializeTreemap() {
@@ -120,10 +126,78 @@ function initializeLineGraph(treemapData) {
       .call(brush.move, [xscale_ls.range()[0],xscale_ls.range()[1]]);
 }
 
+function initializeFnLineGraph(func_n) {
+    // Get the coverage over time
+    console.log("Initialize FnLG for " + func_n);
+    localCoverage = getLocalCoverage(func_n, treemapData);
+
+    // Find maximum possible coverage for y-axis height
+    var ymax = 0;
+    let funcs = treemapData[0]["children"];
+    for (let func of funcs) {
+      if (func["name"] == func_n) {
+        ymax = +func["blocks"];
+        break;
+      }
+    }
+
+    // Set up scales
+    yscale_fn = d3.scaleLinear()
+      .range([100, 0])
+      .domain([0, ymax]);
+
+    xscale_fn = d3.scaleLinear()
+      .range([50, tWidth])
+      .domain([0.01, localCoverage.length-1]);
+
+    // Set up slider line graph for functions
+    d3.select('svg#fncovgraph_container').append("g").attr("id", "fncovgraph");
+    fcg = d3.select("#fncovgraph").attr('width', tWidth).attr('height', 100);
+
+    fcg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0, 100)")
+      .call(d3.axisTop(xscale_fn));
+
+    fcg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(50, 0)")
+      .call(d3.axisLeft(yscale_fn)
+          .ticks(5));
+
+    fcg.append('text')
+			.attr("transform", "rotate(-90)")
+      .attr("y", 0)
+      .attr("x", -55)
+      .attr("dy", "14px")
+      .style("text-anchor", "middle")
+      .text("Func. Coverage")
+
+    fcg.append('text')
+      .attr("y", 115)
+      .attr("x", "52%")
+      .style("text-anchor", "middle")
+      .text("Input Index");
+
+
+    // Now draw the line
+    var fun_slider_line = d3.line()
+      .x(function(cov) { return xscale_fn(cov.ts); })
+      .y(function(cov) { return yscale_fn(cov.total); })
+
+    fcg.append("path")
+    .datum(localCoverage)
+    .attr("class", "line")
+    .style("fill", "none")
+    .style("stroke", "black")
+    .attr("d", fun_slider_line);
+}
+
 // Event when brushing over the coverage chart starts
 function coverageChartBrushStart() {
   // Remove the old line
-  cg.selectAll(".cur_timestep").remove();
+  cg.select(".cur_timestep").remove();
+  if (fcg) fcg.select(".cur_timestep").remove();
 }
 
 // Event when brushing is done over the coverage chart
@@ -146,8 +220,9 @@ function changeSliderShownValue(curStep) {
     document.getElementById("animation_info").innerHTML=
         "Showing input " + curStep + "/ " + document.getElementById("range").max;
 
-    // First delete old TS line
-    cg.select(".cur_timestep").remove();
+    // Fist delete old TS line
+    cg.selectAll(".cur_timestep").remove();
+    if (fcg) fcg.select(".cur_timestep").remove();
 
     // Now draw the new line
     cg.append("line")
@@ -156,6 +231,15 @@ function changeSliderShownValue(curStep) {
       .attr("y1", 0)
       .attr("x2", xscale_ls(curStep))
       .attr("y2", 100)
+
+    if (fcg) {
+      fcg.append("line")
+        .attr("class", "cur_timestep")
+        .attr("x1", xscale_fn(curStep))
+        .attr("y1", 0)
+        .attr("x2", xscale_fn(curStep))
+        .attr("y2", 100)
+    }
 }
 
 // Draw that nice treemap!

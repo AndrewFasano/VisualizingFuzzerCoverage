@@ -88,7 +88,7 @@ body {
 }
 
 #range {
-  width: calc(100% - 70px) !important;
+  width: calc(100% - 75px) !important;
   position: absolute;
   margin-top: 5px;
 }
@@ -109,4 +109,8 @@ body {
   stroke-dasharray: 2;
   fill: none;
 
+}
+
+#fncovgraph_container {
+  margin-top: 61px; /* Aligned with total coverage */
 }
