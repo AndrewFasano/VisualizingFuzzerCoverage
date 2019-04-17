@@ -27,7 +27,7 @@ function loadDataset(sources, operation) {
 
 // Prepare the slider
 function initializeSlider(data) {
-    document.getElementById("range").max=Object.keys(data).length-1;
+    document.getElementById("range").max=(Object.keys(data).length-1);
     document.getElementById("range").min=0;
     document.getElementById("range").defaultValue=0;
     document.getElementById("range").disabled=null;
@@ -46,9 +46,9 @@ function getBlockList(data, func_name) {
 
 // Get total coverage at each time step. Cache the results, it's a bit slow
 function getTotalCoverage(all_generations) {
-  var result = [{"ts": 0, "total": 0}];
+  var result = [];
   var funcs;
-  var idx=1;
+  var idx=0;
   for (gen in all_generations) {
     let funcs = all_generations[gen]["children"];
     this_gen_count = 0;
@@ -60,3 +60,20 @@ function getTotalCoverage(all_generations) {
   return result;
 }
 
+// Get coverage at each time step for a given function
+function getLocalCoverage(name, all_generations) {
+  var result = [{"ts": 0, "total": 0}];
+  var funcs;
+  var idx=0;
+  for (gen in all_generations) {
+    idx += 1;
+    let funcs = all_generations[gen]["children"];
+    for (let func of funcs) {
+      if (func["name"] == name) { // found what we want
+        result.push({"ts": idx, "total": +func["active_blocks"].length})
+        break
+      }
+    }
+  }
+  return result;
+}

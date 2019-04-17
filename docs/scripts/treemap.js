@@ -9,10 +9,16 @@ var totalCoverage;
 
 var root;
 var g;
+
 // Coverage line slider
 var cg;
 var xscale_ls;
 var yscale_ls;
+
+// Function coverage line slider
+var fcg;
+var xscale_fn;
+var yscale_fn;
 
 // Initialize the treemap elements
 function initializeTreemap() {
@@ -64,16 +70,22 @@ function initializeLineGraph(treemapData) {
     // Set up scales
     yscale_ls = d3.scaleLinear()
       .range([100, 0])
-      .domain([0, ymax]); // Slightly larger than 0 to hide 0 on axis
+      .domain([0, ymax]);
 
     xscale_ls = d3.scaleLinear()
       .range([50, tWidth])
-      .domain([0.01, totalCoverage.length-1]);
+      .domain([0, totalCoverage.length]);  // Slightly larger than 0 to hide 0 on axis
 
     cg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0, 100)")
       .call(d3.axisTop(xscale_ls));
+
+    // Remove 0 tick
+		cg.selectAll(".axis.x .tick")
+			.each(function (d) { if (d == 0) this.remove() });
+
+
 
     cg.append("g")
       .attr("class", "y axis")
@@ -117,13 +129,80 @@ function initializeLineGraph(treemapData) {
     cg.append("g")
       .attr("class", "coverage-chart-brush")
       .call(brush)
-      .call(brush.move, [xscale_ls.range()[0],xscale_ls.range()[1]]);
+      .call(brush.move, [xscale_ls.range()[0], xscale_ls.range()[1]-1]);
+}
+
+function initializeFnLineGraph(func_n) {
+    // Get the coverage over time
+    localCoverage = getLocalCoverage(func_n, treemapData);
+
+    // Find maximum possible coverage for y-axis height
+    var ymax = 0;
+    let funcs = treemapData[0]["children"];
+    for (let func of funcs) {
+      if (func["name"] == func_n) {
+        ymax = +func["blocks"];
+        break;
+      }
+    }
+
+    // Set up scales
+    yscale_fn = d3.scaleLinear()
+      .range([100, 0])
+      .domain([0, ymax]);
+
+    xscale_fn = d3.scaleLinear()
+      .range([50, tWidth])
+      .domain([0.01, localCoverage.length-1]);
+
+    // Set up slider line graph for functions
+    d3.select('svg#fncovgraph_container').append("g").attr("id", "fncovgraph");
+    fcg = d3.select("#fncovgraph").attr('width', tWidth).attr('height', 100);
+
+    fcg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0, 100)")
+      .call(d3.axisTop(xscale_fn));
+
+    fcg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(50, 0)")
+      .call(d3.axisLeft(yscale_fn)
+          .ticks(5));
+
+    fcg.append('text')
+			.attr("transform", "rotate(-90)")
+      .attr("y", 0)
+      .attr("x", -55)
+      .attr("dy", "14px")
+      .style("text-anchor", "middle")
+      .text("Func. Coverage")
+
+    fcg.append('text')
+      .attr("y", 115)
+      .attr("x", "52%")
+      .style("text-anchor", "middle")
+      .text("Input Index");
+
+
+    // Now draw the line
+    var fun_slider_line = d3.line()
+      .x(function(cov) { return xscale_fn(cov.ts); })
+      .y(function(cov) { return yscale_fn(cov.total); })
+
+    fcg.append("path")
+    .datum(localCoverage)
+    .attr("class", "line")
+    .style("fill", "none")
+    .style("stroke", "black")
+    .attr("d", fun_slider_line);
 }
 
 // Event when brushing over the coverage chart starts
 function coverageChartBrushStart() {
   // Remove the old line
-  cg.selectAll(".cur_timestep").remove();
+  cg.select(".cur_timestep").remove();
+  if (fcg) fcg.select(".cur_timestep").remove();
 }
 
 // Event when brushing is done over the coverage chart
@@ -144,18 +223,29 @@ function coverageChartBrushEnd() {
 // Change the current time step value shown under the slider
 function changeSliderShownValue(curStep) {
     document.getElementById("animation_info").innerHTML=
-        "Showing input " + curStep + "/ " + document.getElementById("range").max;
+        "After " + curStep + " of " + document.getElementById("range").max + 
+        " selected inputs, cumulative coverage is " + Math.round(totalCoverage[curStep]["total"]*100/ymax, 1) + "%";
 
-    // First delete old TS line
-    cg.select(".cur_timestep").remove();
+    // Fist delete old TS line
+    cg.selectAll(".cur_timestep").remove();
+    if (fcg) fcg.select(".cur_timestep").remove();
 
-    // Now draw the new line
-    cg.append("line")
-      .attr("class", "cur_timestep")
-      .attr("x1", xscale_ls(curStep))
-      .attr("y1", 0)
-      .attr("x2", xscale_ls(curStep))
-      .attr("y2", 100)
+    // Now draw the new line, if we've started animating
+    if (fcg) {
+      cg.append("line")
+        .attr("class", "cur_timestep")
+        .attr("x1", xscale_ls(curStep))
+        .attr("y1", 0)
+        .attr("x2", xscale_ls(curStep))
+        .attr("y2", 100)
+
+      fcg.append("line")
+        .attr("class", "cur_timestep")
+        .attr("x1", xscale_fn(curStep))
+        .attr("y1", 0)
+        .attr("x2", xscale_fn(curStep))
+        .attr("y2", 100)
+    }
 }
 
 // Draw that nice treemap!
@@ -205,7 +295,6 @@ function drawTreemap(curData) {
 
 // Modify tree map if the range slider value changed
 function modifyTreeMap() {
-
     // Update the current time step value
     curTimeStep = document.getElementById("range").value;
     changeSliderShownValue(curTimeStep);
@@ -216,8 +305,6 @@ function modifyTreeMap() {
 
     updateCoverageMap(activeBlocksList)
 
-    // console.log(curData);
-
     // Change color
     g.selectAll('rect').style("fill", function (d) {
         if (typeof d == 'string' || d instanceof String)
@@ -225,8 +312,9 @@ function modifyTreeMap() {
 
         func = d.data.name;
         for (let f of curData["children"]){
-            if (f.name == func)
+            if (f.name == func) {
                 return getColor(f["coverage_percent"]);
+            }
         }
     });
 
@@ -234,18 +322,7 @@ function modifyTreeMap() {
 
 var Tooltip = d3.select("body")
     .append("div")
-    .style("max-width", "500px")
-    .style("position", "absolute")
-    .style("text-align", "center")
-    .style("color", "#585858")
-    .style("display", "none")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("font-size", "14px")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "10px");
-
+    .attr("class", "tooltip");
 
 var mousemove = function(d) {
     Tooltip
@@ -304,8 +381,10 @@ function runAnimate() {
         animateStop = false;
         return;
     }
+
     nextval = (+document.getElementById("range").value)+1;
     document.getElementById("range").value = nextval;
+
     modifyTreeMap();
 
     if (nextval < (+document.getElementById("range").max)) {

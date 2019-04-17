@@ -32,6 +32,10 @@ function selectFunction(cur_func, block_list){
   // Update selected function title
   d3.select("#cov-title").text("Selected Function: " + cur_func);
 
+  // Update funcovgraph
+  removeElement("#fncovgraph");// Clear any old graph
+  initializeFnLineGraph(cur_func);
+
   // Update selected function's class in program overview
   d3.selectAll(".selected-treemap").classed("selected-treemap", false);
   d3.select("#function_"+cur_func).classed("selected-treemap", true);

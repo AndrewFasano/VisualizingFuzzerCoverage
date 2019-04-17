@@ -90,13 +90,14 @@ body {
 }
 
 #range {
-  width: calc(100% - 70px) !important;
+  width: calc(100% - 74px) !important;
   position: absolute;
   margin-top: 5px;
+  margin-left: 0px;
 }
 
 #button:disabled .btn_image {
-  opacity: 0.3;
+  opacity: 0.3 !important;
 }
 
 /* Place a border on the function overview */
@@ -111,4 +112,22 @@ body {
   stroke-dasharray: 2;
   fill: none;
 
+}
+
+#fncovgraph_container {
+  margin-top: 61px; /* Aligned with total coverage */
+}
+
+.tooltip {
+  max-width: 500px;
+  position: absolute;
+  text-align: center;
+  color: #585858;
+  display: none;
+  background-color: white;
+  border: solid;
+  font-size: 14px;
+  border-width: 2px;
+  border-radius: 5px;
+  padding: 10px;
 }
