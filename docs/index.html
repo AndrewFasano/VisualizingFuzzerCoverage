@@ -1,46 +1,25 @@
 <!doctype html>
-<html  lang="en">
+<html lang="en">
+    <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-        <link rel="stylesheet" href="styles/style.css">
-
-        <title>Treemap for Visualizing Program Coverage</title>
-
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+      <link rel="stylesheet" href="styles/style.css">
+      <title>Treemap for Visualizing Program Coverage</title>
     </head>
 
-    <!--- Include external javascript libraries -->
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="https://unpkg.com/d3-simple-slider"></script>
-    <script src="https://dagrejs.github.io/project/dagre/latest/dagre.min.js"></script>
-    <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.min.js"></script>
-    <script src="https://dagrejs.github.io/project/graphlib-dot/latest/graphlib-dot.min.js"></script>
-    <script src="https://code.easypz.io/easypz.latest.js"></script>
-    <script src="https://d3js.org/d3-color.v1.min.js"></script>
-    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-
-
-<!--
-<a href="./about.html" class="btn btn-primary float-right" role="button"> About </a>
--->
     <body>
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col col-12">
                     <h1 class="text-center">
                         Visualization of Fuzzer Coverage on TinyExpr
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#helpModal"><i id="button_image" alt="Help" class="fas fa-question"></i> </button>
-                    <a href="./about.html" class="btn btn-outline-secondary btn-sm" role="button" aria-pressed="true"><i id="button_image" alt="About" class="fas fa-info"></i></a>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#helpModal"><i id="btn_question" alt="Help" class="fas fa-question"></i> </button>
+                    <a href="./about.html" class="btn btn-outline-secondary btn-sm" role="button" aria-pressed="true"><i id="btn_about" alt="About" class="fas fa-info"></i></a>
                     </h1>
                     <hr/>
                 </div>
-                </div>
-
             </div>
 
             <div class="row justify-content-center">
@@ -55,7 +34,7 @@
                     <div class="animation_controls">
                         <span id="animation_info"></span>
                         <div class="range_container">
-                        <button type="button" id="button" class="btn" alt="Toggle animation" disabled>
+                        <button type="button" id="button" class="btn" disabled>
                           <span class="btn-label"> <i id="button_image" class="fas fa-play"></i> </span>
                         </button>
                         <input type="range" class="custom-range" id="range" min=0 max=0 disabled> <br/>
@@ -66,7 +45,7 @@
                 </div> <!-- /treemap col -->
 
                 <div class="col col-lg-5 col-md-5 col-sm-8"> <!-- Individual function graph -->
-                    <h3 class="text-center" id="cov-title"></h3>
+                    <h3 class="text-center" id="cov-title">(loading)</h3>
                     <div width="100%" height=600px>
                       <svg id="graph" width=100% height=600px></svg>
                     </div>
@@ -81,7 +60,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">About the project</h5>
+                        <h5 class="modal-title" id="helpModallabel">About the project</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -91,18 +70,17 @@
                         <h6>Intro</h6>
 
                         <p>
-
                         Our visualization framework enables a program analyst
                         to understand inputs generated as part of a program
                         testing campaign (also called fuzzing).
                         The visualization is divided into two main sections:
+                        </p>
 
                         <ul>
                             <li>Program Overview</li>
                             <li>Function Details</li>
                         </ul>  
 
-                        </p>
 
                         <h6>Program Overview</h6>
 
@@ -112,10 +90,12 @@
                         functions composing the analyzed binary. Each function
                         is represented as a square whose area depends on the
                         size, expressed in number of basic code blocks, of the
-                        function. <br><br>
+                        function.
+                        </p>
 
                         <b> Interaction </b> <br>
 
+                        <p>
                         Users can interact with the treemap in different ways:
 
                         <ul>
@@ -132,10 +112,6 @@
                             <li>Program Overview</li>
 
                         </ul>  
-
-
-
-                        </p>
 
                         <h6>Function Details</h6>
 
@@ -159,13 +135,26 @@
 
 
 
-        <script src="scripts/aux.js"></script>
-        <script src="scripts/treemap.js"></script>
-        <script src="scripts/function_coverage.js"></script>
+    <!--- Include external javascript libraries -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="https://dagrejs.github.io/project/dagre/latest/dagre.min.js"></script>
+    <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.min.js"></script>
+    <script src="https://dagrejs.github.io/project/graphlib-dot/latest/graphlib-dot.min.js"></script>
+    <script src="https://code.easypz.io/easypz.latest.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+
+    <!-- Our javascript files -->
+    <script src="scripts/aux.js"></script>
+    <script src="scripts/treemap.js"></script>
+    <script src="scripts/function_coverage.js"></script>
 
     </body>
 </html>
