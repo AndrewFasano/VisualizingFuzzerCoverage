@@ -30,7 +30,7 @@
             <div class="row justify-content-center">
                 <div class="col col-lg-3 col-md-3 col-sm-3">
                     <a href="./about.html" class="btn btn-primary float-right" role="button">
-                        Secondary
+                        About
                     </a>
                 </div>
                 <div class="col col-lg-6 col-md-6 col-sm-6">
@@ -82,7 +82,7 @@
 
         <!-- Modal About -->
         <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModallabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">About the project</h5>
@@ -91,7 +91,64 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        ...
+
+                        <h6>Intro</h6>
+
+                        <p>
+
+                        Our visualization framework enables a program analyst
+                        to understand inputs generated as part of a program
+                        testing campaign (also called fuzzing).
+                        The visualization is divided into two main sections:
+
+                        <ul>
+                            <li>Program Overview</li>
+                            <li>Function Details</li>
+                        </ul>  
+
+                        </p>
+
+                        <h6>Program Overview</h6>
+
+                        <p>
+
+                        The Program Overview section shows a treemap of the
+                        functions composing the analyzed binary. Each function
+                        is represented as a square whose area depends on the
+                        size, expressed in number of basic code blocks, of the
+                        function. <br>
+
+                        <b> Interaction </b> <br>
+
+                        Users can interact with the treemap in different ways:
+
+                        <ul>
+
+                            <li>Hovering over each square will activate a
+                                tooltip showing the function name, the coverage
+                                during the current input, and the index of the
+                                current input.</li>
+
+                            <li>Clicking on a square</li>
+                        </ul>  
+
+                        selecting a function by clicking 
+
+
+                        </p>
+
+                        <h6>Function Details</h6>
+
+                        <p>
+
+                        The Function Details section shows the layout of the
+                        selected function in terms of its basic blocks.  It is
+                        represented as a directed graph, where each block is a
+                        node identified by its hexadecimal memory address.
+
+
+                        </p>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

@@ -118,16 +118,3 @@ body {
   margin-top: 61px; /* Aligned with total coverage */
 }
 
-.tooltip {
-  max-width: 500px;
-  position: absolute;
-  text-align: center;
-  color: #585858;
-  display: none;
-  background-color: white;
-  border: solid;
-  font-size: 14px;
-  border-width: 2px;
-  border-radius: 5px;
-  padding: 10px;
-}

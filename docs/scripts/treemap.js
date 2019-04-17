@@ -223,7 +223,7 @@ function coverageChartBrushEnd() {
 // Change the current time step value shown under the slider
 function changeSliderShownValue(curStep) {
     document.getElementById("animation_info").innerHTML=
-        "After " + curStep + " of " + document.getElementById("range").max + 
+        "After " + curStep + " of " + document.getElementById("range").max +
         " selected inputs, cumulative coverage is " + Math.round(totalCoverage[curStep]["total"]*100/ymax, 1) + "%";
 
     // Fist delete old TS line
@@ -322,7 +322,17 @@ function modifyTreeMap() {
 
 var Tooltip = d3.select("body")
     .append("div")
-    .attr("class", "tooltip");
+    .style("max-width", "500px")
+    .style("position", "absolute")
+    .style("text-align", "center")
+    .style("color", "#585858")
+    .style("display", "none")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("font-size", "14px")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "10px");
 
 var mousemove = function(d) {
     Tooltip
