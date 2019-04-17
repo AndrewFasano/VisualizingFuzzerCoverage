@@ -268,6 +268,7 @@ function drawTreemap(curData) {
             return getColor(d.data["coverage_percent"])
         })
         .on('mouseover', mouseover)
+        .on("mousemove", mousemove)
         .on('mouseout', mouseout)
         .on('click', mouseClick);
 
@@ -315,6 +316,27 @@ function modifyTreeMap() {
 
 }
 
+var Tooltip = d3.select("body")
+    .append("div")
+    .style("max-width", "500px")
+    .style("position", "absolute")
+    .style("text-align", "center")
+    .style("color", "#585858")
+    .style("display", "none")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("font-size", "14px")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "10px");
+
+
+var mousemove = function(d) {
+    Tooltip
+        .style("left", (d3.event.pageX + 10) + "px")
+        .style("top", (d3.event.pageY + 10) + "px");
+};
+
 
 // Show tooltip and update hovered node's css class
 var mouseover = function (d) {
@@ -326,9 +348,17 @@ var mouseover = function (d) {
             break;
         }
     }
-    // Update tooltip (TODO, make it a tooltip instead)
-    d3.select(".treemap_info")
-        .text(d.data.name+ ": " + current_percent + "% covered");
+
+    Tooltip
+        .html(
+            "Function name: " + d.data.name +
+            "<br> Coverage : " + current_percent + "%" +
+            "<br> Input index : " + curTimeStep
+        )
+        .style("left", (d3.event.pageX + 10) + "px")
+        .style("top", (d3.event.pageY + 10) + "px")
+        .style("display", "block");
+
 
     // Add hover class to add highlight
     d3.select(this).classed("treemap-node-hover", true);
@@ -337,6 +367,9 @@ var mouseover = function (d) {
 // Remove highlighting on mouseout
 var mouseout = function (d) {
     d3.select(this).classed("treemap-node-hover", false);
+
+    Tooltip
+        .style("display", "none");
 }
 
 // Select a function and display the relevant graph

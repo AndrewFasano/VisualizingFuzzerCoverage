@@ -29,13 +29,23 @@
     <body>
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col col-lg-10 col-md-10 col-sm-10">
+                <div class="col col-lg-3 col-md-3 col-sm-3">
+                    <button type="button" class="btn btn-secondary float-right mx-auto" style="vertical-align: middle">
+                        Secondary
+                    </button>
+                </div>
+                <div class="col col-lg-6 col-md-6 col-sm-6">
                     <h1 class="text-center">
                         Visualization of Fuzzer Coverage on TinyExpr
-                        <span class="glyphicon glyphicon-heart"></span>
                     </h1>
                     <hr/>
                 </div>
+                <div class="col col-lg-3 col-md-3 col-sm-3">
+                    <button type="button" class="btn btn-secondary float-left">
+                        Secondary
+                    </button>
+                </div>
+
             </div>
 
             <div class="row justify-content-center">
@@ -44,12 +54,12 @@
 
                     <div width=100% height=600px>
                         <svg id="treemap" width=100% height=600px></svg>
-                        <span class="treemap_info" style="display: none"></span>
+                        <!-- <span class="treemap_info" style="display: none"></span> -->
                     </div>
 
                     <div class="animation_controls">
-                      <span id="animation_info"></span>
-                      <div class="range_container">
+                        <span id="animation_info"></span>
+                        <div class="range_container">
                         <button type="button" id="button" class="btn" alt="Toggle animation" disabled>
                           <span class="btn-label"> <i id="button_image" class="fas fa-play"></i> </span>
                         </button>
