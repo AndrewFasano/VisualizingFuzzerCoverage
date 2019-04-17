@@ -19,7 +19,6 @@
     <script src="https://dagrejs.github.io/project/dagre/latest/dagre.min.js"></script>
     <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.min.js"></script>
     <script src="https://dagrejs.github.io/project/graphlib-dot/latest/graphlib-dot.min.js"></script>
-    <!-- <script src="https://code.easypz.io/easypz.latest.min.js"></script> -->
     <script src="https://code.easypz.io/easypz.latest.js"></script>
     <script src="https://d3js.org/d3-color.v1.min.js"></script>
     <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
@@ -30,9 +29,9 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col col-lg-3 col-md-3 col-sm-3">
-                    <button type="button" class="btn btn-secondary float-right mx-auto" style="vertical-align: middle">
+                    <a href="./about.html" class="btn btn-primary float-right" role="button">
                         Secondary
-                    </button>
+                    </a>
                 </div>
                 <div class="col col-lg-6 col-md-6 col-sm-6">
                     <h1 class="text-center">
@@ -41,8 +40,8 @@
                     <hr/>
                 </div>
                 <div class="col col-lg-3 col-md-3 col-sm-3">
-                    <button type="button" class="btn btn-secondary float-left">
-                        Secondary
+                    <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#helpModal">
+                        Help!
                     </button>
                 </div>
 
@@ -76,6 +75,29 @@
                 </div> <!-- /function cov col -->
             </div> <!-- /row -->
         </div> <!-- /container -->
+
+
+        <!-- Modal About -->
+        <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModallabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">About the project</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <script src="scripts/aux.js"></script>
         <script src="scripts/treemap.js"></script>
