@@ -70,16 +70,22 @@ function initializeLineGraph(treemapData) {
     // Set up scales
     yscale_ls = d3.scaleLinear()
       .range([100, 0])
-      .domain([0, ymax]); // Slightly larger than 0 to hide 0 on axis
+      .domain([0, ymax]);
 
     xscale_ls = d3.scaleLinear()
       .range([50, tWidth])
-      .domain([0.01, totalCoverage.length-1]);
+      .domain([0, totalCoverage.length]);  // Slightly larger than 0 to hide 0 on axis
 
     cg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0, 100)")
       .call(d3.axisTop(xscale_ls));
+
+    // Remove 0 tick
+		cg.selectAll(".axis.x .tick")
+			.each(function (d) { if (d == 0) this.remove() });
+
+
 
     cg.append("g")
       .attr("class", "y axis")
@@ -123,12 +129,11 @@ function initializeLineGraph(treemapData) {
     cg.append("g")
       .attr("class", "coverage-chart-brush")
       .call(brush)
-      .call(brush.move, [xscale_ls.range()[0],xscale_ls.range()[1]]);
+      .call(brush.move, [xscale_ls.range()[0], xscale_ls.range()[1]-1]);
 }
 
 function initializeFnLineGraph(func_n) {
     // Get the coverage over time
-    console.log("Initialize FnLG for " + func_n);
     localCoverage = getLocalCoverage(func_n, treemapData);
 
     // Find maximum possible coverage for y-axis height
@@ -218,21 +223,22 @@ function coverageChartBrushEnd() {
 // Change the current time step value shown under the slider
 function changeSliderShownValue(curStep) {
     document.getElementById("animation_info").innerHTML=
-        "Showing input " + curStep + "/ " + document.getElementById("range").max;
+        "After " + curStep + " of " + document.getElementById("range").max + 
+        " selected inputs, cumulative coverage is " + Math.round(totalCoverage[curStep]["total"]*100/ymax, 1) + "%";
 
     // Fist delete old TS line
     cg.selectAll(".cur_timestep").remove();
     if (fcg) fcg.select(".cur_timestep").remove();
 
-    // Now draw the new line
-    cg.append("line")
-      .attr("class", "cur_timestep")
-      .attr("x1", xscale_ls(curStep))
-      .attr("y1", 0)
-      .attr("x2", xscale_ls(curStep))
-      .attr("y2", 100)
-
+    // Now draw the new line, if we've started animating
     if (fcg) {
+      cg.append("line")
+        .attr("class", "cur_timestep")
+        .attr("x1", xscale_ls(curStep))
+        .attr("y1", 0)
+        .attr("x2", xscale_ls(curStep))
+        .attr("y2", 100)
+
       fcg.append("line")
         .attr("class", "cur_timestep")
         .attr("x1", xscale_fn(curStep))
@@ -289,7 +295,6 @@ function drawTreemap(curData) {
 
 // Modify tree map if the range slider value changed
 function modifyTreeMap() {
-
     // Update the current time step value
     curTimeStep = document.getElementById("range").value;
     changeSliderShownValue(curTimeStep);
@@ -300,8 +305,6 @@ function modifyTreeMap() {
 
     updateCoverageMap(activeBlocksList)
 
-    // console.log(curData);
-
     // Change color
     g.selectAll('rect').style("fill", function (d) {
         if (typeof d == 'string' || d instanceof String)
@@ -309,8 +312,9 @@ function modifyTreeMap() {
 
         func = d.data.name;
         for (let f of curData["children"]){
-            if (f.name == func)
+            if (f.name == func) {
                 return getColor(f["coverage_percent"]);
+            }
         }
     });
 
@@ -318,18 +322,7 @@ function modifyTreeMap() {
 
 var Tooltip = d3.select("body")
     .append("div")
-    .style("max-width", "500px")
-    .style("position", "absolute")
-    .style("text-align", "center")
-    .style("color", "#585858")
-    .style("display", "none")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("font-size", "14px")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "10px");
-
+    .attr("class", "tooltip");
 
 var mousemove = function(d) {
     Tooltip
@@ -388,8 +381,10 @@ function runAnimate() {
         animateStop = false;
         return;
     }
+
     nextval = (+document.getElementById("range").value)+1;
     document.getElementById("range").value = nextval;
+
     modifyTreeMap();
 
     if (nextval < (+document.getElementById("range").max)) {
