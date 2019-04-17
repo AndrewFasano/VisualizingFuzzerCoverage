@@ -37,37 +37,12 @@
             <div class="container">
                 <h1 class="display-3">Visualizing Fuzzer Coverage</h1>
 
-                <h2>Motivation</h2>
+                <!--<h2>Motivation</h2>-->
+<p>Our visualization framework enables a program analyst to understand inputs generated as part of a program testing campaign (also called fuzzing). To ensure a successful test, the generate inputs should actuate, or “cover,” as much of the original program as possible. While many tools exist to automatically generate inputs for this type of testing, they typically have poorly-designed user interfaces which prevent an analyst from understanding how their testing campaign is performing over time.</p>
 
-                <p>
+<p>To solve this problem, we have created an interactive visualization showing how much of a program is covered by fuzzer-generated inputs over time. Using a series of provided scripts, an analyst can transform their fuzzing campaign into input data for the visualization and then explore the data and gain a better understanding of what’s going on.</p>
 
-                Our visualization framework enables a program analyst to
-                understand inputs generated as part of a program testing
-                campaign (also called fuzzing). To ensure a successful test,
-                the generate inputs should actuate, or “cover,” as much of the
-                original program as possible. While many tools exist to
-                automatically generate inputs for this type of testing, they
-                typically have poorly-designed user interfaces which prevent an
-                analyst from understanding how their testing campaign is
-                performing over time.
-
-                To solve this problem, we have created an interactive visualization showing how
-                much of a program is covered by fuzzer-generated inputs over time. Using a
-                series of provided scripts, an analyst can transform their fuzzing campaign
-                into input data for the visualization and then explore the data and gain a
-                better understanding of what’s going on.
-
-                Our visualization enables an analyst to quickly see how well individual
-                functions within a program are being tested over time and how significant each
-                of those functions are. An analyst can then select any function of interest to
-                see additional coverage information about the code within the selected
-                function.
-
-                Through our visualization, we hope to help analysts understand both where their
-                testing is failing and when it stops getting new results. Through interviews
-                with our expert, we believe this visualization accomplishes this goal.
-
-                </p>
+<p>Our visualization enables an analyst to quickly see how well individual functions within a program are being tested over time and how significant each of those functions is. An analyst can then select any function of interest to see additional coverage information about the code within the selected function. Through our visualization, we hope to help analysts understand both where their testing is failing and when it stops getting new results. Through interviews with our expert, we believe this visualization accomplishes this goal.</p>
 
             </div>
         </div>
@@ -76,107 +51,72 @@
         <div class="container">
             <!-- Example row of columns -->
             <div class="row">
-                <div class="col-md-5">
-                    <h2>Task Analysis</h2>
-                    <p>
+                <div class="col-lg-6">
+                    <h2>Data</h2>
+<p>We used a dataset from <a href="https://rode0day.mit.edu">Rode0day</a>, a bug-finding competition that challenges software testers to try finding bugs in provided programs. Throughout the competition, teams generate and provide inputs that they suspect will trigger bugs.</p>
 
-                    We learned through the interview that current fuzzing
-                    softwares are mostly text-based and employ very basic
-                    visualization types (such as charts etc.). Our interviewee
-                    expressed a desire to have a tool which could help him
-                    understand when to stop a particular fuzzing campaign. What
-                    this meant in terms of domain tasks were (i) finding out
-                    whether the program coverage is improving over time, (ii)
-                    analyzing the set of inputs with similar program coverage,
-                    (iii) locating the areas in program which do not get any
-                    coverage, and (iv) pinpointing input files with anomalous
-                    coverage paths. We focused on the first three tasks for our
-                    visualizations.  
+<p>For our visualization, we selected all the inputs uploaded for the challenge &quot;TinyExpr&quot; by team <a href="https://rode0day.mit.edu/profile/REDQUEEN">REDQUEEN</a>. For each of the 835 inputs this team provided, we used a series of scripts to measure which parts of the program they covered. We saved this data in JSON mapping timestamps to a list of basic blocks covered at each time. We also conducted an analysis of the “TinyExpr” program in order to generate a list of functions and the basic blocks contained within each and store the information in JSON. These scripts use the open source tools DynamoRIO, Ghidra, and Radare2. All of these scripts are available in our repository.</p>
 
-                    </p>
+<p>In data visualization terms, our dataset can be seen as a table of items and attributes. Each item (row) corresponds to a particular input file, and the attributes (columns) include a sequential timestamp and a combined list of categorical blocks. </p>
                 </div>
+                <div class="col-lg-6">
+                  <h2>Task Analysis</h2>
+                  <p>To better understand the tasks our visualization could enable, we conducted an interview with Joshua Bundt, a PhD student researching program fuzzing and testing. Through this interview, we learned that current fuzzing tools are mostly text-based and employ very basic visualizations (often just text-based tables). Joshua expressed a desire to have a graphical tool which could help him understand when to stop a particular fuzzing campaign. We translated this into the following domain tasks:</p>
+                  <ol>
+                    <li>Finding out whether the program coverage is improving over time;</li>
+                    <li>Analyzing the set of inputs with similar program coverage;</li>
+                    <li>Locating the areas in program which do not get any coverage;</li>
+                    <li>Pinpointing input files with anomalous coverage paths.</li>
+                  </ol>
+                  <p>Our visualization was focused on the first three tasks.</p>
 
-                <div class="col-md-2">
                 </div>
-
-                <div class="col-md-5">
-                    <h2>Data Analysis</h2>
-                    <p>
-
-                    Our analysis of visualizations generated for the program
-                    TinyExpr show that: 
-
-                    <ul>
-                        <li>
-
-                            Some blocks do not get covered by any input file. By
-                            identifying the peculiarities of these blocks, users can
-                            modify their input generation strategies to improve the
-                            fuzzing campaign effectiveness.    
-
-                        </li>
-
-                        <li>
-
-                            The cumulative program coverage improves drastically for
-                            the initial set of input files, and is then followed by a
-                            plateau. This indicates that the fuzzer was unable to
-                            overcome some critical conditional check, preventing it
-                            from exploring deeper regions of the code.
-
-                        </li>
-                    </ul>
-
-                    </p>
-                </div>
-
             </div>
-
-            <hr>
-
-        </div> <!-- /container -->
-
-
-        <div class="container">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-lg-6">
                     <h2>Design Process</h2>
+<p>Our design process began with each member of our team creating a series of sketches. After discussing these sketches, we agreed upon a design that allowed users to show overall program coverage over time and to view the coverage of a selected function. </p>
 
-                    <p>
-                    
-                    We made a couple of changes to our initial design proposal
-                    based on the feedback we got in the usability testing
-                    phase. Specifically, some of the users were having trouble
-                    noticing all the features of the visualization. We fixed
-                    that by highlighting the default options for all those
-                    features signaling users they could change them. Other than
-                    that, we noticed that there was no way for the users to see
-                    whether a particular function would ever get covered
-                    without having to run the whole visualization. We fixed
-                    that by presenting line charts for program and function
-                    coverage over all inputs. 
-                    
-                    </p>
+<p>While these high-level concepts remained the same throughout our design process, many significant changes were made during time as we learned more about user needs.</p>
+
+<p>During our interview, we realized the importance of showing the overall coverage of the program at any given point in time. To enable this, we decided to add additional line graphs below each figure showing the total program coverage as well as the selected function’s coverage over time.</p>
+
+<p>Through our usability testing phase, we noticed many users misunderstood or entirely missed features. We made a number of changes to help with this. To ensure users understood that the rectangles on the left side represent functions, we automatically add labels to the larger functions (which have space for labels). We also added a tooltip to this section and clearly highlight both the moused-over as well as the currently-selected function. Beyond this, we added a help page that provides a quick overview of the visualization and how to use it.</p>
+
                 </div>
+                <div class="col-lg-6">
+                  <h2>Final Visualization</h2>
+                  <p>Our final visualization is split into two primary components, an overview of the entire program and a detailed view of a selected function. Within the <em>Program Overview</em>, a series of rectangles are shown representing functions in the program. The area of a rectangle encodes the size of the function it represents, while the color encodes how much of the function is covered. We chose to use area to represent function size because larger functions are more important and should contribute more to the overall coverage a viewer perceives. In data visualization terms, the visualization type is a treemap with area as the mark, and size and color as the channels. We used a sequential color scale with two hues, starting at a light yellow to indicate a function is uncovered and then transitioning to a saturated green to indicate a fully-covered function. The yellow color draws a viewer’s attention to a problem (an uncovered function) while saturated green colors are used to indicate that the function was successfully covered. </p>
 
-                <div class="col-md-2">
+<p>In the <em>Program Overview</em>, a user can view specific information by mousing over a rectangle which shows a tooltip and highlights the rectangle with a red border. If a user clicks on a function, it will be given a yellow border and the right half of the visualization will be updated to focus on this function.</p>
+
+<p>Beneath the program interview, a play/pause button allows a user to start or stop an animation showing how coverage changed over time. Under this, a line graph shows how the inputs submitted over time changed the total cumulative coverage of the program. This line graph can also be brushed to select a subregion of the inputs uploaded.</p>
+
+<p>On the right side of the visualization, the detailed view of a selected function is shown. When the visualization is first loaded, the “main” function is shown, but after a user selects another function in the <em>Program Overview</em>, that function is loaded. The top half of this visualization shows a network graph view of the basic blocks contained within the function (generated by Radare2 as driven by our scripts). The blocks are colored green once they are covered by an input at or prior to the currently selected time. This graph uses EasyPZ to enable a user to navigate through the potentially large graph.</p>
+
+<p>Below the function disassembly network graph, a line graph is shown representing the coverage of the selected function over time.</p>
+
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Data Analysis</h2>
+                    <p>Through our visualization of inputs generated to <em>TinyExpr</em>, we noticed that the overall program coverage rapidly increased in the first 10 inputs. After these inputs, the change in coverage increased more slowly for the rest of the first 100 inputs. For the remaining 735 inputs, coverage increased very slowly. This indicates that the analysis suffered from diminishing returns, and that the program testing could have stopped after the first hundred inputs and generated similar results in a shorter time.</p>
 
-                <div class="col-md-5">
- 
+                    <p>Our visualization also highlighted the fact that some medium-sized functions in the program remained relatively uncovered throughout the entire testing campaign. Specifically this revealed that the functions <em>fac, sqrt, ncr</em> and <em>cn</em> were completely uncovered at the end of the campaign.</p>
+
+                    <p>Across other functions, such as <em>te_eval</em> and <em>te_free_parameters</em>, some parts were covered while others were not. Through our visualization, we can see that in the te_eval function, a number of cases in a switch were uncovered. This information can be used to update the input generation strategies in the fuzzing software to improve the testing campaign’s effectiveness.</p>
+
                 </div>
+                <div class="col-lg-6">
+                    <h2>Conclusion</h2>
+<p>For this project, we created a system to analyze a program and many test inputs to measure the coverage that these inputs generated over time. We then created an interactive visualization to enable analysts to explore how programs are covered over time. Through this visualization, we have enabled analysts to quickly understand which parts of a program are being tested over time, to learn when it is no longer valuable to continue testing, and to see where their test generation is missing important parts of a program.</p>
 
-
+<p>While our visualization and data analysis scripts can work on any collection of inputs for a program, our web interface does not currently allow a user to upload their own data. As such, a user must clone our repository in order to visualize their own data. In the future, we hope to allow users to directly upload their data and then view the results. An additional area for future work would be to use a more compact representation of our function network graphs such that users can explore larger functions without needing to use the mouse to navigate.</p>
+                </div>
             </div>
 
             <hr>
-
-        </div> <!-- /container -->
-
-
-
-
-        <div class="container">
 
             <div class="row">
                 <div class="col-md-4">
@@ -190,7 +130,7 @@
                     <img width="140" height="140" src="img/fasano.png" class="rounded-circle" alt="Andrew" style="object-fit: cover">
                     <h2>Andrew Fasano</h2>
                     <p></p>
-                    <p><a class="btn btn-secondary" href="#" role="button">Github &raquo;</a></p>
+                    <p><a class="btn btn-secondary" href="https://github.com/andrewfasano" role="button">Github &raquo;</a></p>
                 </div>
 
                 <div class="col-md-4">
