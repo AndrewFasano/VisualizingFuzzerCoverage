@@ -88,7 +88,7 @@ body {
 }
 
 #range {
-  width: calc(100% - 75px) !important;
+  width: calc(100% - 70px) !important;
   position: absolute;
   margin-top: 5px;
 }
