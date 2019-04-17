@@ -91,10 +91,6 @@ def collect_timed_traces(info):
     for chal_name, chal in chals.items():
         cid = chal['challenge_id']
 
-        if cid != 19:
-            print("SKIPPING blacklisted challenge {}".format(cid))
-            continue
-
         if cid in SKIP_CHALS:
             print("SKIPPING blacklisted challenge {}".format(cid))
             continue
@@ -123,7 +119,7 @@ def collect_timed_traces(info):
             team_uploads = glob.glob("{}/*".format(team_dir))
             print("\tProcessing uploads from team {}. {} inputs...".format(team_id, len(team_uploads)))
 
-            # TODO: now get traces for each and connect to times
+            # now get traces for each and connect to times
             input_bbs[team_id] = {} # "{timestamp: list of bb cov list}"
 
             for upload_fname in team_uploads:
@@ -161,7 +157,7 @@ def collect_timed_traces(info):
 
                 # We only care about coverage within our modules
                 our_modules = [m.id for m in d.modules if 'bins/built' in m.path]
-                # TODO: when we have multiple modules their addresses from drrun might overlap
+                # TODO: if we ever have multiple modules their addresses from drrun might overlap
                 assert(len(our_modules) == 1), "NotYetImplemented multiple modules with overlapping addresses"
 
                 this_trace = []
@@ -171,7 +167,7 @@ def collect_timed_traces(info):
                     start = d.modules[bb.mod_id].base + bb.start
                     end = start + bb.size - 1
                     if (start, end) not in challenge_bbs:
-                        challenge_bbs.add((start, end)) #TODO: challenge_bbs, where do we save it?
+                        challenge_bbs.add((start, end))
                     this_trace.append(start)
 
                 input_bbs[team_id][time_obj.timestamp()] =  this_trace
@@ -213,7 +209,6 @@ def extract_info_vis(info):
            continue
 
         [challenge_bbs, input_bbs] = pickle.load(open(p1, "rb"))
-        # TODO: deduplicate blocks
 
         if not os.path.isfile(outfile_y):
             print("Saving file {}".format(outfile_y))
@@ -347,7 +342,7 @@ if __name__ == '__main__':
     chals = info['challenges']
 
     print("Collecting traces for each input...")
-    #collect_timed_traces(info)
+    collect_timed_traces(info)
     # Saves output to [OUTDIR]/[cid]/time_traces.pickle
 
     print("Extracting information from traces")
