@@ -32,7 +32,39 @@
         <div class="jumbotron">
             <div class="container">
                 <h1 class="display-3">Visualizing Fuzzer Coverage</h1>
-                <p></p>
+
+                <h2>Motivation</h2>
+
+                <p>
+
+                Our visualization framework enables a program analyst to
+                understand inputs generated as part of a program testing
+                campaign (also called fuzzing). To ensure a successful test,
+                the generate inputs should actuate, or “cover,” as much of the
+                original program as possible. While many tools exist to
+                automatically generate inputs for this type of testing, they
+                typically have poorly-designed user interfaces which prevent an
+                analyst from understanding how their testing campaign is
+                performing over time.
+
+                To solve this problem, we have created an interactive visualization showing how
+                much of a program is covered by fuzzer-generated inputs over time. Using a
+                series of provided scripts, an analyst can transform their fuzzing campaign
+                into input data for the visualization and then explore the data and gain a
+                better understanding of what’s going on.
+
+                Our visualization enables an analyst to quickly see how well individual
+                functions within a program are being tested over time and how significant each
+                of those functions are. An analyst can then select any function of interest to
+                see additional coverage information about the code within the selected
+                function.
+
+                Through our visualization, we hope to help analysts understand both where their
+                testing is failing and when it stops getting new results. Through interviews
+                with our expert, we believe this visualization accomplishes this goal.
+
+                </p>
+
             </div>
         </div>
 
@@ -40,21 +72,97 @@
         <div class="container">
             <!-- Example row of columns -->
             <div class="row">
-                <div class="col-md-4">
-                    <h2>Heading</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                <div class="col-md-5">
+                    <h2>Task Analysis</h2>
+                    <p>
+
+                    We learned through the interview that current fuzzing
+                    softwares are mostly text-based and employ very basic
+                    visualization types (such as charts etc.). Our interviewee
+                    expressed a desire to have a tool which could help him
+                    understand when to stop a particular fuzzing campaign. What
+                    this meant in terms of domain tasks were (i) finding out
+                    whether the program coverage is improving over time, (ii)
+                    analyzing the set of inputs with similar program coverage,
+                    (iii) locating the areas in program which do not get any
+                    coverage, and (iv) pinpointing input files with anomalous
+                    coverage paths. We focused on the first three tasks for our
+                    visualizations.  
+
+                    </p>
                 </div>
-                <div class="col-md-4">
-                    <h2>Heading</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+
+                <div class="col-md-2">
                 </div>
-                <div class="col-md-4">
-                    <h2>Heading</h2>
-                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                    <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+
+                <div class="col-md-5">
+                    <h2>Data Analysis</h2>
+                    <p>
+
+                    Our analysis of visualizations generated for the program
+                    TinyExpr show that: 
+
+                    <ul>
+                        <li>
+
+                            Some blocks do not get covered by any input file. By
+                            identifying the peculiarities of these blocks, users can
+                            modify their input generation strategies to improve the
+                            fuzzing campaign effectiveness.    
+
+                        </li>
+
+                        <li>
+
+                            The cumulative program coverage improves drastically for
+                            the initial set of input files, and is then followed by a
+                            plateau. This indicates that the fuzzer was unable to
+                            overcome some critical conditional check, preventing it
+                            from exploring deeper regions of the code.
+
+                        </li>
+                    </ul>
+
+                    </p>
                 </div>
+
+            </div>
+
+            <hr>
+
+        </div> <!-- /container -->
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <h2>Design Process</h2>
+
+                    <p>
+                    
+                    We made a couple of changes to our initial design proposal
+                    based on the feedback we got in the usability testing
+                    phase. Specifically, some of the users were having trouble
+                    noticing all the features of the visualization. We fixed
+                    that by highlighting the default options for all those
+                    features signaling users they could change them. Other than
+                    that, we noticed that there was no way for the users to see
+                    whether a particular function would ever get covered
+                    without having to run the whole visualization. We fixed
+                    that by presenting line charts for program and function
+                    coverage over all inputs. 
+                    
+                    </p>
+                </div>
+
+                <div class="col-md-2">
+                </div>
+
+                <div class="col-md-5">
+ 
+                </div>
+
+
             </div>
 
             <hr>
@@ -63,28 +171,33 @@
 
 
 
-        <!-- Three columns of text below the carousel -->
-        <div class="row">
-            <div class="col-md-4">
-                {{< placeholder width="140" height="140" background="#777" color="#777" class="rounded-circle" >}}
-                <h2>Giorgio Severi</h2>
-                <p></p>
-                <p><a class="btn btn-secondary" href="https://github.com/ClonedOne" role="button">Github &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                {{< placeholder width="140" height="140" background="#777" color="#777" class="rounded-circle" >}}
-                <h2>Andrew Fasano</h2>
-                <p></p>
-                <p><a class="btn btn-secondary" href="#" role="button">Github &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                {{< placeholder width="140" height="140" background="#777" color="#777" class="rounded-circle" >}}
-                <h2>Talha Paracha</h2>
-                <p></p>
-                <p><a class="btn btn-secondary" href="#" role="button">Github &raquo;</a></p>
-            </div>
-        </div>
 
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <img width="140" height="140" src="img/giorgio.png" class="rounded-circle" alt="Giorgio">
+                    <h2>Giorgio Severi</h2>
+                    <p></p>
+                    <p><a class="btn btn-secondary" href="https://github.com/ClonedOne" role="button">Github &raquo;</a></p>
+                </div>
+                
+                <div class="col-md-4">
+                    <img width="140" height="140" src="img/fasano.png" class="rounded-circle" alt="Andrew">
+                    <h2>Andrew Fasano</h2>
+                    <p></p>
+                    <p><a class="btn btn-secondary" href="#" role="button">Github &raquo;</a></p>
+                </div>
+
+                <div class="col-md-4">
+                    <img width="140" height="140" src="img/talha.jpg" class="rounded-circle" alt="Talha">
+                    <h2>Talha Paracha</h2>
+                    <p></p>
+                    <p><a class="btn btn-secondary" href="#" role="button">Github &raquo;</a></p>
+                </div>
+            </div>
+
+        </div> <!-- /container -->
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
