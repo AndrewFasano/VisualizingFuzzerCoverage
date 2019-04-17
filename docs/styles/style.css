@@ -27,8 +27,6 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
   font-size: 16px;
   color: #455a64;
-  /* Move down content because we have a fixed navbar that is 3.5rem tall */
-  padding-top: 3.5rem;
 }
 
 .fn_label {
